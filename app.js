@@ -1,7 +1,6 @@
 function loadData() {
   const storageKey = 'rivaldy_portfolio_db';
   const stored = localStorage.getItem(storageKey);
-
   if (!stored) {
     const initialData = JSON.parse(JSON.stringify(DEFAULT_DATA));
     localStorage.setItem(storageKey, JSON.stringify(initialData));
@@ -13,22 +12,18 @@ function loadData() {
     data = JSON.parse(stored);
   } catch (error) {
     console.error('Data portofolio tidak dapat dibaca:', error);
-    const initialData = JSON.parse(JSON.stringify(DEFAULT_DATA));
-    localStorage.setItem(storageKey, JSON.stringify(initialData));
-    return initialData;
+    data = JSON.parse(JSON.stringify(DEFAULT_DATA));
   }
-
   if (!data || typeof data !== 'object' || Array.isArray(data)) data = {};
   data.bio = { ...DEFAULT_DATA.bio, ...(data.bio || {}) };
   data.pageTexts = { ...DEFAULT_DATA.pageTexts, ...(data.pageTexts || {}) };
   ['swStories', 'schoolPhotos', 'achievements', 'gallery', 'historyLogs'].forEach(key => {
     if (!Array.isArray(data[key])) {
       data[key] = Array.isArray(DEFAULT_DATA[key])
-        ? JSON.parse(JSON.stringify(DEFAULT_DATA[key]))
-        : [];
+        ? JSON.parse(JSON.stringify(DEFAULT_DATA[key])) : [];
     }
   });
-
+  localStorage.setItem(storageKey, JSON.stringify(data));
   return data;
 }
 
@@ -40,7 +35,7 @@ function saveData(data) {
     return true;
   } catch (error) {
     console.error('Gagal menyimpan data portofolio:', error);
-    alert('Perubahan gagal disimpan. Coba kurangi ukuran foto atau periksa penyimpanan browser.');
+    alert('Perubahan gagal disimpan. Penyimpanan browser mungkin penuh.');
     return false;
   }
 }
