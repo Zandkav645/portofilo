@@ -36,7 +36,7 @@ function recordLog(actionType, description) {
 function saveLogEntry(actionType, description, ipAddress) {
   const newLog = {
     id: Date.now(),
-    type: actionType, // 'PENGUNJUNG' atau 'ADMIN_EDIT'
+    type: actionType, 
     ip: ipAddress,
     desc: description,
     time: new Date().toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'medium' })
@@ -383,7 +383,7 @@ function handleAdminLogin(e) {
     renderAdminLists();
     renderAdminLogs();
   } else {
-    alert('PIN Admin Salah! Gunakan PIN default: admin');
+    alert('PIN Admin Salah! Gunakan PIN default: 080311');
   }
 }
 
@@ -422,8 +422,8 @@ function renderAdminLists() {
         <img src="${story.image}" class="w-full h-24 object-cover rounded-lg">
         <p class="text-xs text-white truncate font-medium">${story.caption}</p>
         <div class="flex gap-2">
-          <button onclick="adminEditSW(${story.id})" class="flex-1 py-1 bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 rounded text-[10px]">Edit</button>
-          <button onclick="adminDeleteSW(${story.id})" class="flex-1 py-1 bg-red-500/20 text-red-300 hover:bg-red-500/30 rounded text-[10px]">Hapus</button>
+          <button type="button" onclick="adminEditSW(${story.id})" class="flex-1 py-1 bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 rounded text-[10px]">Edit</button>
+          <button type="button" onclick="adminDeleteSW(${story.id})" class="flex-1 py-1 bg-red-500/20 text-red-300 hover:bg-red-500/30 rounded text-[10px]">Hapus</button>
         </div>
       </div>
     `;
@@ -442,8 +442,8 @@ function renderAdminLists() {
           </div>
         </div>
         <div class="flex gap-2">
-          <button onclick="adminEditSchool(${item.id})" class="px-3 py-1.5 bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 rounded text-xs">Edit</button>
-          <button onclick="adminDeleteSchool(${item.id})" class="px-3 py-1.5 bg-red-500/20 text-red-300 hover:bg-red-500/30 rounded text-xs">Hapus</button>
+          <button type="button" onclick="adminEditSchool(${item.id})" class="px-3 py-1.5 bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 rounded text-xs">Edit</button>
+          <button type="button" onclick="adminDeleteSchool(${item.id})" class="px-3 py-1.5 bg-red-500/20 text-red-300 hover:bg-red-500/30 rounded text-xs">Hapus</button>
         </div>
       </div>
     `;
@@ -456,8 +456,8 @@ function renderAdminLists() {
       <div class="p-3 bg-navy-900 border border-slate-700 rounded-xl flex items-center justify-between">
         <span class="text-xs font-bold text-white">${item.title} (${item.badge})</span>
         <div class="flex gap-2">
-          <button onclick="adminEditAch(${item.id})" class="px-3 py-1 bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 rounded text-xs">Edit</button>
-          <button onclick="adminDeleteAch(${item.id})" class="px-3 py-1 bg-red-500/20 text-red-300 hover:bg-red-500/30 rounded text-xs">Hapus</button>
+          <button type="button" onclick="adminEditAch(${item.id})" class="px-3 py-1 bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 rounded text-xs">Edit</button>
+          <button type="button" onclick="adminDeleteAch(${item.id})" class="px-3 py-1 bg-red-500/20 text-red-300 hover:bg-red-500/30 rounded text-xs">Hapus</button>
         </div>
       </div>
     `;
@@ -471,8 +471,8 @@ function renderAdminLists() {
         <img src="${item.image}" class="w-full h-24 object-cover rounded-lg">
         <p class="text-xs text-white truncate">${item.title}</p>
         <div class="flex gap-2">
-          <button onclick="adminEditGal(${item.id})" class="flex-1 py-1 bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 rounded text-[10px]">Edit</button>
-          <button onclick="adminDeleteGal(${item.id})" class="flex-1 py-1 bg-red-500/20 text-red-300 hover:bg-red-500/30 rounded text-[10px]">Hapus</button>
+          <button type="button" onclick="adminEditGal(${item.id})" class="flex-1 py-1 bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 rounded text-[10px]">Edit</button>
+          <button type="button" onclick="adminDeleteGal(${item.id})" class="flex-1 py-1 bg-red-500/20 text-red-300 hover:bg-red-500/30 rounded text-[10px]">Hapus</button>
         </div>
       </div>
     `;
