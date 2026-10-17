@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="dark">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,66 +9,52 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        :root {
-            --bg-dark: #050b18;
-            --card-glass: rgba(10, 25, 47, 0.7);
-            --accent-cyan: #00f0ff;
-            --accent-blue: #3b82f6;
-        }
-
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-dark);
-            color: #f1f5f9;
+            background-color: #030712;
+            color: #f3f4f6;
             overflow-x: hidden;
         }
 
-        h1, h2, h3, .font-heading {
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
         /* Glassmorphism Effect */
-        .glass {
-            background: rgba(10, 25, 47, 0.75);
+        .glass-header {
+            background: rgba(3, 7, 18, 0.85);
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(0, 240, 255, 0.15);
+            border-bottom: 1px solid rgba(0, 240, 255, 0.15);
         }
 
         .glass-card {
-            background: rgba(15, 30, 60, 0.5);
+            background: rgba(15, 23, 42, 0.65);
             backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 240, 255, 0.12);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .glass-card:hover {
             border-color: rgba(0, 240, 255, 0.4);
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
-            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.2);
+            transform: translateY(-4px);
         }
 
-        /* Neon Glow Utility */
         .glow-text {
             text-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
         }
 
         .glow-btn {
-            box-shadow: 0 0 25px rgba(0, 240, 255, 0.4);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
             transition: all 0.3s ease;
         }
 
         .glow-btn:hover {
-            box-shadow: 0 0 40px rgba(0, 240, 255, 0.8);
+            box-shadow: 0 0 35px rgba(0, 240, 255, 0.8);
             transform: scale(1.02);
         }
 
-        /* Custom Animated Story Ring */
+        /* Animated SW 24 Hour Ring */
         .story-ring-animated {
             background: linear-gradient(45deg, #00f0ff, #3b82f6, #8b5cf6, #00f0ff);
             background-size: 300% 300%;
@@ -81,33 +67,35 @@
             100% { background-position: 0% 50%; }
         }
 
+        /* Animasi Transisi Halaman (Page Pulse) */
+        .page-transition {
+            animation: fadeInPage 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeInPage {
+            0% { opacity: 0; transform: translateY(10px) scale(0.99); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
         /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #050b18;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(0, 240, 255, 0.3);
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(0, 240, 255, 0.7);
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #030712; }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 240, 255, 0.3); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(0, 240, 255, 0.7); }
     </style>
 </head>
 <body class="min-h-screen flex flex-col relative selection:bg-cyan-500 selection:text-black">
 
-    <!-- Interactive Canvas Background -->
+    <!-- Canvas Background Animasi Partikel Cyber Blue -->
     <canvas id="bgCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
 
-    <!-- Header Navigation -->
-    <header class="sticky top-0 z-40 glass border-b border-cyan-500/20 px-4 lg:px-12 py-3.5 flex items-center justify-between">
+    <!-- Top Navigation Bar (Tanpa Logo Gembok) -->
+    <header class="sticky top-0 z-40 glass-header px-4 lg:px-12 py-3.5 flex items-center justify-between">
         <div class="flex items-center gap-4">
-            <!-- 3-Dot Drawer Button -->
-            <button onclick="toggleDrawer()" class="w-11 h-11 rounded-2xl glass-card flex items-center justify-center text-cyan-400 hover:text-white hover:bg-cyan-500/20 transition cursor-pointer active:scale-95" title="Menu Navigasi">
-                <i class="fa-solid fa-ellipsis-vertical text-2xl"></i>
+            <!-- Tombol Drawer Titik Tiga Kiri dengan Animasi Pulsing Glow -->
+            <button onclick="toggleDrawer()" class="w-11 h-11 rounded-2xl glass-card flex items-center justify-center text-cyan-400 hover:text-white hover:bg-cyan-500/20 transition cursor-pointer active:scale-95 group relative" title="Menu Navigasi">
+                <span class="absolute -inset-0.5 rounded-2xl bg-cyan-400 opacity-20 group-hover:opacity-60 transition blur-sm"></span>
+                <i class="fa-solid fa-ellipsis-vertical text-2xl relative z-10 group-hover:rotate-90 transition-transform duration-300"></i>
             </button>
 
             <!-- Brand Logo -->
@@ -122,64 +110,56 @@
             </a>
         </div>
 
-        <!-- Desktop Menu -->
+        <!-- Desktop Menu Navigasi (Tampilan Teks Bersih Tanpa #) -->
         <nav class="hidden lg:flex items-center gap-1 text-sm font-semibold">
             <a href="#/" onclick="navigate('/')" class="nav-link px-4 py-2 rounded-xl text-gray-300 hover:text-cyan-400 hover:bg-cyan-500/10 transition" data-route="/">Beranda</a>
             <a href="#/profil" onclick="navigate('/profil')" class="nav-link px-4 py-2 rounded-xl text-gray-300 hover:text-cyan-400 hover:bg-cyan-500/10 transition" data-route="/profil">Profil & Cerita</a>
             <a href="#/sekolah" onclick="navigate('/sekolah')" class="nav-link px-4 py-2 rounded-xl text-gray-300 hover:text-cyan-400 hover:bg-cyan-500/10 transition" data-route="/sekolah">Sekolah Saya</a>
             <a href="#/prestasi" onclick="navigate('/prestasi')" class="nav-link px-4 py-2 rounded-xl text-gray-300 hover:text-cyan-400 hover:bg-cyan-500/10 transition" data-route="/prestasi">Prestasi</a>
             <a href="#/galeri" onclick="navigate('/galeri')" class="nav-link px-4 py-2 rounded-xl text-gray-300 hover:text-cyan-400 hover:bg-cyan-500/10 transition" data-route="/galeri">Galeri</a>
-            
-            <a href="#/admin" onclick="navigate('/admin')" class="ml-4 px-4 py-2 rounded-xl bg-cyan-500/10 border border-cyan-500/40 text-cyan-400 hover:bg-cyan-500 hover:text-black transition flex items-center gap-2 font-bold shadow-lg shadow-cyan-500/10" data-route="/admin">
-                <i class="fa-solid fa-lock text-xs"></i> Admin
-            </a>
         </nav>
-
-        <!-- Mobile Admin Button -->
-        <a href="#/admin" onclick="navigate('/admin')" class="lg:hidden p-2.5 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
-            <i class="fa-solid fa-lock text-base"></i>
-        </a>
     </header>
 
-    <!-- Side Navigation Drawer (Left 3-Dot Drawer) -->
+    <!-- Side Navigation Drawer (Menu Titik Tiga dengan Animasi Keren) -->
     <div id="drawerOverlay" onclick="toggleDrawer()" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden transition-opacity opacity-0"></div>
-    <aside id="sideDrawer" class="fixed top-0 left-0 bottom-0 w-80 glass z-50 transform -translate-x-full transition-transform duration-300 flex flex-col border-r border-cyan-500/30 shadow-2xl">
+    <aside id="sideDrawer" class="fixed top-0 left-0 bottom-0 w-80 glass-header z-50 transform -translate-x-full transition-all duration-300 ease-out flex flex-col border-r border-cyan-500/30 shadow-2xl shadow-cyan-500/10">
         <div class="p-6 border-b border-cyan-500/20 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-cyan-400 font-extrabold">
+                <div class="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-cyan-400 font-extrabold shadow-md">
                     RK
                 </div>
                 <div>
-                    <h3 class="font-bold text-white text-base">Navigasi Utama</h3>
-                    <p class="text-xs text-cyan-400">Teknik Otomasi Industri</p>
+                    <h3 class="font-bold text-white text-base">Navigasi Halaman</h3>
+                    <p class="text-xs text-cyan-400 font-medium">Teknik Otomasi Industri</p>
                 </div>
             </div>
-            <button onclick="toggleDrawer()" class="w-9 h-9 rounded-xl bg-slate-800/80 text-gray-400 hover:text-white flex items-center justify-center border border-slate-700">
+            <button onclick="toggleDrawer()" class="w-9 h-9 rounded-xl bg-slate-800/80 text-gray-400 hover:text-white flex items-center justify-center border border-slate-700 hover:border-cyan-400 transition">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
         </div>
 
         <div class="p-4 flex-1 overflow-y-auto space-y-2">
-            <a href="#/" onclick="navigate('/'); toggleDrawer();" class="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl hover:bg-cyan-500/10 text-gray-200 hover:text-cyan-400 transition font-semibold">
-                <i class="fa-solid fa-house w-6 text-cyan-400 text-lg"></i> Beranda
+            <a href="#/" onclick="navigate('/'); toggleDrawer();" class="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl hover:bg-cyan-500/10 text-gray-200 hover:text-cyan-400 transition font-semibold group">
+                <i class="fa-solid fa-house w-6 text-cyan-400 text-lg group-hover:scale-110 transition-transform"></i> Beranda
             </a>
-            <a href="#/profil" onclick="navigate('/profil'); toggleDrawer();" class="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl hover:bg-cyan-500/10 text-gray-200 hover:text-cyan-400 transition font-semibold">
-                <i class="fa-solid fa-user-gear w-6 text-cyan-400 text-lg"></i> Profil & Cerita
+            <a href="#/profil" onclick="navigate('/profil'); toggleDrawer();" class="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl hover:bg-cyan-500/10 text-gray-200 hover:text-cyan-400 transition font-semibold group">
+                <i class="fa-solid fa-user-gear w-6 text-cyan-400 text-lg group-hover:scale-110 transition-transform"></i> Profil & Cerita
             </a>
-            <a href="#/sekolah" onclick="navigate('/sekolah'); toggleDrawer();" class="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl hover:bg-cyan-500/10 text-gray-200 hover:text-cyan-400 transition font-semibold">
-                <i class="fa-solid fa-school w-6 text-cyan-400 text-lg"></i> Sekolah Saya
+            <a href="#/sekolah" onclick="navigate('/sekolah'); toggleDrawer();" class="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl hover:bg-cyan-500/10 text-gray-200 hover:text-cyan-400 transition font-semibold group">
+                <i class="fa-solid fa-school w-6 text-cyan-400 text-lg group-hover:scale-110 transition-transform"></i> Sekolah Saya
             </a>
-            <a href="#/prestasi" onclick="navigate('/prestasi'); toggleDrawer();" class="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl hover:bg-cyan-500/10 text-gray-200 hover:text-cyan-400 transition font-semibold">
-                <i class="fa-solid fa-trophy w-6 text-cyan-400 text-lg"></i> Prestasi & Penghargaan
+            <a href="#/prestasi" onclick="navigate('/prestasi'); toggleDrawer();" class="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl hover:bg-cyan-500/10 text-gray-200 hover:text-cyan-400 transition font-semibold group">
+                <i class="fa-solid fa-trophy w-6 text-cyan-400 text-lg group-hover:scale-110 transition-transform"></i> Prestasi & Penghargaan
             </a>
-            <a href="#/galeri" onclick="navigate('/galeri'); toggleDrawer();" class="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl hover:bg-cyan-500/10 text-gray-200 hover:text-cyan-400 transition font-semibold">
-                <i class="fa-solid fa-images w-6 text-cyan-400 text-lg"></i> Galeri Karya
+            <a href="#/galeri" onclick="navigate('/galeri'); toggleDrawer();" class="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl hover:bg-cyan-500/10 text-gray-200 hover:text-cyan-400 transition font-semibold group">
+                <i class="fa-solid fa-images w-6 text-cyan-400 text-lg group-hover:scale-110 transition-transform"></i> Galeri Karya
             </a>
 
             <div class="pt-6 border-t border-cyan-500/20 my-4"></div>
 
-            <a href="#/admin" onclick="navigate('/admin'); toggleDrawer();" class="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 hover:bg-cyan-500 hover:text-black transition font-bold shadow-lg shadow-cyan-500/10">
-                <i class="fa-solid fa-lock w-6 text-lg"></i> Halaman Admin
+            <!-- Akses Admin Ditaruh Saja di Drawer Menu -->
+            <a href="#/admin" onclick="navigate('/admin'); toggleDrawer();" class="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500 hover:text-black transition font-bold shadow-lg shadow-cyan-500/10">
+                <i class="fa-solid fa-user-shield w-6 text-lg"></i> Halaman Admin
             </a>
         </div>
 
@@ -188,17 +168,17 @@
         </div>
     </aside>
 
-    <!-- Main Content Dynamic View -->
-    <main id="appContent" class="flex-1 relative z-10 max-w-7xl w-full mx-auto px-4 lg:px-12 py-8">
-        <!-- Rendered via Router -->
+    <!-- Main Content Area -->
+    <main id="appContent" class="flex-1 relative z-10 max-w-7xl w-full mx-auto px-4 lg:px-12 py-8 page-transition">
+        <!-- Rendered via JavaScript -->
     </main>
 
     <!-- Footer -->
-    <footer class="relative z-10 glass border-t border-cyan-500/20 py-8 text-center text-xs text-gray-400 mt-12">
+    <footer class="relative z-10 glass-header border-t border-cyan-500/20 py-8 text-center text-xs text-gray-400 mt-12">
         <p class="font-medium">Portofolio Resmi <span class="text-cyan-400 font-bold">Rivaldy Kava Pratama</span> | SMK SMTI Pontianak (TOI)</p>
     </footer>
 
-    <!-- Modal Story 24 Jam (Instagram/WA Style) -->
+    <!-- Modal Story 24 Jam (SW Status Viewer) -->
     <div id="storyModal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-2xl hidden flex items-center justify-center p-4">
         <div class="relative w-full max-w-md h-[85vh] bg-slate-900 border border-cyan-500/40 rounded-3xl overflow-hidden flex flex-col shadow-2xl shadow-cyan-500/20">
             <!-- Progress Bars -->
@@ -228,13 +208,13 @@
         </div>
     </div>
 
-    <!-- Script Application & Smart Image Compressor -->
+    <!-- Script Utama -->
     <script>
-        // Default Technical SVG Vectors (No External AI Faces)
-        const svgAvatarPlaceholder = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="%230a192f"/><stop offset="100%" stop-color="%23050b18"/></linearGradient></defs><rect width="400" height="400" fill="url(%23g)"/><circle cx="200" cy="150" r="70" fill="none" stroke="%2300f0ff" stroke-width="8"/><path d="M100,320 C100,240 300,240 300,320" fill="none" stroke="%2300f0ff" stroke-width="8"/><circle cx="200" cy="150" r="30" fill="%2300f0ff" opacity="0.3"/><path d="M150,150 L250,150 M200,100 L200,200" stroke="%2300f0ff" stroke-width="3" opacity="0.5"/></svg>`;
+        // SVG Vector Clean Placeholders (Bebas Foto AI Orang Lain)
+        const svgAvatarPlaceholder = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="%230a192f"/><stop offset="100%" stop-color="%23030712"/></linearGradient></defs><rect width="400" height="400" fill="url(%23g)"/><circle cx="200" cy="150" r="70" fill="none" stroke="%2300f0ff" stroke-width="8"/><path d="M100,320 C100,240 300,240 300,320" fill="none" stroke="%2300f0ff" stroke-width="8"/><circle cx="200" cy="150" r="30" fill="%2300f0ff" opacity="0.3"/><path d="M150,150 L250,150 M200,100 L200,200" stroke="%2300f0ff" stroke-width="3" opacity="0.5"/></svg>`;
         const svgProjectPlaceholder = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400"><rect width="600" height="400" fill="%230a192f"/><path d="M50,200 L150,200 L200,100 L300,300 L350,200 L550,200" fill="none" stroke="%2300f0ff" stroke-width="5"/><circle cx="200" cy="100" r="10" fill="%2300f0ff"/><circle cx="300" cy="300" r="10" fill="%2300f0ff"/><text x="300" y="360" font-family="sans-serif" font-size="20" fill="%2300f0ff" text-anchor="middle">TEKNIK OTOMASI INDUSTRI</text></svg>`;
 
-        // Default Data State
+        // Initial Data Structure
         const defaultData = {
             profile: {
                 name: "Rivaldy Kava Pratama",
@@ -301,28 +281,28 @@
             adminPin: "1234"
         };
 
-        // Storage Management & Auto-Compressor
+        // Local Storage Helpers
         function getData() {
             try {
-                const saved = localStorage.getItem('rivaldy_portfolio_data_v3');
+                const saved = localStorage.getItem('rivaldy_portfolio_vFinal');
                 if (saved) return JSON.parse(saved);
             } catch(e) {
-                console.error("Storage error:", e);
+                console.error("Storage Error:", e);
             }
             return defaultData;
         }
 
         function saveData(data) {
             try {
-                localStorage.setItem('rivaldy_portfolio_data_v3', JSON.stringify(data));
+                localStorage.setItem('rivaldy_portfolio_vFinal', JSON.stringify(data));
                 return true;
             } catch(e) {
-                alert("Memori penyimpanan penuh! Silakan hapus beberapa foto atau gunakan foto dengan ukuran lebih kecil.");
+                alert("Memori penyimpanan penuh! Harap gunakan file gambar yang ukurannya lebih kecil.");
                 return false;
             }
         }
 
-        // Kompresor Gambar Otomatis untuk mencegah quota exceeded di localStorage
+        // Automatic Image Compressor (Agar Upload File Folder Aman)
         function compressAndProcessImage(file, callback) {
             const reader = new FileReader();
             reader.readAsDataURL(file);
@@ -353,14 +333,13 @@
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
                     
-                    // Direct compression
                     const compressedBase64 = canvas.toDataURL('image/jpeg', 0.75);
                     callback(compressedBase64);
                 }
             }
         }
 
-        // Animated Particle Network Background Canvas
+        // Particle Canvas Background
         const canvas = document.getElementById('bgCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -412,7 +391,7 @@
         }
         animateCanvas();
 
-        // Router Management
+        // Router Management (Selalu Buka Home Sebagai Default)
         function navigate(route) {
             window.location.hash = route;
             renderRoute();
@@ -421,7 +400,10 @@
 
         window.addEventListener('hashchange', renderRoute);
         window.addEventListener('DOMContentLoaded', () => {
-            if(!window.location.hash) window.location.hash = '/';
+            // Memastikan selalu buka Home pertama kali
+            if(!window.location.hash || window.location.hash === '#/') {
+                window.location.hash = '/';
+            }
             renderRoute();
         });
 
@@ -452,6 +434,10 @@
             });
 
             const container = document.getElementById('appContent');
+            // Trigger Animasi Halaman Sederhana & Keren
+            container.classList.remove('page-transition');
+            void container.offsetWidth; // reflow
+            container.classList.add('page-transition');
 
             if (hash === '/') {
                 renderBeranda(container, data);
@@ -495,13 +481,11 @@
                     </div>
 
                     <div class="lg:col-span-5 flex flex-col items-center justify-center">
-                        <!-- Story Ring 24 Jam Container -->
                         <div class="relative cursor-pointer group" onclick="openStoryViewer()">
                             <div class="absolute -inset-2.5 rounded-full story-ring-animated opacity-90 group-hover:opacity-100 transition duration-300 blur-sm"></div>
                             <div class="relative w-52 h-52 sm:w-64 sm:h-64 rounded-full overflow-hidden border-4 border-slate-950 bg-slate-900 shadow-2xl">
                                 <img src="${data.profile.avatar}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                             </div>
-                            <!-- Story Active Badge -->
                             <div class="absolute bottom-2 right-2 bg-gradient-to-r from-cyan-400 to-blue-500 text-black text-xs font-extrabold px-3.5 py-1.5 rounded-full shadow-lg border-2 border-slate-950 flex items-center gap-2 animate-bounce">
                                 <i class="fa-solid fa-circle-play"></i> Story 24 Jam
                             </div>
@@ -512,7 +496,6 @@
                     </div>
                 </div>
 
-                <!-- Feature Highlights -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
                     <div class="glass-card p-8 rounded-3xl border-l-4 border-cyan-400">
                         <div class="w-14 h-14 rounded-2xl bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-2xl mb-5 shadow-lg shadow-cyan-500/10">
@@ -708,7 +691,7 @@
                     <div class="max-w-md mx-auto py-16">
                         <div class="glass-card p-8 rounded-3xl space-y-6 text-center border border-cyan-500/40 shadow-2xl shadow-cyan-500/10">
                             <div class="w-16 h-16 rounded-2xl bg-cyan-500/20 text-cyan-400 mx-auto flex items-center justify-center text-2xl border border-cyan-400 shadow-lg shadow-cyan-500/20">
-                                <i class="fa-solid fa-lock"></i>
+                                <i class="fa-solid fa-user-shield"></i>
                             </div>
                             <div>
                                 <h3 class="text-2xl font-extrabold text-white">Akses Halaman Admin</h3>
@@ -738,7 +721,7 @@
                         </button>
                     </div>
 
-                    <!-- Tabs Navigation -->
+                    <!-- Tabs Navigasi Admin -->
                     <div class="flex flex-wrap gap-2 border-b border-cyan-500/20 pb-4">
                         <button onclick="switchAdminTab('profile')" class="px-5 py-3 rounded-2xl font-bold text-sm transition cursor-pointer ${currentAdminTab === 'profile' ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/20' : 'glass-card text-gray-300 hover:text-white'}">
                             <i class="fa-solid fa-user-pen mr-2"></i> Edit Profil & Teks
@@ -817,7 +800,7 @@
                                 <textarea id="profVision" rows="3" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm font-medium">${data.profile.vision}</textarea>
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-cyan-400 mb-1">Pilih Foto Profil Baru (Pilih Dari Folder)</label>
+                                <label class="block text-xs font-bold text-cyan-400 mb-1">Pilih Foto Profil Baru (Pilih Dari Folder HP/Laptop)</label>
                                 <input type="file" id="profAvatarFile" accept="image/*" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-xs text-gray-300">
                             </div>
                             <button type="submit" class="px-8 py-3.5 rounded-xl bg-cyan-500 text-black font-extrabold text-sm glow-btn cursor-pointer">Simpan Perubahan Profil</button>
@@ -826,7 +809,7 @@
                 `;
             } else if (currentAdminTab === 'stories') {
                 let listHtml = data.stories.map((s, idx) => `
-                    <div class="flex items-center gap-4 glass p-4 rounded-2xl border border-cyan-500/20">
+                    <div class="flex items-center gap-4 glass-card p-4 rounded-2xl border border-cyan-500/20">
                         <img src="${s.image}" class="w-16 h-16 rounded-xl object-cover shrink-0 border border-cyan-400">
                         <div class="flex-1">
                             <p class="text-sm font-bold text-white">${s.caption}</p>
@@ -844,7 +827,7 @@
                             <h3 class="text-xl font-bold text-white">Upload Story 24 Jam Baru</h3>
                             <form onsubmit="addStoryForm(event)" class="space-y-4">
                                 <div>
-                                    <label class="block text-xs font-bold text-cyan-400 mb-1">Pilih Foto Story Dari Folder</label>
+                                    <label class="block text-xs font-bold text-cyan-400 mb-1">Pilih Foto Story Dari Folder HP/Laptop</label>
                                     <input type="file" id="storyImageFile" accept="image/*" required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-xs text-gray-300">
                                 </div>
                                 <div>
@@ -862,7 +845,7 @@
                 `;
             } else if (currentAdminTab === 'school') {
                 let listHtml = data.schoolPhotos.map((s, idx) => `
-                    <div class="flex items-center gap-4 glass p-4 rounded-2xl border border-cyan-500/20">
+                    <div class="flex items-center gap-4 glass-card p-4 rounded-2xl border border-cyan-500/20">
                         <img src="${s.image}" class="w-20 h-16 rounded-xl object-cover shrink-0 border border-cyan-400">
                         <div class="flex-1">
                             <h4 class="text-sm font-bold text-white">${s.title}</h4>
@@ -880,7 +863,7 @@
                             <h3 class="text-xl font-bold text-white">Tambah Foto Sekolah & Keterangan Deskripsi</h3>
                             <form onsubmit="addSchoolPhotoForm(event)" class="space-y-4">
                                 <div>
-                                    <label class="block text-xs font-bold text-cyan-400 mb-1">Pilih Foto Sekolah Dari Folder</label>
+                                    <label class="block text-xs font-bold text-cyan-400 mb-1">Pilih Foto Sekolah Dari Folder HP/Laptop</label>
                                     <input type="file" id="schoolImgFile" accept="image/*" required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-xs text-gray-300">
                                 </div>
                                 <div>
@@ -902,7 +885,7 @@
                 `;
             } else if (currentAdminTab === 'prestasi') {
                 let listHtml = data.prestasi.map((p, idx) => `
-                    <div class="flex items-center gap-4 glass p-4 rounded-2xl border border-cyan-500/20">
+                    <div class="flex items-center gap-4 glass-card p-4 rounded-2xl border border-cyan-500/20">
                         <img src="${p.image}" class="w-20 h-16 rounded-xl object-cover shrink-0 border border-cyan-400">
                         <div class="flex-1">
                             <span class="text-[10px] text-cyan-400 font-extrabold">${p.year}</span>
@@ -921,7 +904,7 @@
                             <h3 class="text-xl font-bold text-white">Tambah Prestasi Baru</h3>
                             <form onsubmit="addPrestasiForm(event)" class="space-y-4">
                                 <div>
-                                    <label class="block text-xs font-bold text-cyan-400 mb-1">Pilih Foto Prestasi Dari Folder</label>
+                                    <label class="block text-xs font-bold text-cyan-400 mb-1">Pilih Foto Prestasi Dari Folder HP/Laptop</label>
                                     <input type="file" id="presImgFile" accept="image/*" required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-xs text-gray-300">
                                 </div>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -949,7 +932,7 @@
                 `;
             } else if (currentAdminTab === 'galeri') {
                 let listHtml = data.galeri.map((g, idx) => `
-                    <div class="flex items-center gap-4 glass p-4 rounded-2xl border border-cyan-500/20">
+                    <div class="flex items-center gap-4 glass-card p-4 rounded-2xl border border-cyan-500/20">
                         <img src="${g.image}" class="w-20 h-16 rounded-xl object-cover shrink-0 border border-cyan-400">
                         <div class="flex-1">
                             <span class="text-[10px] text-cyan-400 font-extrabold">${g.category}</span>
@@ -968,7 +951,7 @@
                             <h3 class="text-xl font-bold text-white">Tambah Foto Galeri Baru</h3>
                             <form onsubmit="addGaleriForm(event)" class="space-y-4">
                                 <div>
-                                    <label class="block text-xs font-bold text-cyan-400 mb-1">Pilih Foto Galeri Dari Folder</label>
+                                    <label class="block text-xs font-bold text-cyan-400 mb-1">Pilih Foto Galeri Dari Folder HP/Laptop</label>
                                     <input type="file" id="galImgFile" accept="image/*" required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-xs text-gray-300">
                                 </div>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -997,7 +980,7 @@
             }
         }
 
-        // Admin Actions dengan Pemroses Kompresi File
+        // Admin Form Submit Actions
         function saveProfileForm(e) {
             e.preventDefault();
             const data = getData();
@@ -1155,7 +1138,7 @@
             }
         }
 
-        // --- STORY VIEWER MODAL LOGIC ---
+        // Story Modal Controls
         let currentStoryIndex = 0;
         let storyTimer = null;
 
