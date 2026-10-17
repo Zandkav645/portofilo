@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,159 +9,231 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #050b18; color: #f1f5f9; overflow-x: hidden; }
-        .glass { background: rgba(10, 25, 47, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(0, 240, 255, 0.15); }
-        .glass-card { background: rgba(15, 30, 60, 0.6); backdrop-filter: blur(10px); border: 1px solid rgba(0, 240, 255, 0.1); transition: all 0.3s ease; }
-        .glass-card:hover { border-color: rgba(0, 240, 255, 0.4); box-shadow: 0 0 25px rgba(0, 240, 255, 0.15); transform: translateY(-3px); }
-        .glow-text { text-shadow: 0 0 20px rgba(0, 240, 255, 0.5); }
-        .glow-btn { box-shadow: 0 0 20px rgba(0, 240, 255, 0.4); transition: all 0.3s ease; }
-        .glow-btn:hover { box-shadow: 0 0 35px rgba(0, 240, 255, 0.8); }
-        
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #050b18; }
-        ::-webkit-scrollbar-thumb { background: #00f0ff55; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #00f0ff; }
-
-        /* Story Ring Animation */
-        .story-ring {
-            background: linear-gradient(45deg, #00f0ff, #3b82f6, #8b5cf6);
-            animation: rotateRing 4s linear infinite;
+        :root {
+            --bg-dark: #050b18;
+            --card-glass: rgba(10, 25, 47, 0.7);
+            --accent-cyan: #00f0ff;
+            --accent-blue: #3b82f6;
         }
-        @keyframes rotateRing {
-            0% { filter: hue-rotate(0deg); }
-            100% { filter: hue-rotate(360deg); }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-dark);
+            color: #f1f5f9;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .font-heading {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Glassmorphism Effect */
+        .glass {
+            background: rgba(10, 25, 47, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+        }
+
+        .glass-card {
+            background: rgba(15, 30, 60, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 240, 255, 0.12);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(0, 240, 255, 0.4);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        /* Neon Glow Utility */
+        .glow-text {
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+        }
+
+        .glow-btn {
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .glow-btn:hover {
+            box-shadow: 0 0 40px rgba(0, 240, 255, 0.8);
+            transform: scale(1.02);
+        }
+
+        /* Custom Animated Story Ring */
+        .story-ring-animated {
+            background: linear-gradient(45deg, #00f0ff, #3b82f6, #8b5cf6, #00f0ff);
+            background-size: 300% 300%;
+            animation: gradientRotate 3s ease infinite;
+        }
+
+        @keyframes gradientRotate {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050b18;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 240, 255, 0.3);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 240, 255, 0.7);
         }
     </style>
 </head>
 <body class="min-h-screen flex flex-col relative selection:bg-cyan-500 selection:text-black">
 
-    <!-- Canvas Background Animasi Partikel & Sirkuit TOI -->
+    <!-- Interactive Canvas Background -->
     <canvas id="bgCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
 
-    <!-- Topbar Navigasi -->
-    <header class="sticky top-0 z-40 glass border-b border-cyan-500/20 px-4 lg:px-12 py-3 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-            <!-- Tombol 3 Titik untuk Drawer Menu -->
-            <button onclick="toggleDrawer()" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center text-cyan-400 hover:text-white hover:bg-cyan-500/20 transition cursor-pointer" title="Menu Navigasi">
-                <i class="fa-solid fa-ellipsis-vertical text-xl"></i>
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-40 glass border-b border-cyan-500/20 px-4 lg:px-12 py-3.5 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+            <!-- 3-Dot Drawer Button -->
+            <button onclick="toggleDrawer()" class="w-11 h-11 rounded-2xl glass-card flex items-center justify-center text-cyan-400 hover:text-white hover:bg-cyan-500/20 transition cursor-pointer active:scale-95" title="Menu Navigasi">
+                <i class="fa-solid fa-ellipsis-vertical text-2xl"></i>
             </button>
-            <a href="#/" onclick="navigate('/')" class="flex items-center gap-2 group cursor-pointer">
-                <div class="w-9 h-9 rounded-lg bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-cyan-400 font-bold group-hover:scale-105 transition">
+
+            <!-- Brand Logo -->
+            <a href="#/" onclick="navigate('/')" class="flex items-center gap-3 group cursor-pointer">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500/30 to-blue-600/30 border border-cyan-400 flex items-center justify-center text-cyan-400 font-extrabold group-hover:scale-105 transition shadow-lg shadow-cyan-500/20">
                     RK
                 </div>
                 <div>
-                    <span id="navBrandName" class="font-bold text-sm md:text-base tracking-wide text-white">Rivaldy Kava P.</span>
-                    <span class="block text-[10px] text-cyan-400 tracking-widest uppercase">SMK SMTI Pontianak</span>
+                    <span id="navBrandName" class="font-extrabold text-base md:text-lg tracking-wide text-white block leading-tight">Rivaldy Kava P.</span>
+                    <span class="text-[10px] text-cyan-400 font-semibold tracking-widest uppercase">SMK SMTI Pontianak</span>
                 </div>
             </a>
         </div>
 
-        <!-- Menu Desktop Sederhana -->
-        <nav class="hidden md:flex items-center gap-1 text-sm font-medium">
-            <a href="#/" onclick="navigate('/')" class="nav-link px-4 py-2 rounded-lg hover:text-cyan-400 transition" data-route="/">Beranda</a>
-            <a href="#/profil" onclick="navigate('/profil')" class="nav-link px-4 py-2 rounded-lg hover:text-cyan-400 transition" data-route="/profil">Profil & Cerita</a>
-            <a href="#/sekolah" onclick="navigate('/sekolah')" class="nav-link px-4 py-2 rounded-lg hover:text-cyan-400 transition" data-route="/sekolah">Sekolah Saya</a>
-            <a href="#/prestasi" onclick="navigate('/prestasi')" class="nav-link px-4 py-2 rounded-lg hover:text-cyan-400 transition" data-route="/prestasi">Prestasi</a>
-            <a href="#/galeri" onclick="navigate('/galeri')" class="nav-link px-4 py-2 rounded-lg hover:text-cyan-400 transition" data-route="/galeri">Galeri</a>
-            <a href="#/admin" onclick="navigate('/admin')" class="ml-4 px-4 py-2 rounded-lg bg-cyan-500/10 border border-cyan-500/40 text-cyan-400 hover:bg-cyan-500 hover:text-black transition flex items-center gap-2" data-route="/admin">
+        <!-- Desktop Menu -->
+        <nav class="hidden lg:flex items-center gap-1 text-sm font-semibold">
+            <a href="#/" onclick="navigate('/')" class="nav-link px-4 py-2 rounded-xl text-gray-300 hover:text-cyan-400 hover:bg-cyan-500/10 transition" data-route="/">Beranda</a>
+            <a href="#/profil" onclick="navigate('/profil')" class="nav-link px-4 py-2 rounded-xl text-gray-300 hover:text-cyan-400 hover:bg-cyan-500/10 transition" data-route="/profil">Profil & Cerita</a>
+            <a href="#/sekolah" onclick="navigate('/sekolah')" class="nav-link px-4 py-2 rounded-xl text-gray-300 hover:text-cyan-400 hover:bg-cyan-500/10 transition" data-route="/sekolah">Sekolah Saya</a>
+            <a href="#/prestasi" onclick="navigate('/prestasi')" class="nav-link px-4 py-2 rounded-xl text-gray-300 hover:text-cyan-400 hover:bg-cyan-500/10 transition" data-route="/prestasi">Prestasi</a>
+            <a href="#/galeri" onclick="navigate('/galeri')" class="nav-link px-4 py-2 rounded-xl text-gray-300 hover:text-cyan-400 hover:bg-cyan-500/10 transition" data-route="/galeri">Galeri</a>
+            
+            <a href="#/admin" onclick="navigate('/admin')" class="ml-4 px-4 py-2 rounded-xl bg-cyan-500/10 border border-cyan-500/40 text-cyan-400 hover:bg-cyan-500 hover:text-black transition flex items-center gap-2 font-bold shadow-lg shadow-cyan-500/10" data-route="/admin">
                 <i class="fa-solid fa-lock text-xs"></i> Admin
             </a>
         </nav>
 
         <!-- Mobile Admin Button -->
-        <a href="#/admin" onclick="navigate('/admin')" class="md:hidden p-2 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
-            <i class="fa-solid fa-lock text-sm"></i>
+        <a href="#/admin" onclick="navigate('/admin')" class="lg:hidden p-2.5 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
+            <i class="fa-solid fa-lock text-base"></i>
         </a>
     </header>
 
-    <!-- Side Drawer Navigasi (Menu Samping Titik Tiga) -->
-    <div id="drawerOverlay" onclick="toggleDrawer()" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden transition-opacity opacity-0"></div>
+    <!-- Side Navigation Drawer (Left 3-Dot Drawer) -->
+    <div id="drawerOverlay" onclick="toggleDrawer()" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden transition-opacity opacity-0"></div>
     <aside id="sideDrawer" class="fixed top-0 left-0 bottom-0 w-80 glass z-50 transform -translate-x-full transition-transform duration-300 flex flex-col border-r border-cyan-500/30 shadow-2xl">
-        <div class="p-5 border-b border-cyan-500/20 flex items-center justify-between">
+        <div class="p-6 border-b border-cyan-500/20 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-cyan-400 font-bold">
+                <div class="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-cyan-400 font-extrabold">
                     RK
                 </div>
                 <div>
-                    <h3 class="font-bold text-white text-sm">Menu Navigasi</h3>
+                    <h3 class="font-bold text-white text-base">Navigasi Utama</h3>
                     <p class="text-xs text-cyan-400">Teknik Otomasi Industri</p>
                 </div>
             </div>
-            <button onclick="toggleDrawer()" class="w-8 h-8 rounded-lg bg-slate-800/80 text-gray-400 hover:text-white flex items-center justify-center">
-                <i class="fa-solid fa-xmark"></i>
+            <button onclick="toggleDrawer()" class="w-9 h-9 rounded-xl bg-slate-800/80 text-gray-400 hover:text-white flex items-center justify-center border border-slate-700">
+                <i class="fa-solid fa-xmark text-lg"></i>
             </button>
         </div>
+
         <div class="p-4 flex-1 overflow-y-auto space-y-2">
-            <a href="#/" onclick="navigate('/'); toggleDrawer();" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-cyan-500/10 text-gray-200 hover:text-cyan-400 transition font-medium">
-                <i class="fa-solid fa-house w-6 text-cyan-400"></i> Beranda
+            <a href="#/" onclick="navigate('/'); toggleDrawer();" class="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl hover:bg-cyan-500/10 text-gray-200 hover:text-cyan-400 transition font-semibold">
+                <i class="fa-solid fa-house w-6 text-cyan-400 text-lg"></i> Beranda
             </a>
-            <a href="#/profil" onclick="navigate('/profil'); toggleDrawer();" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-cyan-500/10 text-gray-200 hover:text-cyan-400 transition font-medium">
-                <i class="fa-solid fa-user-gear w-6 text-cyan-400"></i> Profil & Cerita
+            <a href="#/profil" onclick="navigate('/profil'); toggleDrawer();" class="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl hover:bg-cyan-500/10 text-gray-200 hover:text-cyan-400 transition font-semibold">
+                <i class="fa-solid fa-user-gear w-6 text-cyan-400 text-lg"></i> Profil & Cerita
             </a>
-            <a href="#/sekolah" onclick="navigate('/sekolah'); toggleDrawer();" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-cyan-500/10 text-gray-200 hover:text-cyan-400 transition font-medium">
-                <i class="fa-solid fa-school w-6 text-cyan-400"></i> Sekolah Saya
+            <a href="#/sekolah" onclick="navigate('/sekolah'); toggleDrawer();" class="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl hover:bg-cyan-500/10 text-gray-200 hover:text-cyan-400 transition font-semibold">
+                <i class="fa-solid fa-school w-6 text-cyan-400 text-lg"></i> Sekolah Saya
             </a>
-            <a href="#/prestasi" onclick="navigate('/prestasi'); toggleDrawer();" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-cyan-500/10 text-gray-200 hover:text-cyan-400 transition font-medium">
-                <i class="fa-solid fa-trophy w-6 text-cyan-400"></i> Prestasi & Penghargaan
+            <a href="#/prestasi" onclick="navigate('/prestasi'); toggleDrawer();" class="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl hover:bg-cyan-500/10 text-gray-200 hover:text-cyan-400 transition font-semibold">
+                <i class="fa-solid fa-trophy w-6 text-cyan-400 text-lg"></i> Prestasi & Penghargaan
             </a>
-            <a href="#/galeri" onclick="navigate('/galeri'); toggleDrawer();" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-cyan-500/10 text-gray-200 hover:text-cyan-400 transition font-medium">
-                <i class="fa-solid fa-images w-6 text-cyan-400"></i> Galeri Karya
+            <a href="#/galeri" onclick="navigate('/galeri'); toggleDrawer();" class="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl hover:bg-cyan-500/10 text-gray-200 hover:text-cyan-400 transition font-semibold">
+                <i class="fa-solid fa-images w-6 text-cyan-400 text-lg"></i> Galeri Karya
             </a>
-            <div class="pt-4 border-t border-cyan-500/20 my-2"></div>
-            <a href="#/admin" onclick="navigate('/admin'); toggleDrawer();" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 hover:bg-cyan-500 hover:text-black transition font-semibold">
-                <i class="fa-solid fa-lock w-6"></i> Halaman Admin
+
+            <div class="pt-6 border-t border-cyan-500/20 my-4"></div>
+
+            <a href="#/admin" onclick="navigate('/admin'); toggleDrawer();" class="flex items-center gap-3.5 px-4 py-3.5 rounded-2xl bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 hover:bg-cyan-500 hover:text-black transition font-bold shadow-lg shadow-cyan-500/10">
+                <i class="fa-solid fa-lock w-6 text-lg"></i> Halaman Admin
             </a>
         </div>
-        <div class="p-4 border-t border-cyan-500/20 text-center text-xs text-gray-400">
+
+        <div class="p-4 border-t border-cyan-500/20 text-center text-xs text-gray-400 font-medium">
             &copy; 2026 Rivaldy Kava Pratama
         </div>
     </aside>
 
-    <!-- Konten Utama (Dinamis Router) -->
+    <!-- Main Content Dynamic View -->
     <main id="appContent" class="flex-1 relative z-10 max-w-7xl w-full mx-auto px-4 lg:px-12 py-8">
-        <!-- Render oleh JS -->
+        <!-- Rendered via Router -->
     </main>
 
     <!-- Footer -->
-    <footer class="relative z-10 glass border-t border-cyan-500/20 py-6 text-center text-xs text-gray-400">
-        <p>Portofolio Resmi <span class="text-cyan-400 font-semibold">Rivaldy Kava Pratama</span> | SMK SMTI Pontianak (TOI)</p>
+    <footer class="relative z-10 glass border-t border-cyan-500/20 py-8 text-center text-xs text-gray-400 mt-12">
+        <p class="font-medium">Portofolio Resmi <span class="text-cyan-400 font-bold">Rivaldy Kava Pratama</span> | SMK SMTI Pontianak (TOI)</p>
     </footer>
 
-    <!-- Modal Story 24 Jam -->
-    <div id="storyModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl hidden flex items-center justify-center p-4">
-        <div class="relative w-full max-w-md h-[80vh] bg-slate-900 border border-cyan-500/40 rounded-3xl overflow-hidden flex flex-col shadow-2xl">
-            <!-- Progress bars -->
+    <!-- Modal Story 24 Jam (Instagram/WA Style) -->
+    <div id="storyModal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-2xl hidden flex items-center justify-center p-4">
+        <div class="relative w-full max-w-md h-[85vh] bg-slate-900 border border-cyan-500/40 rounded-3xl overflow-hidden flex flex-col shadow-2xl shadow-cyan-500/20">
+            <!-- Progress Bars -->
             <div id="storyProgressBars" class="absolute top-3 left-3 right-3 z-20 flex gap-1.5"></div>
             
             <!-- Header Story -->
-            <div class="absolute top-6 left-3 right-3 z-20 flex items-center justify-between px-2">
-                <div class="flex items-center gap-2">
-                    <img id="storyUserAvatar" src="" class="w-9 h-9 rounded-full object-cover border border-cyan-400">
+            <div class="absolute top-7 left-4 right-4 z-20 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <img id="storyUserAvatar" src="" class="w-10 h-10 rounded-full object-cover border-2 border-cyan-400 shadow-md">
                     <div>
-                        <h4 id="storyUserName" class="text-xs font-bold text-white">Rivaldy Kava P.</h4>
-                        <span id="storyTimestamp" class="text-[10px] text-cyan-300">Baru saja</span>
+                        <h4 id="storyUserName" class="text-xs font-bold text-white tracking-wide">Rivaldy Kava P.</h4>
+                        <span id="storyTimestamp" class="text-[10px] text-cyan-300 font-medium">Baru saja</span>
                     </div>
                 </div>
-                <button onclick="closeStory()" class="w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black">
-                    <i class="fa-solid fa-xmark"></i>
+                <button onclick="closeStory()" class="w-9 h-9 rounded-full bg-black/60 backdrop-blur-md text-white flex items-center justify-center hover:bg-black transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
 
-            <!-- Media & Caption -->
+            <!-- Media Container -->
             <div class="flex-1 relative flex items-center justify-center bg-black cursor-pointer" onclick="nextStorySegment()">
                 <img id="storyImage" src="" class="max-h-full max-w-full object-contain">
-                <div class="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-black/90 via-black/50 to-transparent">
-                    <p id="storyCaption" class="text-sm text-gray-200 text-center font-medium"></p>
+                <div class="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-black/95 via-black/60 to-transparent">
+                    <p id="storyCaption" class="text-sm text-gray-100 text-center font-semibold leading-relaxed"></p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Script Aplikasi & Kompresor Gambar Anti-Storage-Full -->
+    <!-- Script Application & Smart Image Compressor -->
     <script>
+        // Default Technical SVG Vectors (No External AI Faces)
+        const svgAvatarPlaceholder = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="%230a192f"/><stop offset="100%" stop-color="%23050b18"/></linearGradient></defs><rect width="400" height="400" fill="url(%23g)"/><circle cx="200" cy="150" r="70" fill="none" stroke="%2300f0ff" stroke-width="8"/><path d="M100,320 C100,240 300,240 300,320" fill="none" stroke="%2300f0ff" stroke-width="8"/><circle cx="200" cy="150" r="30" fill="%2300f0ff" opacity="0.3"/><path d="M150,150 L250,150 M200,100 L200,200" stroke="%2300f0ff" stroke-width="3" opacity="0.5"/></svg>`;
+        const svgProjectPlaceholder = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400"><rect width="600" height="400" fill="%230a192f"/><path d="M50,200 L150,200 L200,100 L300,300 L350,200 L550,200" fill="none" stroke="%2300f0ff" stroke-width="5"/><circle cx="200" cy="100" r="10" fill="%2300f0ff"/><circle cx="300" cy="300" r="10" fill="%2300f0ff"/><text x="300" y="360" font-family="sans-serif" font-size="20" fill="%2300f0ff" text-anchor="middle">TEKNIK OTOMASI INDUSTRI</text></svg>`;
+
         // Default Data State
         const defaultData = {
             profile: {
@@ -171,7 +243,7 @@
                 heroDesc: "Siswa berprestasi di bidang Teknik Otomasi Industri (TOI) SMK SMTI Pontianak yang memiliki ketertarikan tinggi pada sistem PLC, pneumatik, kelistrikan industri, dan teknologi IoT.",
                 aboutStory: "Perjalanan saya di SMK SMTI Pontianak jurusan Teknik Otomasi Industri (TOI) dimulai dari ketertarikan mendalam terhadap cara kerja mesin otomatis dan sistem kontrol cerdas. Di sekolah ini, saya belajar merakit panel listrik, memprogram PLC (Programmable Logic Controller), menguasai sistem pneumatik, hingga merancang sistem otomasi berbasis mikrokontroler. Setiap hari adalah tantangan baru untuk menciptakan efisiensi melalui teknologi industri modern.",
                 vision: "Menjadi engineer otomasi industri profesional yang mampu menghadirkan inovasi teknologi cerdas untuk memajukan sektor manufaktur dan industri nasional.",
-                avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=60" // Placeholder vector clean
+                avatar: svgAvatarPlaceholder
             },
             skills: [
                 { name: "PLC Programming (Omron/Siemens)", level: 90 },
@@ -183,33 +255,27 @@
             stories: [
                 {
                     id: 1,
-                    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&auto=format&fit=crop&q=80",
+                    image: svgProjectPlaceholder,
                     caption: "Praktik merakit panel kontrol otomatis PLC di laboratorium TOI SMK SMTI Pontianak.",
                     time: "2 jam yang lalu"
                 },
                 {
                     id: 2,
-                    image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600&auto=format&fit=crop&q=80",
+                    image: svgProjectPlaceholder,
                     caption: "Uji coba rangkaian sistem pneumatik untuk linier aktuator otomatis.",
                     time: "5 jam yang lalu"
-                },
-                {
-                    id: 3,
-                    image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600&auto=format&fit=crop&q=80",
-                    caption: "Diskusi proyek akhir otomasi industri bersama tim.",
-                    time: "12 jam yang lalu"
                 }
             ],
             schoolPhotos: [
                 {
                     id: 1,
-                    image: "https://images.unsplash.com/photo-1562774053-701939374585?w=600&auto=format&fit=crop&q=80",
+                    image: svgProjectPlaceholder,
                     title: "Gedung Utama SMK SMTI Pontianak",
                     desc: "Lingkungan sekolah kejuruan modern yang berstandar industri dengan fasilitas pembelajaran dan laboratorium terbaik di Kalimantan Barat."
                 },
                 {
                     id: 2,
-                    image: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=600&auto=format&fit=crop&q=80",
+                    image: svgProjectPlaceholder,
                     title: "Laboratorium Teknik Otomasi Industri (TOI)",
                     desc: "Tempat kami berlatih langsung menggunakan simulator PLC, trainer kit pneumatik, inverter, dan peralatan instrumen industri terkini."
                 }
@@ -217,17 +283,10 @@
             prestasi: [
                 {
                     id: 1,
-                    title: "Juara 1 Lomba Kompetensi Siswa (LKS) Otomasi Tingkat Kota",
+                    title: "Juara 1 Lomba Kompetensi Siswa (LKS) Otomasi",
                     year: "2025",
                     desc: "Berhasil merancang dan memprogram sistem konveyor otomatis berbasis PLC Omron dalam waktu tercepat.",
-                    image: "https://images.unsplash.com/photo-1567427017947-545c5f2d16ad?w=600&auto=format&fit=crop&q=80"
-                },
-                {
-                    id: 2,
-                    title: "Finalis Inovasi Teknologi Tepat Guna Pelajar",
-                    year: "2024",
-                    desc: "Membuat prototype alat penyortir barang otomatis berbasis sensor warna dan mikrokontroler.",
-                    image: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=600&auto=format&fit=crop&q=80"
+                    image: svgProjectPlaceholder
                 }
             ],
             galeri: [
@@ -236,51 +295,44 @@
                     title: "Proyek Sistem Smart Home IoT",
                     category: "IoT & Otomasi",
                     desc: "Kendali lampu, suhu ruangan, dan keamanan rumah terintegrasi ESP32 dan Blynk App.",
-                    image: "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=600&auto=format&fit=crop&q=80"
-                },
-                {
-                    id: 2,
-                    title: "Wiring Panel Kontrol Motor 3 Fasa",
-                    category: "Kelistrikan Industri",
-                    desc: "Pemasangan rangkaian DOL starter dan Star-Delta dengan standar keselamatan kerja tinggi.",
-                    image: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&auto=format&fit=crop&q=80"
+                    image: svgProjectPlaceholder
                 }
             ],
             adminPin: "1234"
         };
 
-        // Load & Initialize Storage (Anti Quota Exceeded dengan Kompresor Gambar)
+        // Storage Management & Auto-Compressor
         function getData() {
             try {
-                const saved = localStorage.getItem('rivaldy_portfolio_data_v2');
+                const saved = localStorage.getItem('rivaldy_portfolio_data_v3');
                 if (saved) return JSON.parse(saved);
             } catch(e) {
-                console.error("Gagal membaca localStorage, menggunakan default:", e);
+                console.error("Storage error:", e);
             }
             return defaultData;
         }
 
         function saveData(data) {
             try {
-                localStorage.setItem('rivaldy_portfolio_data_v2', JSON.stringify(data));
+                localStorage.setItem('rivaldy_portfolio_data_v3', JSON.stringify(data));
                 return true;
             } catch(e) {
-                alert("Penyimpanan penuh! Mohon gunakan ukuran foto yang lebih kecil atau hapus beberapa data.");
+                alert("Memori penyimpanan penuh! Silakan hapus beberapa foto atau gunakan foto dengan ukuran lebih kecil.");
                 return false;
             }
         }
 
-        // Fungsi Kompresor Gambar otomatis agar tidak bikin LocalStorage jebol
-        function compressImage(file, callback) {
+        // Kompresor Gambar Otomatis untuk mencegah quota exceeded di localStorage
+        function compressAndProcessImage(file, callback) {
             const reader = new FileReader();
             reader.readAsDataURL(file);
-            reader.onload = function(event) {
+            reader.onload = function(e) {
                 const img = new Image();
-                img.src = event.target.result;
+                img.src = e.target.result;
                 img.onload = function() {
                     const canvas = document.createElement('canvas');
-                    const MAX_WIDTH = 800;
-                    const MAX_HEIGHT = 800;
+                    const MAX_WIDTH = 900;
+                    const MAX_HEIGHT = 900;
                     let width = img.width;
                     let height = img.height;
 
@@ -301,14 +353,14 @@
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
                     
-                    // Kompres ke JPEG kualitas 0.7 (sangat ringan)
-                    const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
-                    callback(dataUrl);
+                    // Direct compression
+                    const compressedBase64 = canvas.toDataURL('image/jpeg', 0.75);
+                    callback(compressedBase64);
                 }
             }
         }
 
-        // Canvas Animasi Background Teknik Otomasi
+        // Animated Particle Network Background Canvas
         const canvas = document.getElementById('bgCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -320,7 +372,7 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        for (let i = 0; i < 40; i++) {
+        for (let i = 0; i < 45; i++) {
             particles.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
@@ -332,8 +384,8 @@
 
         function animateCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'rgba(0, 240, 255, 0.5)';
-            ctx.strokeStyle = 'rgba(0, 240, 255, 0.1)';
+            ctx.fillStyle = 'rgba(0, 240, 255, 0.6)';
+            ctx.strokeStyle = 'rgba(0, 240, 255, 0.12)';
             
             particles.forEach((p, index) => {
                 p.x += p.vx;
@@ -348,7 +400,7 @@
                 for (let j = index + 1; j < particles.length; j++) {
                     let p2 = particles[j];
                     let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                    if (dist < 120) {
+                    if (dist < 130) {
                         ctx.beginPath();
                         ctx.moveTo(p.x, p.y);
                         ctx.lineTo(p2.x, p2.y);
@@ -360,7 +412,7 @@
         }
         animateCanvas();
 
-        // Router Sederhana Hash-based
+        // Router Management
         function navigate(route) {
             window.location.hash = route;
             renderRoute();
@@ -391,7 +443,6 @@
             const hash = window.location.hash.replace('#', '') || '/';
             const data = getData();
             
-            // Update active nav styling
             document.querySelectorAll('.nav-link').forEach(el => {
                 if(el.getAttribute('data-route') === hash) {
                     el.classList.add('text-cyan-400', 'bg-cyan-500/10');
@@ -415,126 +466,126 @@
             } else if (hash === '/admin') {
                 renderAdmin(container, data);
             } else {
-                container.innerHTML = `<div class="text-center py-20"><h2 class="text-3xl font-bold text-cyan-400">404</h2><p class="text-gray-400 mt-2">Halaman tidak ditemukan.</p><button onclick="navigate('/')" class="mt-6 px-6 py-2.5 rounded-xl bg-cyan-500 text-black font-semibold">Kembali ke Beranda</button></div>`;
+                container.innerHTML = `<div class="text-center py-20"><h2 class="text-3xl font-bold text-cyan-400">404</h2><p class="text-gray-400 mt-2">Halaman tidak ditemukan.</p><button onclick="navigate('/')" class="mt-6 px-6 py-2.5 rounded-xl bg-cyan-500 text-black font-bold">Kembali ke Beranda</button></div>`;
             }
         }
 
-        // --- HALAMAN BERANDA ---
+        // --- BERANDA VIEW ---
         function renderBeranda(container, data) {
             container.innerHTML = `
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center py-6">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center py-8">
                     <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
-                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-semibold">
+                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-bold tracking-wider uppercase">
                             <i class="fa-solid fa-microchip"></i> ${data.profile.school} • Jurusan TOI
                         </div>
-                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white">
-                            Halo, Saya <span class="text-cyan-400 glow-text">${data.profile.name}</span>
+                        <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white leading-tight">
+                            Halo, Saya <br><span class="text-cyan-400 glow-text">${data.profile.name}</span>
                         </h1>
-                        <p class="text-lg text-gray-300 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                        <p class="text-base sm:text-lg text-gray-300 leading-relaxed max-w-2xl mx-auto lg:mx-0 font-normal">
                             ${data.profile.heroDesc}
                         </p>
-                        <div class="flex flex-wrap justify-center lg:justify-start gap-4 pt-2">
-                            <button onclick="navigate('/profil')" class="px-7 py-3.5 rounded-xl bg-cyan-500 text-black font-bold glow-btn hover:bg-cyan-400 transition flex items-center gap-2">
-                                <i class="fa-solid fa-user-astronaut"></i> Kenali Saya Lebih Jauh
+                        <div class="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
+                            <button onclick="navigate('/profil')" class="px-8 py-4 rounded-2xl bg-cyan-500 text-black font-extrabold glow-btn hover:bg-cyan-400 transition flex items-center gap-3 cursor-pointer">
+                                <i class="fa-solid fa-user-astronaut text-lg"></i> Profil & Cerita Perjalanan
                             </button>
-                            <button onclick="navigate('/sekolah')" class="px-7 py-3.5 rounded-xl glass-card text-white hover:text-cyan-400 transition flex items-center gap-2">
-                                <i class="fa-solid fa-school"></i> SMK SMTI Pontianak
+                            <button onclick="navigate('/sekolah')" class="px-8 py-4 rounded-2xl glass-card text-white hover:text-cyan-400 transition flex items-center gap-3 font-bold cursor-pointer">
+                                <i class="fa-solid fa-school text-lg"></i> Sekolah Saya
                             </button>
                         </div>
                     </div>
 
                     <div class="lg:col-span-5 flex flex-col items-center justify-center">
-                        <!-- SW Story Ring Avatar Container -->
+                        <!-- Story Ring 24 Jam Container -->
                         <div class="relative cursor-pointer group" onclick="openStoryViewer()">
-                            <div class="absolute -inset-2 rounded-full story-ring opacity-80 group-hover:opacity-100 transition duration-300 blur-sm"></div>
-                            <div class="relative w-48 h-48 sm:w-56 sm:h-56 rounded-full overflow-hidden border-4 border-slate-900 bg-slate-800">
+                            <div class="absolute -inset-2.5 rounded-full story-ring-animated opacity-90 group-hover:opacity-100 transition duration-300 blur-sm"></div>
+                            <div class="relative w-52 h-52 sm:w-64 sm:h-64 rounded-full overflow-hidden border-4 border-slate-950 bg-slate-900 shadow-2xl">
                                 <img src="${data.profile.avatar}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                             </div>
-                            <!-- Badge Story 24 Jam -->
-                            <div class="absolute bottom-2 right-2 bg-cyan-500 text-black text-xs font-extrabold px-3 py-1 rounded-full shadow-lg border-2 border-slate-900 flex items-center gap-1.5 animate-bounce">
+                            <!-- Story Active Badge -->
+                            <div class="absolute bottom-2 right-2 bg-gradient-to-r from-cyan-400 to-blue-500 text-black text-xs font-extrabold px-3.5 py-1.5 rounded-full shadow-lg border-2 border-slate-950 flex items-center gap-2 animate-bounce">
                                 <i class="fa-solid fa-circle-play"></i> Story 24 Jam
                             </div>
                         </div>
-                        <p class="text-xs text-cyan-300 mt-4 font-medium flex items-center gap-1.5 bg-cyan-950/60 px-4 py-1.5 rounded-full border border-cyan-500/30">
-                            <i class="fa-regular fa-hand-pointer"></i> Ketuk foto untuk melihat aktivitas terbaru
+                        <p class="text-xs text-cyan-300 mt-5 font-semibold flex items-center gap-2 bg-cyan-950/60 px-4 py-2 rounded-full border border-cyan-500/30 shadow-lg">
+                            <i class="fa-regular fa-hand-pointer"></i> Klik foto profil untuk melihat story terbaru
                         </p>
                     </div>
                 </div>
 
-                <!-- Quick Highlights -->
+                <!-- Feature Highlights -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
-                    <div class="glass-card p-6 rounded-2xl border-l-4 border-cyan-400">
-                        <div class="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-xl mb-4">
+                    <div class="glass-card p-8 rounded-3xl border-l-4 border-cyan-400">
+                        <div class="w-14 h-14 rounded-2xl bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-2xl mb-5 shadow-lg shadow-cyan-500/10">
                             <i class="fa-solid fa-bolt"></i>
                         </div>
-                        <h3 class="font-bold text-lg text-white mb-2">Teknik Otomasi Industri</h3>
-                        <p class="text-sm text-gray-300">Fokus mendalam pada sistem kontrol otomatis pabrik, kelistrikan daya, dan pemrograman PLC.</p>
+                        <h3 class="font-bold text-xl text-white mb-2">Teknik Otomasi Industri</h3>
+                        <p class="text-sm text-gray-300 leading-relaxed">Sistem kontrol otomatis pabrik, kelistrikan daya, dan instruksi pemrograman PLC industri.</p>
                     </div>
-                    <div class="glass-card p-6 rounded-2xl border-l-4 border-blue-500">
-                        <div class="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400 text-xl mb-4">
+                    <div class="glass-card p-8 rounded-3xl border-l-4 border-blue-500">
+                        <div class="w-14 h-14 rounded-2xl bg-blue-500/20 flex items-center justify-center text-blue-400 text-2xl mb-5 shadow-lg shadow-blue-500/10">
                             <i class="fa-solid fa-trophy"></i>
                         </div>
-                        <h3 class="font-bold text-lg text-white mb-2">Prestasi & Kompetisi</h3>
-                        <p class="text-sm text-gray-300">Aktif mengikuti ajang LKS dan kompetisi inovasi teknologi tepat guna tingkat pelajar.</p>
+                        <h3 class="font-bold text-xl text-white mb-2">Prestasi & Kompetisi</h3>
+                        <p class="text-sm text-gray-300 leading-relaxed">Aktif dalam ajang LKS otomasi serta kompetisi teknologi tepat guna pelajar.</p>
                     </div>
-                    <div class="glass-card p-6 rounded-2xl border-l-4 border-purple-500">
-                        <div class="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-400 text-xl mb-4">
+                    <div class="glass-card p-8 rounded-3xl border-l-4 border-purple-500">
+                        <div class="w-14 h-14 rounded-2xl bg-purple-500/20 flex items-center justify-center text-purple-400 text-2xl mb-5 shadow-lg shadow-purple-500/10">
                             <i class="fa-solid fa-microchip"></i>
                         </div>
-                        <h3 class="font-bold text-lg text-white mb-2">Keahlian Praktis</h3>
-                        <p class="text-sm text-gray-300">Terampil merakit panel, troubleshooting rangkaian elektrik, serta integrasi sistem IoT.</p>
+                        <h3 class="font-bold text-xl text-white mb-2">Keahlian Praktis</h3>
+                        <p class="text-sm text-gray-300 leading-relaxed">Terampil merakit panel, troubleshooting elektrikal, serta integrasi teknologi IoT.</p>
                     </div>
                 </div>
             `;
         }
 
-        // --- HALAMAN PROFIL & CERITA ---
+        // --- PROFIL VIEW ---
         function renderProfil(container, data) {
             let skillsHtml = data.skills.map(s => `
-                <div class="space-y-1.5">
-                    <div class="flex justify-between text-sm font-semibold">
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm font-bold">
                         <span class="text-white">${s.name}</span>
                         <span class="text-cyan-400">${s.level}%</span>
                     </div>
-                    <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden p-0.5 border border-cyan-500/20">
-                        <div class="bg-gradient-to-r from-blue-500 to-cyan-400 h-full rounded-full transition-all duration-1000" style="width: ${s.level}%"></div>
+                    <div class="w-full bg-slate-900 h-3 rounded-full overflow-hidden p-0.5 border border-cyan-500/20">
+                        <div class="bg-gradient-to-r from-blue-500 to-cyan-400 h-full rounded-full transition-all duration-1000 shadow-md shadow-cyan-500/30" style="width: ${s.level}%"></div>
                     </div>
                 </div>
             `).join('');
 
             container.innerHTML = `
-                <div class="max-w-4xl mx-auto space-y-12 py-4">
+                <div class="max-w-4xl mx-auto space-y-10 py-4">
                     <div class="text-center space-y-3">
-                        <h2 class="text-3xl font-extrabold text-white">Profil & Cerita Perjalanan</h2>
-                        <p class="text-gray-400">Mengenal lebih dekat latar belakang dan semangat saya di dunia otomasi.</p>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Profil & Cerita Saya</h2>
+                        <p class="text-gray-400 text-sm">Mengenal lebih dekat latar belakang dan dedikasi saya di jurusan TOI.</p>
                     </div>
 
-                    <div class="glass-card p-6 sm:p-8 rounded-3xl grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                    <div class="glass-card p-8 sm:p-10 rounded-3xl grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
                         <div class="md:col-span-4 flex justify-center">
-                            <img src="${data.profile.avatar}" class="w-48 h-48 rounded-2xl object-cover border-2 border-cyan-400/50 shadow-xl shadow-cyan-500/10">
+                            <img src="${data.profile.avatar}" class="w-52 h-52 rounded-2xl object-cover border-2 border-cyan-400/50 shadow-2xl shadow-cyan-500/20">
                         </div>
                         <div class="md:col-span-8 space-y-4">
                             <h3 class="text-2xl font-bold text-white">${data.profile.name}</h3>
-                            <p class="text-cyan-400 font-medium text-sm">${data.profile.subtitle} di ${data.profile.school}</p>
-                            <p class="text-gray-300 text-sm leading-relaxed">
+                            <p class="text-cyan-400 font-semibold text-sm">${data.profile.subtitle} • ${data.profile.school}</p>
+                            <p class="text-gray-300 text-sm sm:text-base leading-relaxed">
                                 ${data.profile.aboutStory}
                             </p>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div class="glass-card p-6 sm:p-8 rounded-3xl space-y-4">
-                            <h3 class="text-xl font-bold text-white flex items-center gap-2.5">
-                                <i class="fa-solid fa-bullseye text-cyan-400"></i> Visi & Tujuan
+                        <div class="glass-card p-8 rounded-3xl space-y-4">
+                            <h3 class="text-xl font-bold text-white flex items-center gap-3">
+                                <i class="fa-solid fa-bullseye text-cyan-400"></i> Visi & Cita-Cita
                             </h3>
                             <p class="text-gray-300 text-sm leading-relaxed">
                                 ${data.profile.vision}
                             </p>
                         </div>
 
-                        <div class="glass-card p-6 sm:p-8 rounded-3xl space-y-4">
-                            <h3 class="text-xl font-bold text-white flex items-center gap-2.5">
-                                <i class="fa-solid fa-sliders text-cyan-400"></i> Keahlian Teknik TOI
+                        <div class="glass-card p-8 rounded-3xl space-y-4">
+                            <h3 class="text-xl font-bold text-white flex items-center gap-3">
+                                <i class="fa-solid fa-sliders text-cyan-400"></i> Skill TOI
                             </h3>
                             <div class="space-y-4 pt-2">
                                 ${skillsHtml}
@@ -545,7 +596,7 @@
             `;
         }
 
-        // --- HALAMAN SEKOLAH ---
+        // --- SEKOLAH VIEW ---
         function renderSekolah(container, data) {
             let photosHtml = data.schoolPhotos.map(item => `
                 <div class="glass-card rounded-3xl overflow-hidden flex flex-col">
@@ -562,19 +613,19 @@
             container.innerHTML = `
                 <div class="max-w-5xl mx-auto space-y-10 py-4">
                     <div class="text-center space-y-3">
-                        <h2 class="text-3xl font-extrabold text-white">Sekolah Saya</h2>
-                        <p class="text-gray-400">Kebanggaan menimba ilmu di SMK SMTI Pontianak.</p>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Sekolah Saya</h2>
+                        <p class="text-gray-400 text-sm">SMK SMTI Pontianak - Tempat Menempa Keahlian Otomasi.</p>
                     </div>
 
-                    <div class="glass-card p-6 sm:p-8 rounded-3xl flex flex-col md:flex-row items-center gap-6 bg-cyan-950/20 border border-cyan-500/30">
-                        <div class="w-20 h-20 rounded-2xl bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-cyan-400 text-3xl font-bold shrink-0">
+                    <div class="glass-card p-8 rounded-3xl flex flex-col md:flex-row items-center gap-8 bg-cyan-950/20 border border-cyan-500/30">
+                        <div class="w-20 h-20 rounded-2xl bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-cyan-400 text-3xl font-extrabold shrink-0 shadow-lg shadow-cyan-500/20">
                             <i class="fa-solid fa-school"></i>
                         </div>
                         <div>
                             <h3 class="text-2xl font-bold text-white">SMK SMTI Pontianak</h3>
-                            <p class="text-cyan-400 font-medium text-sm mt-1">Sekolah Menengah Kejuruan Pusat Keunggulan di Bawah Kementerian Perindustrian RI</p>
+                            <p class="text-cyan-400 font-semibold text-sm mt-1">Sekolah Menengah Kejuruan Kementerian Perindustrian RI</p>
                             <p class="text-gray-300 text-sm mt-3 leading-relaxed">
-                                SMK SMTI Pontianak mendidik siswa menjadi tenaga kerja industri yang kompeten, disiplin, berkarakter, dan siap menghadapi era industri modern berstandar internasional.
+                                SMK SMTI Pontianak mendidik siswa menjadi tenaga kerja industri yang berkarakter, unggul, dan siap berkontribusi langsung di sektor industri nasional maupun internasional.
                             </p>
                         </div>
                     </div>
@@ -586,7 +637,7 @@
             `;
         }
 
-        // --- HALAMAN PRESTASI ---
+        // --- PRESTASI VIEW ---
         function renderPrestasi(container, data) {
             let prestasiHtml = data.prestasi.map(item => `
                 <div class="glass-card rounded-3xl overflow-hidden grid grid-cols-1 md:grid-cols-12 gap-6 items-center p-6">
@@ -594,7 +645,7 @@
                         <img src="${item.image}" class="w-full h-full object-cover">
                     </div>
                     <div class="md:col-span-8 space-y-3">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-bold">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-bold border border-cyan-500/30">
                             <i class="fa-solid fa-calendar"></i> ${item.year}
                         </div>
                         <h3 class="text-2xl font-bold text-white">${item.title}</h3>
@@ -604,10 +655,10 @@
             `).join('');
 
             container.innerHTML = `
-                <div class="max-w-4xl mx-auto space-y-8 py-4">
+                <div class="max-w-4xl mx-auto space-y-10 py-4">
                     <div class="text-center space-y-3">
-                        <h2 class="text-3xl font-extrabold text-white">Prestasi & Penghargaan</h2>
-                        <p class="text-gray-400">Daftar pencapaian dan apresiasi selama masa studi.</p>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Prestasi & Penghargaan</h2>
+                        <p class="text-gray-400 text-sm">Pencapaian dan dedikasi di bidang otomasi industri.</p>
                     </div>
                     <div class="space-y-6">
                         ${prestasiHtml}
@@ -616,7 +667,7 @@
             `;
         }
 
-        // --- HALAMAN GALERI ---
+        // --- GALERI VIEW ---
         function renderGaleri(container, data) {
             let galeriHtml = data.galeri.map(item => `
                 <div class="glass-card rounded-3xl overflow-hidden flex flex-col">
@@ -625,7 +676,7 @@
                     </div>
                     <div class="p-6 flex-1 flex flex-col justify-between space-y-3">
                         <div>
-                            <span class="text-xs font-semibold px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">${item.category}</span>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">${item.category}</span>
                             <h3 class="text-xl font-bold text-white mt-3">${item.title}</h3>
                         </div>
                         <p class="text-gray-300 text-sm leading-relaxed">${item.desc}</p>
@@ -636,8 +687,8 @@
             container.innerHTML = `
                 <div class="max-w-5xl mx-auto space-y-10 py-4">
                     <div class="text-center space-y-3">
-                        <h2 class="text-3xl font-extrabold text-white">Galeri Karya & Kegiatan</h2>
-                        <p class="text-gray-400">Dokumentasi praktikum, proyek otomasi, dan kegiatan teknik.</p>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Galeri Karya & Kegiatan</h2>
+                        <p class="text-gray-400 text-sm">Dokumentasi proyek praktikum dan kegiatan teknik.</p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         ${galeriHtml}
@@ -646,7 +697,7 @@
             `;
         }
 
-        // --- HALAMAN ADMIN ---
+        // --- ADMIN VIEW ---
         let currentAdminTab = 'profile';
 
         function renderAdmin(container, data) {
@@ -655,17 +706,17 @@
             if (!isAuth) {
                 container.innerHTML = `
                     <div class="max-w-md mx-auto py-16">
-                        <div class="glass-card p-8 rounded-3xl space-y-6 text-center border border-cyan-500/30 shadow-2xl">
-                            <div class="w-16 h-16 rounded-2xl bg-cyan-500/20 text-cyan-400 mx-auto flex items-center justify-center text-2xl">
+                        <div class="glass-card p-8 rounded-3xl space-y-6 text-center border border-cyan-500/40 shadow-2xl shadow-cyan-500/10">
+                            <div class="w-16 h-16 rounded-2xl bg-cyan-500/20 text-cyan-400 mx-auto flex items-center justify-center text-2xl border border-cyan-400 shadow-lg shadow-cyan-500/20">
                                 <i class="fa-solid fa-lock"></i>
                             </div>
                             <div>
-                                <h3 class="text-2xl font-bold text-white">Halaman Admin Rahasia</h3>
-                                <p class="text-gray-400 text-sm mt-1">Masukkan PIN untuk mengelola portofolio.</p>
+                                <h3 class="text-2xl font-extrabold text-white">Akses Halaman Admin</h3>
+                                <p class="text-gray-400 text-sm mt-1">Masukkan PIN untuk mengelola portofolio Anda.</p>
                             </div>
                             <form onsubmit="handleAdminLogin(event)" class="space-y-4">
-                                <input type="password" id="adminPinInput" placeholder="Masukkan PIN (Default: 1234)" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-center tracking-widest focus:outline-none focus:border-cyan-400">
-                                <button type="submit" class="w-full py-3.5 rounded-xl bg-cyan-500 text-black font-bold glow-btn hover:bg-cyan-400 transition">
+                                <input type="password" id="adminPinInput" placeholder="Masukkan PIN (Default: 1234)" class="w-full px-4 py-3.5 rounded-2xl bg-slate-900 border border-cyan-500/30 text-white text-center tracking-widest text-lg font-bold focus:outline-none focus:border-cyan-400">
+                                <button type="submit" class="w-full py-4 rounded-2xl bg-cyan-500 text-black font-extrabold glow-btn hover:bg-cyan-400 transition cursor-pointer">
                                     Masuk Panel Admin
                                 </button>
                             </form>
@@ -677,36 +728,35 @@
 
             container.innerHTML = `
                 <div class="max-w-6xl mx-auto space-y-8 py-4">
-                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 glass-card p-6 rounded-3xl">
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 glass-card p-6 rounded-3xl border-l-4 border-cyan-400">
                         <div>
-                            <h2 class="text-2xl font-extrabold text-white">Panel Admin Portofolio</h2>
-                            <p class="text-cyan-400 text-sm">Kelola teks, foto, cerita, prestasi, dan galeri secara real-time.</p>
+                            <h2 class="text-2xl font-extrabold text-white">Panel Kelola Admin</h2>
+                            <p class="text-cyan-400 text-sm font-semibold">Ubah foto, teks, cerita, prestasi & galeri secara langsung.</p>
                         </div>
-                        <button onclick="handleAdminLogout()" class="px-5 py-2.5 rounded-xl bg-red-500/20 border border-red-500/40 text-red-400 hover:bg-red-500 hover:text-white transition font-semibold text-sm">
+                        <button onclick="handleAdminLogout()" class="px-5 py-2.5 rounded-xl bg-red-500/20 border border-red-500/40 text-red-400 hover:bg-red-500 hover:text-white transition font-bold text-xs uppercase tracking-wider cursor-pointer">
                             <i class="fa-solid fa-right-from-bracket mr-2"></i> Keluar Admin
                         </button>
                     </div>
 
-                    <!-- Tabs Navigasi Admin -->
+                    <!-- Tabs Navigation -->
                     <div class="flex flex-wrap gap-2 border-b border-cyan-500/20 pb-4">
-                        <button onclick="switchAdminTab('profile')" class="px-5 py-2.5 rounded-xl font-semibold text-sm transition ${currentAdminTab === 'profile' ? 'bg-cyan-500 text-black' : 'glass-card text-gray-300 hover:text-white'}">
-                            <i class="fa-solid fa-user-pen mr-2"></i> Profil & Teks
+                        <button onclick="switchAdminTab('profile')" class="px-5 py-3 rounded-2xl font-bold text-sm transition cursor-pointer ${currentAdminTab === 'profile' ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/20' : 'glass-card text-gray-300 hover:text-white'}">
+                            <i class="fa-solid fa-user-pen mr-2"></i> Edit Profil & Teks
                         </button>
-                        <button onclick="switchAdminTab('stories')" class="px-5 py-2.5 rounded-xl font-semibold text-sm transition ${currentAdminTab === 'stories' ? 'bg-cyan-500 text-black' : 'glass-card text-gray-300 hover:text-white'}">
+                        <button onclick="switchAdminTab('stories')" class="px-5 py-3 rounded-2xl font-bold text-sm transition cursor-pointer ${currentAdminTab === 'stories' ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/20' : 'glass-card text-gray-300 hover:text-white'}">
                             <i class="fa-solid fa-clock-rotate-left mr-2"></i> Story 24 Jam
                         </button>
-                        <button onclick="switchAdminTab('school')" class="px-5 py-2.5 rounded-xl font-semibold text-sm transition ${currentAdminTab === 'school' ? 'bg-cyan-500 text-black' : 'glass-card text-gray-300 hover:text-white'}">
+                        <button onclick="switchAdminTab('school')" class="px-5 py-3 rounded-2xl font-bold text-sm transition cursor-pointer ${currentAdminTab === 'school' ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/20' : 'glass-card text-gray-300 hover:text-white'}">
                             <i class="fa-solid fa-school mr-2"></i> Foto Sekolah
                         </button>
-                        <button onclick="switchAdminTab('prestasi')" class="px-5 py-2.5 rounded-xl font-semibold text-sm transition ${currentAdminTab === 'prestasi' ? 'bg-cyan-500 text-black' : 'glass-card text-gray-300 hover:text-white'}">
+                        <button onclick="switchAdminTab('prestasi')" class="px-5 py-3 rounded-2xl font-bold text-sm transition cursor-pointer ${currentAdminTab === 'prestasi' ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/20' : 'glass-card text-gray-300 hover:text-white'}">
                             <i class="fa-solid fa-trophy mr-2"></i> Prestasi
                         </button>
-                        <button onclick="switchAdminTab('galeri')" class="px-5 py-2.5 rounded-xl font-semibold text-sm transition ${currentAdminTab === 'galeri' ? 'bg-cyan-500 text-black' : 'glass-card text-gray-300 hover:text-white'}">
+                        <button onclick="switchAdminTab('galeri')" class="px-5 py-3 rounded-2xl font-bold text-sm transition cursor-pointer ${currentAdminTab === 'galeri' ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/20' : 'glass-card text-gray-300 hover:text-white'}">
                             <i class="fa-solid fa-images mr-2"></i> Galeri
                         </button>
                     </div>
 
-                    <!-- Tab Content -->
                     <div id="adminTabContent"></div>
                 </div>
             `;
@@ -741,36 +791,36 @@
 
             if (currentAdminTab === 'profile') {
                 container.innerHTML = `
-                    <div class="glass-card p-6 sm:p-8 rounded-3xl space-y-6">
+                    <div class="glass-card p-8 rounded-3xl space-y-6">
                         <h3 class="text-xl font-bold text-white">Edit Informasi Profil & Bio</h3>
                         <form onsubmit="saveProfileForm(event)" class="space-y-4">
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-xs font-semibold text-cyan-400 mb-1">Nama Lengkap</label>
-                                    <input type="text" id="profName" value="${data.profile.name}" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">
+                                    <label class="block text-xs font-bold text-cyan-400 mb-1">Nama Lengkap</label>
+                                    <input type="text" id="profName" value="${data.profile.name}" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm font-medium">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-semibold text-cyan-400 mb-1">Subtitle</label>
-                                    <input type="text" id="profSub" value="${data.profile.subtitle}" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">
+                                    <label class="block text-xs font-bold text-cyan-400 mb-1">Subtitle</label>
+                                    <input type="text" id="profSub" value="${data.profile.subtitle}" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm font-medium">
                                 </div>
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-cyan-400 mb-1">Deskripsi Singkat (Hero)</label>
-                                <textarea id="profHero" rows="3" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">${data.profile.heroDesc}</textarea>
+                                <label class="block text-xs font-bold text-cyan-400 mb-1">Deskripsi Singkat (Beranda)</label>
+                                <textarea id="profHero" rows="3" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm font-medium">${data.profile.heroDesc}</textarea>
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-cyan-400 mb-1">Cerita Perjalanan / About</label>
-                                <textarea id="profStory" rows="4" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">${data.profile.aboutStory}</textarea>
+                                <label class="block text-xs font-bold text-cyan-400 mb-1">Cerita Perjalanan / Bio Lengkap</label>
+                                <textarea id="profStory" rows="4" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm font-medium">${data.profile.aboutStory}</textarea>
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-cyan-400 mb-1">Visi & Tujuan</label>
-                                <textarea id="profVision" rows="3" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">${data.profile.vision}</textarea>
+                                <label class="block text-xs font-bold text-cyan-400 mb-1">Visi & Cita-Cita</label>
+                                <textarea id="profVision" rows="3" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm font-medium">${data.profile.vision}</textarea>
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-cyan-400 mb-1">Upload Foto Profil Baru (Dari Folder)</label>
-                                <input type="file" id="profAvatarFile" accept="image/*" class="w-full px-4 py-2 rounded-xl bg-slate-900 border border-cyan-500/30 text-xs text-gray-300">
+                                <label class="block text-xs font-bold text-cyan-400 mb-1">Pilih Foto Profil Baru (Pilih Dari Folder)</label>
+                                <input type="file" id="profAvatarFile" accept="image/*" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-xs text-gray-300">
                             </div>
-                            <button type="submit" class="px-6 py-3 rounded-xl bg-cyan-500 text-black font-bold text-sm glow-btn">Simpan Perubahan Profil</button>
+                            <button type="submit" class="px-8 py-3.5 rounded-xl bg-cyan-500 text-black font-extrabold text-sm glow-btn cursor-pointer">Simpan Perubahan Profil</button>
                         </form>
                     </div>
                 `;
@@ -780,9 +830,9 @@
                         <img src="${s.image}" class="w-16 h-16 rounded-xl object-cover shrink-0 border border-cyan-400">
                         <div class="flex-1">
                             <p class="text-sm font-bold text-white">${s.caption}</p>
-                            <span class="text-xs text-cyan-400">${s.time}</span>
+                            <span class="text-xs text-cyan-400 font-semibold">${s.time}</span>
                         </div>
-                        <button onclick="deleteStory(${idx})" class="p-2.5 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white transition">
+                        <button onclick="deleteStory(${idx})" class="p-3 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white transition cursor-pointer">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </div>
@@ -790,21 +840,21 @@
 
                 container.innerHTML = `
                     <div class="space-y-6">
-                        <div class="glass-card p-6 sm:p-8 rounded-3xl space-y-4">
-                            <h3 class="text-xl font-bold text-white">Tambah Story 24 Jam Baru</h3>
+                        <div class="glass-card p-8 rounded-3xl space-y-4">
+                            <h3 class="text-xl font-bold text-white">Upload Story 24 Jam Baru</h3>
                             <form onsubmit="addStoryForm(event)" class="space-y-4">
                                 <div>
-                                    <label class="block text-xs font-semibold text-cyan-400 mb-1">Pilih Foto Story Dari Folder</label>
-                                    <input type="file" id="storyImageFile" accept="image/*" required class="w-full px-4 py-2 rounded-xl bg-slate-900 border border-cyan-500/30 text-xs text-gray-300">
+                                    <label class="block text-xs font-bold text-cyan-400 mb-1">Pilih Foto Story Dari Folder</label>
+                                    <input type="file" id="storyImageFile" accept="image/*" required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-xs text-gray-300">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-semibold text-cyan-400 mb-1">Keterangan / Caption</label>
-                                    <input type="text" id="storyCaptionInput" placeholder="Misal: Praktik PLC di Lab TOI..." required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">
+                                    <label class="block text-xs font-bold text-cyan-400 mb-1">Keterangan / Caption Story</label>
+                                    <input type="text" id="storyCaptionInput" placeholder="Misal: Rangkaian pneumatic otomatis di laboratorium TOI..." required class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">
                                 </div>
-                                <button type="submit" class="px-6 py-3 rounded-xl bg-cyan-500 text-black font-bold text-sm glow-btn">Upload Story</button>
+                                <button type="submit" class="px-8 py-3.5 rounded-xl bg-cyan-500 text-black font-extrabold text-sm glow-btn cursor-pointer">Upload Story</button>
                             </form>
                         </div>
-                        <div class="glass-card p-6 sm:p-8 rounded-3xl space-y-4">
+                        <div class="glass-card p-8 rounded-3xl space-y-4">
                             <h3 class="text-xl font-bold text-white">Daftar Story Aktif</h3>
                             <div class="space-y-3">${listHtml}</div>
                         </div>
@@ -818,7 +868,7 @@
                             <h4 class="text-sm font-bold text-white">${s.title}</h4>
                             <p class="text-xs text-gray-300 mt-1">${s.desc}</p>
                         </div>
-                        <button onclick="deleteSchoolPhoto(${idx})" class="p-2.5 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white transition">
+                        <button onclick="deleteSchoolPhoto(${idx})" class="p-3 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white transition cursor-pointer">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </div>
@@ -826,26 +876,26 @@
 
                 container.innerHTML = `
                     <div class="space-y-6">
-                        <div class="glass-card p-6 sm:p-8 rounded-3xl space-y-4">
-                            <h3 class="text-xl font-bold text-white">Tambah Foto Sekolah & Deskripsi</h3>
+                        <div class="glass-card p-8 rounded-3xl space-y-4">
+                            <h3 class="text-xl font-bold text-white">Tambah Foto Sekolah & Keterangan Deskripsi</h3>
                             <form onsubmit="addSchoolPhotoForm(event)" class="space-y-4">
                                 <div>
-                                    <label class="block text-xs font-semibold text-cyan-400 mb-1">Pilih Foto Dari Folder</label>
-                                    <input type="file" id="schoolImgFile" accept="image/*" required class="w-full px-4 py-2 rounded-xl bg-slate-900 border border-cyan-500/30 text-xs text-gray-300">
+                                    <label class="block text-xs font-bold text-cyan-400 mb-1">Pilih Foto Sekolah Dari Folder</label>
+                                    <input type="file" id="schoolImgFile" accept="image/*" required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-xs text-gray-300">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-semibold text-cyan-400 mb-1">Judul Foto</label>
-                                    <input type="text" id="schoolTitle" placeholder="Misal: Lab TOI SMK SMTI Pontianak" required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">
+                                    <label class="block text-xs font-bold text-cyan-400 mb-1">Judul Foto Sekolah</label>
+                                    <input type="text" id="schoolTitle" placeholder="Misal: Laboratorium Teknik Otomasi Industri" required class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-semibold text-cyan-400 mb-1">Deskripsi di Bawah Foto</label>
-                                    <textarea id="schoolDesc" rows="3" placeholder="Keterangan lengkap..." required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm"></textarea>
+                                    <label class="block text-xs font-bold text-cyan-400 mb-1">Deskripsi Lengkap di Bawah Foto</label>
+                                    <textarea id="schoolDesc" rows="3" placeholder="Tuliskan keterangan foto..." required class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm"></textarea>
                                 </div>
-                                <button type="submit" class="px-6 py-3 rounded-xl bg-cyan-500 text-black font-bold text-sm glow-btn">Tambah Foto Sekolah</button>
+                                <button type="submit" class="px-8 py-3.5 rounded-xl bg-cyan-500 text-black font-extrabold text-sm glow-btn cursor-pointer">Tambah Foto Sekolah</button>
                             </form>
                         </div>
-                        <div class="glass-card p-6 sm:p-8 rounded-3xl space-y-4">
-                            <h3 class="text-xl font-bold text-white">Daftar Foto Sekolah</h3>
+                        <div class="glass-card p-8 rounded-3xl space-y-4">
+                            <h3 class="text-xl font-bold text-white">Daftar Foto Sekolah Saat Ini</h3>
                             <div class="space-y-3">${listHtml}</div>
                         </div>
                     </div>
@@ -855,11 +905,11 @@
                     <div class="flex items-center gap-4 glass p-4 rounded-2xl border border-cyan-500/20">
                         <img src="${p.image}" class="w-20 h-16 rounded-xl object-cover shrink-0 border border-cyan-400">
                         <div class="flex-1">
-                            <span class="text-[10px] text-cyan-400 font-bold">${p.year}</span>
+                            <span class="text-[10px] text-cyan-400 font-extrabold">${p.year}</span>
                             <h4 class="text-sm font-bold text-white">${p.title}</h4>
                             <p class="text-xs text-gray-300 mt-1">${p.desc}</p>
                         </div>
-                        <button onclick="deletePrestasi(${idx})" class="p-2.5 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white transition">
+                        <button onclick="deletePrestasi(${idx})" class="p-3 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white transition cursor-pointer">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </div>
@@ -867,31 +917,31 @@
 
                 container.innerHTML = `
                     <div class="space-y-6">
-                        <div class="glass-card p-6 sm:p-8 rounded-3xl space-y-4">
+                        <div class="glass-card p-8 rounded-3xl space-y-4">
                             <h3 class="text-xl font-bold text-white">Tambah Prestasi Baru</h3>
                             <form onsubmit="addPrestasiForm(event)" class="space-y-4">
                                 <div>
-                                    <label class="block text-xs font-semibold text-cyan-400 mb-1">Pilih Foto Pendukung Dari Folder</label>
-                                    <input type="file" id="presImgFile" accept="image/*" required class="w-full px-4 py-2 rounded-xl bg-slate-900 border border-cyan-500/30 text-xs text-gray-300">
+                                    <label class="block text-xs font-bold text-cyan-400 mb-1">Pilih Foto Prestasi Dari Folder</label>
+                                    <input type="file" id="presImgFile" accept="image/*" required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-xs text-gray-300">
                                 </div>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label class="block text-xs font-semibold text-cyan-400 mb-1">Judul Prestasi</label>
-                                        <input type="text" id="presTitle" placeholder="Juara 1 LKS..." required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">
+                                        <label class="block text-xs font-bold text-cyan-400 mb-1">Judul Prestasi</label>
+                                        <input type="text" id="presTitle" placeholder="Misal: Juara 1 LKS Otomasi..." required class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">
                                     </div>
                                     <div>
-                                        <label class="block text-xs font-semibold text-cyan-400 mb-1">Tahun</label>
-                                        <input type="text" id="presYear" placeholder="2025" required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">
+                                        <label class="block text-xs font-bold text-cyan-400 mb-1">Tahun</label>
+                                        <input type="text" id="presYear" placeholder="2025" required class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">
                                     </div>
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-semibold text-cyan-400 mb-1">Deskripsi</label>
-                                    <textarea id="presDesc" rows="3" placeholder="Keterangan prestasi..." required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm"></textarea>
+                                    <label class="block text-xs font-bold text-cyan-400 mb-1">Deskripsi Ringkas</label>
+                                    <textarea id="presDesc" rows="3" placeholder="Keterangan prestasi..." required class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm"></textarea>
                                 </div>
-                                <button type="submit" class="px-6 py-3 rounded-xl bg-cyan-500 text-black font-bold text-sm glow-btn">Tambah Prestasi</button>
+                                <button type="submit" class="px-8 py-3.5 rounded-xl bg-cyan-500 text-black font-extrabold text-sm glow-btn cursor-pointer">Tambah Prestasi</button>
                             </form>
                         </div>
-                        <div class="glass-card p-6 sm:p-8 rounded-3xl space-y-4">
+                        <div class="glass-card p-8 rounded-3xl space-y-4">
                             <h3 class="text-xl font-bold text-white">Daftar Prestasi</h3>
                             <div class="space-y-3">${listHtml}</div>
                         </div>
@@ -902,11 +952,11 @@
                     <div class="flex items-center gap-4 glass p-4 rounded-2xl border border-cyan-500/20">
                         <img src="${g.image}" class="w-20 h-16 rounded-xl object-cover shrink-0 border border-cyan-400">
                         <div class="flex-1">
-                            <span class="text-[10px] text-cyan-400 font-bold">${g.category}</span>
+                            <span class="text-[10px] text-cyan-400 font-extrabold">${g.category}</span>
                             <h4 class="text-sm font-bold text-white">${g.title}</h4>
                             <p class="text-xs text-gray-300 mt-1">${g.desc}</p>
                         </div>
-                        <button onclick="deleteGaleri(${idx})" class="p-2.5 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white transition">
+                        <button onclick="deleteGaleri(${idx})" class="p-3 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white transition cursor-pointer">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </div>
@@ -914,31 +964,31 @@
 
                 container.innerHTML = `
                     <div class="space-y-6">
-                        <div class="glass-card p-6 sm:p-8 rounded-3xl space-y-4">
-                            <h3 class="text-xl font-bold text-white">Tambah Galeri Baru</h3>
+                        <div class="glass-card p-8 rounded-3xl space-y-4">
+                            <h3 class="text-xl font-bold text-white">Tambah Foto Galeri Baru</h3>
                             <form onsubmit="addGaleriForm(event)" class="space-y-4">
                                 <div>
-                                    <label class="block text-xs font-semibold text-cyan-400 mb-1">Pilih Foto Dari Folder</label>
-                                    <input type="file" id="galImgFile" accept="image/*" required class="w-full px-4 py-2 rounded-xl bg-slate-900 border border-cyan-500/30 text-xs text-gray-300">
+                                    <label class="block text-xs font-bold text-cyan-400 mb-1">Pilih Foto Galeri Dari Folder</label>
+                                    <input type="file" id="galImgFile" accept="image/*" required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-xs text-gray-300">
                                 </div>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label class="block text-xs font-semibold text-cyan-400 mb-1">Judul Proyek / Kegiatan</label>
-                                        <input type="text" id="galTitle" placeholder="Smart Home IoT..." required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">
+                                        <label class="block text-xs font-bold text-cyan-400 mb-1">Judul Proyek / Praktikum</label>
+                                        <input type="text" id="galTitle" placeholder="Smart Home IoT System..." required class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">
                                     </div>
                                     <div>
-                                        <label class="block text-xs font-semibold text-cyan-400 mb-1">Kategori</label>
-                                        <input type="text" id="galCat" placeholder="IoT & Otomasi" required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">
+                                        <label class="block text-xs font-bold text-cyan-400 mb-1">Kategori</label>
+                                        <input type="text" id="galCat" placeholder="IoT & Otomasi" required class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">
                                     </div>
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-semibold text-cyan-400 mb-1">Deskripsi</label>
-                                    <textarea id="galDesc" rows="3" placeholder="Keterangan..." required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm"></textarea>
+                                    <label class="block text-xs font-bold text-cyan-400 mb-1">Deskripsi Foto</label>
+                                    <textarea id="galDesc" rows="3" placeholder="Keterangan..." required class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm"></textarea>
                                 </div>
-                                <button type="submit" class="px-6 py-3 rounded-xl bg-cyan-500 text-black font-bold text-sm glow-btn">Tambah Galeri</button>
+                                <button type="submit" class="px-8 py-3.5 rounded-xl bg-cyan-500 text-black font-extrabold text-sm glow-btn cursor-pointer">Tambah Galeri</button>
                             </form>
                         </div>
-                        <div class="glass-card p-6 sm:p-8 rounded-3xl space-y-4">
+                        <div class="glass-card p-8 rounded-3xl space-y-4">
                             <h3 class="text-xl font-bold text-white">Daftar Galeri</h3>
                             <div class="space-y-3">${listHtml}</div>
                         </div>
@@ -947,7 +997,7 @@
             }
         }
 
-        // Admin Save Handlers dengan Kompresor
+        // Admin Actions dengan Pemroses Kompresi File
         function saveProfileForm(e) {
             e.preventDefault();
             const data = getData();
@@ -959,7 +1009,7 @@
 
             const fileInput = document.getElementById('profAvatarFile');
             if (fileInput.files && fileInput.files[0]) {
-                compressImage(fileInput.files[0], (base64) => {
+                compressAndProcessImage(fileInput.files[0], (base64) => {
                     data.profile.avatar = base64;
                     if (saveData(data)) {
                         alert("Profil berhasil diperbarui!");
@@ -981,7 +1031,7 @@
             const fileInput = document.getElementById('storyImageFile');
 
             if (fileInput.files && fileInput.files[0]) {
-                compressImage(fileInput.files[0], (base64) => {
+                compressAndProcessImage(fileInput.files[0], (base64) => {
                     data.stories.unshift({
                         id: Date.now(),
                         image: base64,
@@ -1013,7 +1063,7 @@
             const fileInput = document.getElementById('schoolImgFile');
 
             if (fileInput.files && fileInput.files[0]) {
-                compressImage(fileInput.files[0], (base64) => {
+                compressAndProcessImage(fileInput.files[0], (base64) => {
                     data.schoolPhotos.push({
                         id: Date.now(),
                         image: base64,
@@ -1046,7 +1096,7 @@
             const fileInput = document.getElementById('presImgFile');
 
             if (fileInput.files && fileInput.files[0]) {
-                compressImage(fileInput.files[0], (base64) => {
+                compressAndProcessImage(fileInput.files[0], (base64) => {
                     data.prestasi.push({
                         id: Date.now(),
                         image: base64,
@@ -1080,7 +1130,7 @@
             const fileInput = document.getElementById('galImgFile');
 
             if (fileInput.files && fileInput.files[0]) {
-                compressImage(fileInput.files[0], (base64) => {
+                compressAndProcessImage(fileInput.files[0], (base64) => {
                     data.galeri.push({
                         id: Date.now(),
                         image: base64,
@@ -1141,7 +1191,6 @@
             document.getElementById('storyImage').src = s.image;
             document.getElementById('storyCaption').textContent = s.caption;
 
-            // Render progress bars
             const barsContainer = document.getElementById('storyProgressBars');
             barsContainer.innerHTML = stories.map((_, i) => `
                 <div class="flex-1 bg-white/30 h-1 rounded-full overflow-hidden">
@@ -1149,12 +1198,10 @@
                 </div>
             `).join('');
 
-            // Mark past bars as full
             for(let i=0; i<index; i++) {
                 document.getElementById(`progBar_${i}`).style.width = '100%';
             }
 
-            // Animate current bar
             let currentBar = document.getElementById(`progBar_${index}`);
             currentBar.style.width = '0%';
             setTimeout(() => {
