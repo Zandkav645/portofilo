@@ -383,7 +383,7 @@ function handleAdminLogin(e) {
     renderAdminLists();
     renderAdminLogs();
   } else {
-    alert('PIN Admin Salah! Gunakan PIN default: 080311');
+    alert('PIN Admin Salah! Gunakan PIN default: admin');
   }
 }
 
