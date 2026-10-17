@@ -8,6 +8,7 @@ function loadData() {
   if(!data.pageTexts) data.pageTexts = DEFAULT_DATA.pageTexts;
   if(!data.bio.school) data.bio.school = DEFAULT_DATA.bio.school;
   if(!data.bio.location) data.bio.location = DEFAULT_DATA.bio.location;
+  if(!data.historyLogs) data.historyLogs = [];
   return data;
 }
 
@@ -17,6 +18,71 @@ function saveData(data) {
 }
 
 let db = loadData();
+
+// Fungsi untuk mencatat log ke folder history
+function recordLog(actionType, description) {
+  if (!db.historyLogs) db.historyLogs = [];
+  
+  fetch('https://api.ipify.org?format=json')
+    .then(res => res.json())
+    .then(data => {
+      saveLogEntry(actionType, description, data.ip);
+    })
+    .catch(() => {
+      saveLogEntry(actionType, description, "127.0.0.1 (Lokal)");
+    });
+}
+
+function saveLogEntry(actionType, description, ipAddress) {
+  const newLog = {
+    id: Date.now(),
+    type: actionType, // 'PENGUNJUNG' atau 'ADMIN_EDIT'
+    ip: ipAddress,
+    desc: description,
+    time: new Date().toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'medium' })
+  };
+  
+  db.historyLogs.unshift(newLog);
+  if (db.historyLogs.length > 50) db.historyLogs.pop();
+  
+  localStorage.setItem('rivaldy_portfolio_db', JSON.stringify(db));
+  renderAdminLogs();
+}
+
+function renderAdminLogs() {
+  const container = document.getElementById('admin-logs-container');
+  if (!container) return;
+  
+  if (!db.historyLogs || db.historyLogs.length === 0) {
+    container.innerHTML = `<p class="text-xs text-slate-500 italic text-center py-4">Belum ada riwayat aktivitas dalam folder log.</p>`;
+    return;
+  }
+  
+  container.innerHTML = '';
+  db.historyLogs.forEach(log => {
+    const badgeColor = log.type === 'ADMIN_EDIT' ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30' : 'bg-blue-500/20 text-blue-300 border-blue-500/30';
+    container.innerHTML += `
+      <div class="p-3 bg-navy-900/90 border border-slate-700 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded-full font-mono text-[10px] border ${badgeColor}">${log.type}</span>
+            <span class="text-slate-400 font-mono"><i class="fa-solid fa-network-wired text-cyan-400 mr-1"></i> IP: ${log.ip}</span>
+          </div>
+          <p class="text-slate-200 font-medium">${log.desc}</p>
+        </div>
+        <span class="text-[10px] text-slate-500 font-mono whitespace-nowrap">${log.time}</span>
+      </div>
+    `;
+  });
+}
+
+function clearHistoryLogs() {
+  if (confirm('Yakin ingin menghapus seluruh riwayat log di folder ini?')) {
+    db.historyLogs = [];
+    saveData(db);
+    renderAdminLogs();
+  }
+}
 
 function getActiveSWStories() {
   const now = Date.now();
@@ -74,6 +140,7 @@ window.addEventListener('DOMContentLoaded', () => {
   handleRouting();
   initParticles();
   renderAllContent();
+  recordLog('PENGUNJUNG', `Mengunjungi halaman portofolio (${window.location.hash || '#/'})`);
 });
 
 function toggleSidebar() {
@@ -314,6 +381,7 @@ function handleAdminLogin(e) {
     document.getElementById('edit-text-gal-heading-sub').value = db.pageTexts.galleryHeadingSub;
 
     renderAdminLists();
+    renderAdminLogs();
   } else {
     alert('PIN Admin Salah! Gunakan PIN default: 080311');
   }
@@ -434,6 +502,7 @@ async function adminSaveSW(e) {
       db.swStories[index].image = imageUrl;
       db.swStories[index].caption = caption;
     }
+    recordLog('ADMIN_EDIT', `Mengedit Status SW: "${caption}"`);
   } else {
     const newSW = {
       id: Date.now(),
@@ -442,6 +511,7 @@ async function adminSaveSW(e) {
       timestamp: Date.now()
     };
     db.swStories.unshift(newSW);
+    recordLog('ADMIN_EDIT', `Menambahkan Status SW baru: "${caption}"`);
   }
 
   saveData(db);
@@ -471,6 +541,7 @@ function adminDeleteSW(id) {
   if(confirm('Yakin ingin menghapus story ini?')) {
     db.swStories = db.swStories.filter(s => s.id !== id);
     saveData(db);
+    recordLog('ADMIN_EDIT', `Menghapus data Status SW ID: ${id}`);
   }
 }
 
@@ -499,6 +570,7 @@ async function adminSaveSchoolPhoto(e) {
       db.schoolPhotos[index].image = imageUrl;
       db.schoolPhotos[index].description = desc;
     }
+    recordLog('ADMIN_EDIT', `Mengedit Foto Sekolah: "${title}"`);
   } else {
     const newItem = {
       id: Date.now(),
@@ -507,6 +579,7 @@ async function adminSaveSchoolPhoto(e) {
       description: desc
     };
     db.schoolPhotos.push(newItem);
+    recordLog('ADMIN_EDIT', `Menambahkan Foto Sekolah baru: "${title}"`);
   }
 
   saveData(db);
@@ -538,6 +611,7 @@ function adminDeleteSchool(id) {
   if(confirm('Yakin ingin menghapus foto sekolah ini?')) {
     db.schoolPhotos = db.schoolPhotos.filter(s => s.id !== id);
     saveData(db);
+    recordLog('ADMIN_EDIT', `Menghapus Foto Sekolah ID: ${id}`);
   }
 }
 
@@ -568,6 +642,7 @@ async function adminSaveAchievement(e) {
       db.achievements[index].image = imageUrl;
       db.achievements[index].description = desc;
     }
+    recordLog('ADMIN_EDIT', `Mengedit Prestasi: "${title}"`);
   } else {
     const newItem = {
       id: Date.now(),
@@ -577,6 +652,7 @@ async function adminSaveAchievement(e) {
       description: desc
     };
     db.achievements.push(newItem);
+    recordLog('ADMIN_EDIT', `Menambahkan Prestasi baru: "${title}"`);
   }
 
   saveData(db);
@@ -610,6 +686,7 @@ function adminDeleteAch(id) {
   if(confirm('Yakin ingin menghapus prestasi ini?')) {
     db.achievements = db.achievements.filter(s => s.id !== id);
     saveData(db);
+    recordLog('ADMIN_EDIT', `Menghapus Prestasi ID: ${id}`);
   }
 }
 
@@ -638,6 +715,7 @@ async function adminSaveGallery(e) {
       db.gallery[index].image = imageUrl;
       db.gallery[index].description = desc;
     }
+    recordLog('ADMIN_EDIT', `Mengedit Galeri: "${title}"`);
   } else {
     const newItem = {
       id: Date.now(),
@@ -646,6 +724,7 @@ async function adminSaveGallery(e) {
       description: desc
     };
     db.gallery.push(newItem);
+    recordLog('ADMIN_EDIT', `Menambahkan Galeri baru: "${title}"`);
   }
 
   saveData(db);
@@ -677,6 +756,7 @@ function adminDeleteGal(id) {
   if(confirm('Yakin ingin menghapus item galeri ini?')) {
     db.gallery = db.gallery.filter(s => s.id !== id);
     saveData(db);
+    recordLog('ADMIN_EDIT', `Menghapus Galeri ID: ${id}`);
   }
 }
 
@@ -700,6 +780,7 @@ async function adminSaveBio(e) {
   db.bio.story2 = document.getElementById('edit-bio-story2').value;
   db.bio.story3 = document.getElementById('edit-bio-story3').value;
   saveData(db);
+  recordLog('ADMIN_EDIT', `Memperbarui biodata & profil utama`);
   alert('Biodata & Cerita berhasil diperbarui!');
 }
 
@@ -720,6 +801,7 @@ function adminSaveTexts(e) {
   };
 
   saveData(db);
+  recordLog('ADMIN_EDIT', `Memperbarui teks & judul halaman web`);
   alert('Teks seluruh halaman web berhasil diperbarui!');
 }
 
