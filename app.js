@@ -2,7 +2,6 @@ function loadData() {
   const storageKey = 'rivaldy_portfolio_db';
   const stored = localStorage.getItem(storageKey);
 
-  // Buat salinan data bawaan agar DEFAULT_DATA tidak ikut berubah.
   if (!stored) {
     const initialData = JSON.parse(JSON.stringify(DEFAULT_DATA));
     localStorage.setItem(storageKey, JSON.stringify(initialData));
@@ -19,11 +18,9 @@ function loadData() {
     return initialData;
   }
 
-  // Perbaiki struktur data lama tanpa menimpa nilai pengguna yang sudah ada.
   if (!data || typeof data !== 'object' || Array.isArray(data)) data = {};
   data.bio = { ...DEFAULT_DATA.bio, ...(data.bio || {}) };
   data.pageTexts = { ...DEFAULT_DATA.pageTexts, ...(data.pageTexts || {}) };
-
   ['swStories', 'schoolPhotos', 'achievements', 'gallery', 'historyLogs'].forEach(key => {
     if (!Array.isArray(data[key])) {
       data[key] = Array.isArray(DEFAULT_DATA[key])
@@ -32,7 +29,6 @@ function loadData() {
     }
   });
 
-  localStorage.setItem(storageKey, JSON.stringify(data));
   return data;
 }
 
@@ -44,7 +40,7 @@ function saveData(data) {
     return true;
   } catch (error) {
     console.error('Gagal menyimpan data portofolio:', error);
-    alert('Perubahan belum tersimpan. Penyimpanan browser mungkin penuh, terutama jika foto berukuran besar.');
+    alert('Perubahan gagal disimpan. Coba kurangi ukuran foto atau periksa penyimpanan browser.');
     return false;
   }
 }
