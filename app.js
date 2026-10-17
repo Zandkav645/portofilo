@@ -1,20 +1,52 @@
 function loadData() {
-  const stored = localStorage.getItem('rivaldy_portfolio_db');
+  const storageKey = 'rivaldy_portfolio_db';
+  const stored = localStorage.getItem(storageKey);
+
+  // Buat salinan data bawaan agar DEFAULT_DATA tidak ikut berubah.
   if (!stored) {
-    localStorage.setItem('rivaldy_portfolio_db', JSON.stringify(DEFAULT_DATA));
-    return DEFAULT_DATA;
+    const initialData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+    localStorage.setItem(storageKey, JSON.stringify(initialData));
+    return initialData;
   }
-  const data = JSON.parse(stored);
-  if(!data.pageTexts) data.pageTexts = DEFAULT_DATA.pageTexts;
-  if(!data.bio.school) data.bio.school = DEFAULT_DATA.bio.school;
-  if(!data.bio.location) data.bio.location = DEFAULT_DATA.bio.location;
-  if(!data.historyLogs) data.historyLogs = [];
+
+  let data;
+  try {
+    data = JSON.parse(stored);
+  } catch (error) {
+    console.error('Data portofolio tidak dapat dibaca:', error);
+    const initialData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+    localStorage.setItem(storageKey, JSON.stringify(initialData));
+    return initialData;
+  }
+
+  // Perbaiki struktur data lama tanpa menimpa nilai pengguna yang sudah ada.
+  if (!data || typeof data !== 'object' || Array.isArray(data)) data = {};
+  data.bio = { ...DEFAULT_DATA.bio, ...(data.bio || {}) };
+  data.pageTexts = { ...DEFAULT_DATA.pageTexts, ...(data.pageTexts || {}) };
+
+  ['swStories', 'schoolPhotos', 'achievements', 'gallery', 'historyLogs'].forEach(key => {
+    if (!Array.isArray(data[key])) {
+      data[key] = Array.isArray(DEFAULT_DATA[key])
+        ? JSON.parse(JSON.stringify(DEFAULT_DATA[key]))
+        : [];
+    }
+  });
+
+  localStorage.setItem(storageKey, JSON.stringify(data));
   return data;
 }
 
 function saveData(data) {
-  localStorage.setItem('rivaldy_portfolio_db', JSON.stringify(data));
-  renderAllContent();
+  try {
+    localStorage.setItem('rivaldy_portfolio_db', JSON.stringify(data));
+    db = data;
+    renderAllContent();
+    return true;
+  } catch (error) {
+    console.error('Gagal menyimpan data portofolio:', error);
+    alert('Perubahan belum tersimpan. Penyimpanan browser mungkin penuh, terutama jika foto berukuran besar.');
+    return false;
+  }
 }
 
 let db = loadData();
@@ -36,7 +68,7 @@ function recordLog(actionType, description) {
 function saveLogEntry(actionType, description, ipAddress) {
   const newLog = {
     id: Date.now(),
-    type: actionType, 
+    type: actionType, // 'PENGUNJUNG' atau 'ADMIN_EDIT'
     ip: ipAddress,
     desc: description,
     time: new Date().toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'medium' })
@@ -383,7 +415,7 @@ function handleAdminLogin(e) {
     renderAdminLists();
     renderAdminLogs();
   } else {
-    alert('PIN Admin Salah! Gunakan PIN default: 080311');
+    alert('PIN Admin Salah! Gunakan PIN default: admin');
   }
 }
 
@@ -422,8 +454,8 @@ function renderAdminLists() {
         <img src="${story.image}" class="w-full h-24 object-cover rounded-lg">
         <p class="text-xs text-white truncate font-medium">${story.caption}</p>
         <div class="flex gap-2">
-          <button type="button" onclick="adminEditSW(${story.id})" class="flex-1 py-1 bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 rounded text-[10px]">Edit</button>
-          <button type="button" onclick="adminDeleteSW(${story.id})" class="flex-1 py-1 bg-red-500/20 text-red-300 hover:bg-red-500/30 rounded text-[10px]">Hapus</button>
+          <button onclick="adminEditSW(${story.id})" class="flex-1 py-1 bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 rounded text-[10px]">Edit</button>
+          <button onclick="adminDeleteSW(${story.id})" class="flex-1 py-1 bg-red-500/20 text-red-300 hover:bg-red-500/30 rounded text-[10px]">Hapus</button>
         </div>
       </div>
     `;
@@ -442,8 +474,8 @@ function renderAdminLists() {
           </div>
         </div>
         <div class="flex gap-2">
-          <button type="button" onclick="adminEditSchool(${item.id})" class="px-3 py-1.5 bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 rounded text-xs">Edit</button>
-          <button type="button" onclick="adminDeleteSchool(${item.id})" class="px-3 py-1.5 bg-red-500/20 text-red-300 hover:bg-red-500/30 rounded text-xs">Hapus</button>
+          <button onclick="adminEditSchool(${item.id})" class="px-3 py-1.5 bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 rounded text-xs">Edit</button>
+          <button onclick="adminDeleteSchool(${item.id})" class="px-3 py-1.5 bg-red-500/20 text-red-300 hover:bg-red-500/30 rounded text-xs">Hapus</button>
         </div>
       </div>
     `;
@@ -456,8 +488,8 @@ function renderAdminLists() {
       <div class="p-3 bg-navy-900 border border-slate-700 rounded-xl flex items-center justify-between">
         <span class="text-xs font-bold text-white">${item.title} (${item.badge})</span>
         <div class="flex gap-2">
-          <button type="button" onclick="adminEditAch(${item.id})" class="px-3 py-1 bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 rounded text-xs">Edit</button>
-          <button type="button" onclick="adminDeleteAch(${item.id})" class="px-3 py-1 bg-red-500/20 text-red-300 hover:bg-red-500/30 rounded text-xs">Hapus</button>
+          <button onclick="adminEditAch(${item.id})" class="px-3 py-1 bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 rounded text-xs">Edit</button>
+          <button onclick="adminDeleteAch(${item.id})" class="px-3 py-1 bg-red-500/20 text-red-300 hover:bg-red-500/30 rounded text-xs">Hapus</button>
         </div>
       </div>
     `;
@@ -471,8 +503,8 @@ function renderAdminLists() {
         <img src="${item.image}" class="w-full h-24 object-cover rounded-lg">
         <p class="text-xs text-white truncate">${item.title}</p>
         <div class="flex gap-2">
-          <button type="button" onclick="adminEditGal(${item.id})" class="flex-1 py-1 bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 rounded text-[10px]">Edit</button>
-          <button type="button" onclick="adminDeleteGal(${item.id})" class="flex-1 py-1 bg-red-500/20 text-red-300 hover:bg-red-500/30 rounded text-[10px]">Hapus</button>
+          <button onclick="adminEditGal(${item.id})" class="flex-1 py-1 bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 rounded text-[10px]">Edit</button>
+          <button onclick="adminDeleteGal(${item.id})" class="flex-1 py-1 bg-red-500/20 text-red-300 hover:bg-red-500/30 rounded text-[10px]">Hapus</button>
         </div>
       </div>
     `;
@@ -779,7 +811,7 @@ async function adminSaveBio(e) {
   db.bio.story1 = document.getElementById('edit-bio-story1').value;
   db.bio.story2 = document.getElementById('edit-bio-story2').value;
   db.bio.story3 = document.getElementById('edit-bio-story3').value;
-  saveData(db);
+  if (!saveData(db)) return;
   recordLog('ADMIN_EDIT', `Memperbarui biodata & profil utama`);
   alert('Biodata & Cerita berhasil diperbarui!');
 }
@@ -800,7 +832,7 @@ function adminSaveTexts(e) {
     galleryHeadingSub: document.getElementById('edit-text-gal-heading-sub').value,
   };
 
-  saveData(db);
+  if (!saveData(db)) return;
   recordLog('ADMIN_EDIT', `Memperbarui teks & judul halaman web`);
   alert('Teks seluruh halaman web berhasil diperbarui!');
 }
