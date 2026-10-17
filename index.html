@@ -1,1177 +1,484 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rivaldy Kava Pratama - Portofolio TOI</title>
+    <title>Eco-Diaper - Popok Bayi Biodegradable | SMK SMTI Pontianak</title>
+    
     <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #050b18; color: #f1f5f9; overflow-x: hidden; }
-        .glass { background: rgba(10, 25, 47, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(0, 240, 255, 0.15); }
-        .glass-card { background: rgba(15, 30, 60, 0.6); backdrop-filter: blur(10px); border: 1px solid rgba(0, 240, 255, 0.1); transition: all 0.3s ease; }
-        .glass-card:hover { border-color: rgba(0, 240, 255, 0.4); box-shadow: 0 0 25px rgba(0, 240, 255, 0.15); transform: translateY(-3px); }
-        .glow-text { text-shadow: 0 0 20px rgba(0, 240, 255, 0.5); }
-        .glow-btn { box-shadow: 0 0 20px rgba(0, 240, 255, 0.4); transition: all 0.3s ease; }
-        .glow-btn:hover { box-shadow: 0 0 35px rgba(0, 240, 255, 0.8); }
-        
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #050b18; }
-        ::-webkit-scrollbar-thumb { background: #00f0ff55; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #00f0ff; }
-
-        /* Story Ring Animation */
-        .story-ring {
-            background: linear-gradient(45deg, #00f0ff, #3b82f6, #8b5cf6);
-            animation: rotateRing 4s linear infinite;
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                            accent: '#d97706'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
         }
-        @keyframes rotateRing {
-            0% { filter: hue-rotate(0deg); }
-            100% { filter: hue-rotate(360deg); }
+    </script>
+    
+    <!-- Google Fonts & Lucide Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        .hero-gradient {
+            background: linear-gradient(135deg, #064e3b 0%, #047857 50%, #065f46 100%);
+        }
+        .gold-badge {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+        .layer-card {
+            transition: all 0.3s ease;
+        }
+        .layer-card:hover {
+            transform: translateY(-4px);
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col relative selection:bg-cyan-500 selection:text-black">
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-500 selection:text-white">
 
-    <!-- Canvas Background Animasi Partikel & Sirkuit TOI -->
-    <canvas id="bgCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
+    <!-- NAVIGASI -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/95 backdrop-blur-md border-b border-emerald-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo & Judul -->
+                <a href="#" class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center text-white shadow-lg shadow-brand-600/30">
+                        <i data-lucide="leaf" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-xl text-brand-900 tracking-tight block">Eco-Diaper</span>
+                        <span class="text-xs text-brand-600 font-medium">SMK SMTI Pontianak</span>
+                    </div>
+                </a>
 
-    <!-- Topbar Navigasi -->
-    <header class="sticky top-0 z-40 glass border-b border-cyan-500/20 px-4 lg:px-12 py-3 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-            <!-- Tombol 3 Titik untuk Drawer Menu -->
-            <button onclick="toggleDrawer()" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center text-cyan-400 hover:text-white hover:bg-cyan-500/20 transition cursor-pointer" title="Menu Navigasi">
-                <i class="fa-solid fa-ellipsis-vertical text-xl"></i>
-            </button>
-            <a href="#/" onclick="navigate('/')" class="flex items-center gap-2 group cursor-pointer">
-                <div class="w-9 h-9 rounded-lg bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-cyan-400 font-bold group-hover:scale-105 transition">
-                    RK
+                <!-- Menu Desktop -->
+                <div class="hidden md:flex items-center space-x-6 text-sm font-semibold text-slate-600">
+                    <a href="#masalah" class="hover:text-brand-600 transition-colors">Masalah</a>
+                    <a href="#solusi" class="hover:text-brand-600 transition-colors">Solusi</a>
+                    <a href="#prosedur" class="hover:text-brand-600 transition-colors">Prosedur</a>
+                    <a href="#hasil-uji" class="hover:text-brand-600 transition-colors">Hasil Uji</a>
+                    <a href="#sdgs" class="hover:text-brand-600 transition-colors">SDGs</a>
+                    <a href="#tim" class="hover:text-brand-600 transition-colors">Tim Kerja</a>
                 </div>
-                <div>
-                    <span id="navBrandName" class="font-bold text-sm md:text-base tracking-wide text-white">Rivaldy Kava P.</span>
-                    <span class="block text-[10px] text-cyan-400 tracking-widest uppercase">SMK SMTI Pontianak</span>
-                </div>
-            </a>
-        </div>
 
-        <!-- Menu Desktop Sederhana -->
-        <nav class="hidden md:flex items-center gap-1 text-sm font-medium">
-            <a href="#/" onclick="navigate('/')" class="nav-link px-4 py-2 rounded-lg hover:text-cyan-400 transition" data-route="/">Beranda</a>
-            <a href="#/profil" onclick="navigate('/profil')" class="nav-link px-4 py-2 rounded-lg hover:text-cyan-400 transition" data-route="/profil">Profil & Cerita</a>
-            <a href="#/sekolah" onclick="navigate('/sekolah')" class="nav-link px-4 py-2 rounded-lg hover:text-cyan-400 transition" data-route="/sekolah">Sekolah Saya</a>
-            <a href="#/prestasi" onclick="navigate('/prestasi')" class="nav-link px-4 py-2 rounded-lg hover:text-cyan-400 transition" data-route="/prestasi">Prestasi</a>
-            <a href="#/galeri" onclick="navigate('/galeri')" class="nav-link px-4 py-2 rounded-lg hover:text-cyan-400 transition" data-route="/galeri">Galeri</a>
-            <a href="#/admin" onclick="navigate('/admin')" class="ml-4 px-4 py-2 rounded-lg bg-cyan-500/10 border border-cyan-500/40 text-cyan-400 hover:bg-cyan-500 hover:text-black transition flex items-center gap-2" data-route="/admin">
-                <i class="fa-solid fa-lock text-xs"></i> Admin
-            </a>
-        </nav>
-
-        <!-- Mobile Admin Button -->
-        <a href="#/admin" onclick="navigate('/admin')" class="md:hidden p-2 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
-            <i class="fa-solid fa-lock text-sm"></i>
-        </a>
-    </header>
-
-    <!-- Side Drawer Navigasi (Menu Samping Titik Tiga) -->
-    <div id="drawerOverlay" onclick="toggleDrawer()" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden transition-opacity opacity-0"></div>
-    <aside id="sideDrawer" class="fixed top-0 left-0 bottom-0 w-80 glass z-50 transform -translate-x-full transition-transform duration-300 flex flex-col border-r border-cyan-500/30 shadow-2xl">
-        <div class="p-5 border-b border-cyan-500/20 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-cyan-400 font-bold">
-                    RK
-                </div>
-                <div>
-                    <h3 class="font-bold text-white text-sm">Menu Navigasi</h3>
-                    <p class="text-xs text-cyan-400">Teknik Otomasi Industri</p>
+                <!-- Tombol Menu Mobile -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-slate-700 hover:text-brand-600 focus:outline-none p-2">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
                 </div>
             </div>
-            <button onclick="toggleDrawer()" class="w-8 h-8 rounded-lg bg-slate-800/80 text-gray-400 hover:text-white flex items-center justify-center">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
         </div>
-        <div class="p-4 flex-1 overflow-y-auto space-y-2">
-            <a href="#/" onclick="navigate('/'); toggleDrawer();" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-cyan-500/10 text-gray-200 hover:text-cyan-400 transition font-medium">
-                <i class="fa-solid fa-house w-6 text-cyan-400"></i> Beranda
-            </a>
-            <a href="#/profil" onclick="navigate('/profil'); toggleDrawer();" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-cyan-500/10 text-gray-200 hover:text-cyan-400 transition font-medium">
-                <i class="fa-solid fa-user-gear w-6 text-cyan-400"></i> Profil & Cerita
-            </a>
-            <a href="#/sekolah" onclick="navigate('/sekolah'); toggleDrawer();" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-cyan-500/10 text-gray-200 hover:text-cyan-400 transition font-medium">
-                <i class="fa-solid fa-school w-6 text-cyan-400"></i> Sekolah Saya
-            </a>
-            <a href="#/prestasi" onclick="navigate('/prestasi'); toggleDrawer();" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-cyan-500/10 text-gray-200 hover:text-cyan-400 transition font-medium">
-                <i class="fa-solid fa-trophy w-6 text-cyan-400"></i> Prestasi & Penghargaan
-            </a>
-            <a href="#/galeri" onclick="navigate('/galeri'); toggleDrawer();" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-cyan-500/10 text-gray-200 hover:text-cyan-400 transition font-medium">
-                <i class="fa-solid fa-images w-6 text-cyan-400"></i> Galeri Karya
-            </a>
-            <div class="pt-4 border-t border-cyan-500/20 my-2"></div>
-            <a href="#/admin" onclick="navigate('/admin'); toggleDrawer();" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 hover:bg-cyan-500 hover:text-black transition font-semibold">
-                <i class="fa-solid fa-lock w-6"></i> Halaman Admin
-            </a>
-        </div>
-        <div class="p-4 border-t border-cyan-500/20 text-center text-xs text-gray-400">
-            &copy; 2026 Rivaldy Kava Pratama
-        </div>
-    </aside>
 
-    <!-- Konten Utama (Dinamis Router) -->
-    <main id="appContent" class="flex-1 relative z-10 max-w-7xl w-full mx-auto px-4 lg:px-12 py-8">
-        <!-- Render oleh JS -->
-    </main>
+        <!-- Menu Mobile Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-100 px-4 pt-2 pb-6 space-y-3 shadow-lg">
+            <a href="#masalah" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">Masalah</a>
+            <a href="#solusi" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">Solusi</a>
+            <a href="#prosedur" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">Prosedur Pembuatan</a>
+            <a href="#hasil-uji" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">Hasil Uji SNI</a>
+            <a href="#sdgs" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">Dampak SDGs</a>
+            <a href="#tim" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">Tim Kerja</a>
+        </div>
+    </nav>
 
-    <!-- Footer -->
-    <footer class="relative z-10 glass border-t border-cyan-500/20 py-6 text-center text-xs text-gray-400">
-        <p>Portofolio Resmi <span class="text-cyan-400 font-semibold">Rivaldy Kava Pratama</span> | SMK SMTI Pontianak (TOI)</p>
+    <!-- HEADER / HERO SECTION -->
+    <section class="relative pt-32 pb-20 md:pt-40 md:pb-28 hero-gradient text-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-4xl mx-auto space-y-6">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full gold-badge text-white text-xs sm:text-sm font-bold shadow-lg uppercase tracking-wider">
+                    <i data-lucide="award" class="w-4 h-4"></i>
+                    <span>Inovasi Ramah Lingkungan - SMK SMTI Pontianak</span>
+                </div>
+
+                <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+                    Eco-Diaper
+                </h1>
+                
+                <p class="text-lg sm:text-2xl font-medium text-emerald-100 leading-relaxed max-w-3xl mx-auto">
+                    Popok Bayi Biodegradable Berbasis Serat Batang Pisang dengan Penambahan Ekstrak Antimikroba Daun Sirih
+                </p>
+
+                <p class="text-sm sm:text-base text-emerald-200/90 max-w-2xl mx-auto">
+                    Inovasi popok ramah lingkungan yang aman untuk kulit bayi, cepat terurai di tanah, dan bebas dari bahan kimia berbahaya.
+                </p>
+
+                <div class="pt-6 flex flex-wrap items-center justify-center gap-4">
+                    <a href="#masalah" class="px-6 py-3.5 rounded-xl bg-white text-brand-900 hover:bg-emerald-50 font-bold transition-all shadow-lg flex items-center gap-2 text-sm sm:text-base">
+                        <span>Lihat Masalah</span>
+                        <i data-lucide="arrow-down-circle" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#solusi" class="px-6 py-3.5 rounded-xl bg-brand-700/80 hover:bg-brand-700 border border-emerald-400/30 text-white font-bold transition-all shadow-lg flex items-center gap-2 text-sm sm:text-base">
+                        <span>Lihat Solusi</span>
+                        <i data-lucide="sparkles" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Ringskasan Keunggulan -->
+            <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto text-center">
+                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/10">
+                    <div class="text-2xl sm:text-3xl font-extrabold text-amber-300">100%</div>
+                    <div class="text-xs sm:text-sm text-emerald-100 mt-1">Biodegradable</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/10">
+                    <div class="text-2xl sm:text-3xl font-extrabold text-amber-300">14x</div>
+                    <div class="text-xs sm:text-sm text-emerald-100 mt-1">Daya Serap (SNI)</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/10">
+                    <div class="text-2xl sm:text-3xl font-extrabold text-amber-300">Rp 2.500</div>
+                    <div class="text-xs sm:text-sm text-emerald-100 mt-1">Estimasi Biaya / Unit</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/10">
+                    <div class="text-2xl sm:text-3xl font-extrabold text-amber-300">0%</div>
+                    <div class="text-xs sm:text-sm text-emerald-100 mt-1">Bebas Klorin & SAP Sintetis</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BAGIAN 1: MASALAH -->
+    <section id="masalah" class="py-20 bg-slate-50 scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-brand-600 font-bold uppercase tracking-wider text-sm">Latar Belakang & Urgensi</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">Permasalahan Limbah Popok</h2>
+                <p class="text-slate-600 mt-4 text-base sm:text-lg">Popok sekali pakai konvensional menimbulkan ancaman serius bagi lingkungan dan kesehatan kulit bayi.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200/80">
+                    <div class="w-12 h-12 bg-red-100 text-red-600 rounded-xl flex items-center justify-center mb-6">
+                        <i data-lucide="trash-2" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-slate-900 mb-2">3.488 Ton</h3>
+                    <p class="text-sm font-semibold text-red-600 mb-2">Sampah Popok Per Hari</p>
+                    <p class="text-slate-600 text-sm leading-relaxed">Volume sampah popok sekali pakai di Indonesia terus menumpuk di TPA dan mencemari saluran air.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200/80">
+                    <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center mb-6">
+                        <i data-lucide="clock" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-slate-900 mb-2">250-500 Thn</h3>
+                    <p class="text-sm font-semibold text-amber-600 mb-2">Waktu Terurai</p>
+                    <p class="text-slate-600 text-sm leading-relaxed">Popok berbahan plastik sintetis membutuhkan waktu hingga ratusan tahun untuk terdegradasi di tanah.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200/80">
+                    <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center mb-6">
+                        <i data-lucide="shield-alert" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-slate-900 mb-2">Bahan Kimia</h3>
+                    <p class="text-sm font-semibold text-purple-600 mb-2">Pemutih Klorin & SAP Sintetis</p>
+                    <p class="text-slate-600 text-sm leading-relaxed">Proses bleaching berbahan klorin menghasilkan residu berisiko yang memicu iritasi dan bahaya lingkungan.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200/80">
+                    <div class="w-12 h-12 bg-rose-100 text-rose-600 rounded-xl flex items-center justify-center mb-6">
+                        <i data-lucide="activity" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-slate-900 mb-2">Ruam Popok</h3>
+                    <p class="text-sm font-semibold text-rose-600 mb-2">Iritasi Kulit Bayi</p>
+                    <p class="text-slate-600 text-sm leading-relaxed">Kelembapan berlebih dan infeksi bakteri pada popok konvensional menjadi penyebab utama ruam sensitif pada kulit bayi.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BAGIAN 2: SOLUSI -->
+    <section id="solusi" class="py-20 bg-emerald-900 text-white scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-emerald-400 font-bold uppercase tracking-wider text-sm">Terobosan Bahan Alam</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-2">Solusi Inovatif Eco-Diaper</h2>
+                <p class="text-emerald-200 mt-4 text-base sm:text-lg">Menggabungkan potensi limbah batang pisang lokal dan khasiat antibakteri alami daun sirih.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                <div class="bg-emerald-800/60 border border-emerald-700/50 rounded-2xl p-8 backdrop-blur-md">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center font-bold">
+                            <i data-lucide="sprout" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">Serat Batang Pisang</h3>
+                            <span class="text-xs text-amber-300 font-medium">Tinggi Selulosa Alami (~83%)</span>
+                        </div>
+                    </div>
+                    <p class="text-emerald-100 text-sm leading-relaxed">
+                        Memanfaatkan limbah pertanian pelepah/batang pisang lokal Kalimantan Barat. Serat selulosa alami memiliki kapilaritas tinggi untuk menyerap cairan secara optimal dan ramah lingkungan.
+                    </p>
+                </div>
+
+                <div class="bg-emerald-800/60 border border-emerald-700/50 rounded-2xl p-8 backdrop-blur-md">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-emerald-500/20 text-emerald-400 rounded-xl flex items-center justify-center font-bold">
+                            <i data-lucide="shield-check" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">Ekstrak Daun Sirih</h3>
+                            <span class="text-xs text-emerald-300 font-medium">Kandungan Senyawa Antibakteri Alami</span>
+                        </div>
+                    </div>
+                    <p class="text-emerald-100 text-sm leading-relaxed">
+                        Diintegrasikan pada inti penyerap untuk menghambat pertumbuhan bakteri penyebab bau tak sedap dan mencegah terjadinya dermatitis/ruam pada kulit sensitif bayi.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white/5 border border-white/10 rounded-xl p-6 text-center">
+                    <i data-lucide="recycle" class="w-8 h-8 text-emerald-400 mx-auto mb-3"></i>
+                    <h4 class="font-bold text-white mb-2">Mudah Terurai</h4>
+                    <p class="text-xs text-emerald-200">Terurai alami dalam waktu singkat di dalam tanah tanpa meninggalkan mikroplastik.</p>
+                </div>
+
+                <div class="bg-white/5 border border-white/10 rounded-xl p-6 text-center">
+                    <i data-lucide="check-circle" class="w-8 h-8 text-emerald-400 mx-auto mb-3"></i>
+                    <h4 class="font-bold text-white mb-2">Nol Klorin & Bebas Kimia</h4>
+                    <p class="text-xs text-emerald-200">Proses manufaktur aman tanpa pemutihan klorin yang membahayakan kulit.</p>
+                </div>
+
+                <div class="bg-white/5 border border-white/10 rounded-xl p-6 text-center">
+                    <i data-lucide="piggy-bank" class="w-8 h-8 text-emerald-400 mx-auto mb-3"></i>
+                    <h4 class="font-bold text-white mb-2">Harga Terjangkau</h4>
+                    <p class="text-xs text-emerald-200">Estimasi biaya produksi ekonomis (Rp 2.500/pcs) sehingga sangat kompetitif.</p>
+                </div>
+
+                <div class="bg-white/5 border border-white/10 rounded-xl p-6 text-center">
+                    <i data-lucide="heart" class="w-8 h-8 text-emerald-400 mx-auto mb-3"></i>
+                    <h4 class="font-bold text-white mb-2">Aman & Nyaman</h4>
+                    <p class="text-xs text-emerald-200">Menjaga kelembapan ideal dan mencegah iritasi pada lipatan kulit bayi.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BAGIAN 3: PROSEDUR PEMBUATAN -->
+    <section id="prosedur" class="py-20 bg-white scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-brand-600 font-bold uppercase tracking-wider text-sm">Metodologi Penelitian</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">Prosedur Pembuatan Eco-Diaper</h2>
+                <p class="text-slate-600 mt-4 text-base sm:text-lg">Tahapan sistematis pengolahan bahan baku hingga perakitan produk popok.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="border border-slate-200 rounded-2xl p-6 relative bg-slate-50">
+                    <div class="w-10 h-10 bg-brand-600 text-white rounded-full flex items-center justify-center font-extrabold mb-4">1</div>
+                    <h3 class="font-bold text-slate-900 text-lg mb-2">Ekstraksi Serat</h3>
+                    <p class="text-slate-600 text-xs leading-relaxed">Batang pisang dibersihkan, dicacah, lalu diekstraksi dan dikeringkan untuk mengambil serat selulosa bersih.</p>
+                </div>
+
+                <div class="border border-slate-200 rounded-2xl p-6 relative bg-slate-50">
+                    <div class="w-10 h-10 bg-brand-600 text-white rounded-full flex items-center justify-center font-extrabold mb-4">2</div>
+                    <h3 class="font-bold text-slate-900 text-lg mb-2">Ekstraksi Daun Sirih</h3>
+                    <p class="text-slate-600 text-xs leading-relaxed">Daun sirih diekstraksi dengan pelarut sesuai standar laboratorium untuk mengambil kandungan fitokimia antibakterinya.</p>
+                </div>
+
+                <div class="border border-slate-200 rounded-2xl p-6 relative bg-slate-50">
+                    <div class="w-10 h-10 bg-brand-600 text-white rounded-full flex items-center justify-center font-extrabold mb-4">3</div>
+                    <h3 class="font-bold text-slate-900 text-lg mb-2">Formulasi Core</h3>
+                    <p class="text-slate-600 text-xs leading-relaxed">Pencampuran serat selulosa batang pisang dengan formulasi ekstrak daun sirih dan bio-absorbent alami.</p>
+                </div>
+
+                <div class="border border-slate-200 rounded-2xl p-6 relative bg-slate-50">
+                    <div class="w-10 h-10 bg-brand-600 text-white rounded-full flex items-center justify-center font-extrabold mb-4">4</div>
+                    <h3 class="font-bold text-slate-900 text-lg mb-2">Perakitan Layer</h3>
+                    <p class="text-slate-600 text-xs leading-relaxed">Penggabungan topsheet non-woven, inti penyerap (core), dan backsheet teruraikan menjadi satu unit popok utuh.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BAGIAN 4: HASIL UJI SNI -->
+    <section id="hasil-uji" class="py-20 bg-slate-50 scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-brand-600 font-bold uppercase tracking-wider text-sm">Validasi Laboratorium</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">Hasil Pengujian (SNI 8802:2019)</h2>
+                <p class="text-slate-600 mt-4 text-base sm:text-lg">Pengujian parameter kualitas popok terbukti memenuhi standar kelayakan SNI.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold px-3 py-1 bg-emerald-100 text-brand-800 rounded-full">Sangat Memenuhi</span>
+                        <i data-lucide="droplet" class="w-6 h-6 text-brand-600"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-1">Daya Serap Alami</h3>
+                    <div class="text-3xl font-extrabold text-brand-600 mb-2">14x <span class="text-sm font-normal text-slate-500">berat awal</span></div>
+                    <p class="text-xs text-slate-500">Standard SNI: Minimal 3x berat awal popok.</p>
+                </div>
+
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold px-3 py-1 bg-emerald-100 text-brand-800 rounded-full">Aman Kulit Bayi</span>
+                        <i data-lucide="heart-pulse" class="w-6 h-6 text-brand-600"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-1">Derajat Keasaman (pH)</h3>
+                    <div class="text-3xl font-extrabold text-brand-600 mb-2">pH 5,0 <span class="text-sm font-normal text-slate-500">(Aman)</span></div>
+                    <p class="text-xs text-slate-500">Standard SNI: Rentang aman pH 4,0 - 8,7.</p>
+                </div>
+
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold px-3 py-1 bg-emerald-100 text-brand-800 rounded-full">Minimalis Leakage</span>
+                        <i data-lucide="shield" class="w-6 h-6 text-brand-600"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-1">Kebocoran Samping</h3>
+                    <div class="text-3xl font-extrabold text-brand-600 mb-2">0,047 gram</div>
+                    <p class="text-xs text-slate-500">Standard SNI: Maksimal toleransi 2,0 gram.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BAGIAN 5: DAMPAK SDGS -->
+    <section id="sdgs" class="py-20 bg-white scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-brand-600 font-bold uppercase tracking-wider text-sm">Keberlanjutan Lingkungan</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">Dukungan Terhadap SDGs</h2>
+                <p class="text-slate-600 mt-4 text-base sm:text-lg">Eco-Diaper berkontribusi aktif dalam mendukung pencapaian Sustainable Development Goals.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-slate-50 p-6 rounded-2xl border-t-4 border-sky-500">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 bg-sky-500 text-white font-black rounded-lg flex items-center justify-center text-lg">6</div>
+                        <h3 class="font-bold text-slate-900 text-sm">Air Bersih & Sanitasi</h3>
+                    </div>
+                    <p class="text-slate-600 text-xs leading-relaxed">Mengurangi pencemaran air dan tanah akibat limbah plastik dan pemutih klorin.</p>
+                </div>
+
+                <div class="bg-slate-50 p-6 rounded-2xl border-t-4 border-emerald-600">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 bg-emerald-600 text-white font-black rounded-lg flex items-center justify-center text-lg">13</div>
+                        <h3 class="font-bold text-slate-900 text-sm">Penanganan Perubahan Iklim</h3>
+                    </div>
+                    <p class="text-slate-600 text-xs leading-relaxed">Menekan emisi gas rumah kaca hasil pembakaran limbah popok sekali pakai.</p>
+                </div>
+
+                <div class="bg-slate-50 p-6 rounded-2xl border-t-4 border-blue-600">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 bg-blue-600 text-white font-black rounded-lg flex items-center justify-center text-lg">14</div>
+                        <h3 class="font-bold text-slate-900 text-sm">Ekosistem Lautan</h3>
+                    </div>
+                    <p class="text-slate-600 text-xs leading-relaxed">Mencegah akumulasi limbah plastik mikro yang mencemari biota dan ekosistem lautan.</p>
+                </div>
+
+                <div class="bg-slate-50 p-6 rounded-2xl border-t-4 border-lime-600">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 bg-lime-600 text-white font-black rounded-lg flex items-center justify-center text-lg">15</div>
+                        <h3 class="font-bold text-slate-900 text-sm">Ekosistem Daratan</h3>
+                    </div>
+                    <p class="text-slate-600 text-xs leading-relaxed">Menggunakan bahan organik teruraikan yang menjaga kesuburan struktur tanah.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BAGIAN 6: TIM KERJA -->
+    <section id="tim" class="py-20 bg-slate-50 scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-brand-600 font-bold uppercase tracking-wider text-sm">Inovator Muda</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">Tim Peneliti Eco-Diaper</h2>
+                <p class="text-slate-600 mt-4 text-base sm:text-lg">SMK SMTI Pontianak</p>
+            </div>
+
+            <!-- Pembimbing -->
+            <div class="max-w-xl mx-auto mb-12 bg-white border border-emerald-200 rounded-2xl p-6 flex items-center gap-4 shadow-sm">
+                <div class="w-14 h-14 bg-brand-600 text-white rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">
+                    <i data-lucide="user-check" class="w-7 h-7"></i>
+                </div>
+                <div>
+                    <span class="text-xs font-bold text-brand-700 uppercase tracking-wider">Guru Pembimbing</span>
+                    <h3 class="text-xl font-bold text-slate-900">Cyntia Sari Dewi, S.Si</h3>
+                    <p class="text-xs text-slate-600 mt-0.5">Pembimbing Penelitian & Pengujian Laboratorium</p>
+                </div>
+            </div>
+
+            <!-- Anggota Tim (Dengan Tempat Foto Menggunakan Relative Path) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div class="bg-white rounded-2xl p-8 border border-slate-200 text-center shadow-sm hover:shadow-md transition">
+                    <div class="w-24 h-24 bg-emerald-600 text-white rounded-full overflow-hidden mx-auto mb-4 border-2 border-emerald-500 shadow-md flex items-center justify-center">
+                        <!-- Jalur relatif foto (ubah nama file sesuai gambar di GitHub) -->
+                        <img src="foto-dayangku.jpg" alt="Dayangku Nur Zahira" class="w-full h-full object-cover" onerror="this.onerror=null; this.parentNode.innerText='DZ';">
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-xl">Dayangku Nur Zahira</h3>
+                    <p class="text-xs font-semibold text-brand-600 mt-1">Anggota Tim Peneliti</p>
+                    <p class="text-slate-600 text-xs mt-3">Siswa Analisis Pengujian Laboratorium - SMK SMTI Pontianak</p>
+                </div>
+
+                <div class="bg-white rounded-2xl p-8 border border-slate-200 text-center shadow-sm hover:shadow-md transition">
+                    <div class="w-24 h-24 bg-emerald-600 text-white rounded-full overflow-hidden mx-auto mb-4 border-2 border-emerald-500 shadow-md flex items-center justify-center">
+                        <img src="foto-naura.jpg" alt="Naura Alfiya Zahra" class="w-full h-full object-cover" onerror="this.onerror=null; this.parentNode.innerText='NZ';">
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-xl">Naura Alfiya Zahra</h3>
+                    <p class="text-xs font-semibold text-brand-600 mt-1">Anggota Tim Peneliti</p>
+                    <p class="text-slate-600 text-xs mt-3">Siswa Analisis Pengujian Laboratorium - SMK SMTI Pontianak</p>
+                </div>
+
+                <div class="bg-white rounded-2xl p-8 border border-slate-200 text-center shadow-sm hover:shadow-md transition">
+                    <div class="w-24 h-24 bg-emerald-600 text-white rounded-full overflow-hidden mx-auto mb-4 border-2 border-emerald-500 shadow-md flex items-center justify-center">
+                        <img src="foto-oktaviani.jpg" alt="Oktaviani Rizqi Pamungkas" class="w-full h-full object-cover" onerror="this.onerror=null; this.parentNode.innerText='OP';">
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-xl">Oktaviani Rizqi Pamungkas</h3>
+                    <p class="text-xs font-semibold text-brand-600 mt-1">Anggota Tim Peneliti</p>
+                    <p class="text-slate-600 text-xs mt-3">Siswa Analisis Pengujian Laboratorium - SMK SMTI Pontianak</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+            <div class="flex items-center justify-center gap-2 text-white font-bold text-lg">
+                <i data-lucide="leaf" class="w-5 h-5 text-brand-500"></i>
+                <span>Eco-Diaper Project</span>
+            </div>
+            <p class="text-xs text-slate-500">SMK SMTI Pontianak</p>
+            <p class="text-xs text-slate-600 pt-2">&copy; Eco-Diaper Team. Hak Cipta Dilindungi Undang-Undang.</p>
+        </div>
     </footer>
 
-    <!-- Modal Story 24 Jam -->
-    <div id="storyModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl hidden flex items-center justify-center p-4">
-        <div class="relative w-full max-w-md h-[80vh] bg-slate-900 border border-cyan-500/40 rounded-3xl overflow-hidden flex flex-col shadow-2xl">
-            <!-- Progress bars -->
-            <div id="storyProgressBars" class="absolute top-3 left-3 right-3 z-20 flex gap-1.5"></div>
-            
-            <!-- Header Story -->
-            <div class="absolute top-6 left-3 right-3 z-20 flex items-center justify-between px-2">
-                <div class="flex items-center gap-2">
-                    <img id="storyUserAvatar" src="" class="w-9 h-9 rounded-full object-cover border border-cyan-400">
-                    <div>
-                        <h4 id="storyUserName" class="text-xs font-bold text-white">Rivaldy Kava P.</h4>
-                        <span id="storyTimestamp" class="text-[10px] text-cyan-300">Baru saja</span>
-                    </div>
-                </div>
-                <button onclick="closeStory()" class="w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-
-            <!-- Media & Caption -->
-            <div class="flex-1 relative flex items-center justify-center bg-black cursor-pointer" onclick="nextStorySegment()">
-                <img id="storyImage" src="" class="max-h-full max-w-full object-contain">
-                <div class="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-black/90 via-black/50 to-transparent">
-                    <p id="storyCaption" class="text-sm text-gray-200 text-center font-medium"></p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Script Aplikasi & Kompresor Gambar Anti-Storage-Full -->
+    <!-- Script Icons & Mobile Nav -->
     <script>
-        // Default Data State
-        const defaultData = {
-            profile: {
-                name: "Rivaldy Kava Pratama",
-                subtitle: "Siswa Teknik Otomasi Industri (TOI)",
-                school: "SMK SMTI Pontianak",
-                heroDesc: "Siswa berprestasi di bidang Teknik Otomasi Industri (TOI) SMK SMTI Pontianak yang memiliki ketertarikan tinggi pada sistem PLC, pneumatik, kelistrikan industri, dan teknologi IoT.",
-                aboutStory: "Perjalanan saya di SMK SMTI Pontianak jurusan Teknik Otomasi Industri (TOI) dimulai dari ketertarikan mendalam terhadap cara kerja mesin otomatis dan sistem kontrol cerdas. Di sekolah ini, saya belajar merakit panel listrik, memprogram PLC (Programmable Logic Controller), menguasai sistem pneumatik, hingga merancang sistem otomasi berbasis mikrokontroler. Setiap hari adalah tantangan baru untuk menciptakan efisiensi melalui teknologi industri modern.",
-                vision: "Menjadi engineer otomasi industri profesional yang mampu menghadirkan inovasi teknologi cerdas untuk memajukan sektor manufaktur dan industri nasional.",
-                avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=60" // Placeholder vector clean
-            },
-            skills: [
-                { name: "PLC Programming (Omron/Siemens)", level: 90 },
-                { name: "Pneumatics & Electro-Pneumatics", level: 85 },
-                { name: "Industrial Electrical Wiring", level: 92 },
-                { name: "IoT & Microcontrollers (Arduino/ESP)", level: 88 },
-                { name: "SCADA & HMI Basics", level: 80 }
-            ],
-            stories: [
-                {
-                    id: 1,
-                    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&auto=format&fit=crop&q=80",
-                    caption: "Praktik merakit panel kontrol otomatis PLC di laboratorium TOI SMK SMTI Pontianak.",
-                    time: "2 jam yang lalu"
-                },
-                {
-                    id: 2,
-                    image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600&auto=format&fit=crop&q=80",
-                    caption: "Uji coba rangkaian sistem pneumatik untuk linier aktuator otomatis.",
-                    time: "5 jam yang lalu"
-                },
-                {
-                    id: 3,
-                    image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600&auto=format&fit=crop&q=80",
-                    caption: "Diskusi proyek akhir otomasi industri bersama tim.",
-                    time: "12 jam yang lalu"
-                }
-            ],
-            schoolPhotos: [
-                {
-                    id: 1,
-                    image: "https://images.unsplash.com/photo-1562774053-701939374585?w=600&auto=format&fit=crop&q=80",
-                    title: "Gedung Utama SMK SMTI Pontianak",
-                    desc: "Lingkungan sekolah kejuruan modern yang berstandar industri dengan fasilitas pembelajaran dan laboratorium terbaik di Kalimantan Barat."
-                },
-                {
-                    id: 2,
-                    image: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=600&auto=format&fit=crop&q=80",
-                    title: "Laboratorium Teknik Otomasi Industri (TOI)",
-                    desc: "Tempat kami berlatih langsung menggunakan simulator PLC, trainer kit pneumatik, inverter, dan peralatan instrumen industri terkini."
-                }
-            ],
-            prestasi: [
-                {
-                    id: 1,
-                    title: "Juara 1 Lomba Kompetensi Siswa (LKS) Otomasi Tingkat Kota",
-                    year: "2025",
-                    desc: "Berhasil merancang dan memprogram sistem konveyor otomatis berbasis PLC Omron dalam waktu tercepat.",
-                    image: "https://images.unsplash.com/photo-1567427017947-545c5f2d16ad?w=600&auto=format&fit=crop&q=80"
-                },
-                {
-                    id: 2,
-                    title: "Finalis Inovasi Teknologi Tepat Guna Pelajar",
-                    year: "2024",
-                    desc: "Membuat prototype alat penyortir barang otomatis berbasis sensor warna dan mikrokontroler.",
-                    image: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=600&auto=format&fit=crop&q=80"
-                }
-            ],
-            galeri: [
-                {
-                    id: 1,
-                    title: "Proyek Sistem Smart Home IoT",
-                    category: "IoT & Otomasi",
-                    desc: "Kendali lampu, suhu ruangan, dan keamanan rumah terintegrasi ESP32 dan Blynk App.",
-                    image: "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=600&auto=format&fit=crop&q=80"
-                },
-                {
-                    id: 2,
-                    title: "Wiring Panel Kontrol Motor 3 Fasa",
-                    category: "Kelistrikan Industri",
-                    desc: "Pemasangan rangkaian DOL starter dan Star-Delta dengan standar keselamatan kerja tinggi.",
-                    image: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&auto=format&fit=crop&q=80"
-                }
-            ],
-            adminPin: "1234"
-        };
+        lucide.createIcons();
 
-        // Load & Initialize Storage (Anti Quota Exceeded dengan Kompresor Gambar)
-        function getData() {
-            try {
-                const saved = localStorage.getItem('rivaldy_portfolio_data_v2');
-                if (saved) return JSON.parse(saved);
-            } catch(e) {
-                console.error("Gagal membaca localStorage, menggunakan default:", e);
-            }
-            return defaultData;
-        }
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
 
-        function saveData(data) {
-            try {
-                localStorage.setItem('rivaldy_portfolio_data_v2', JSON.stringify(data));
-                return true;
-            } catch(e) {
-                alert("Penyimpanan penuh! Mohon gunakan ukuran foto yang lebih kecil atau hapus beberapa data.");
-                return false;
-            }
-        }
-
-        // Fungsi Kompresor Gambar otomatis agar tidak bikin LocalStorage jebol
-        function compressImage(file, callback) {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = function(event) {
-                const img = new Image();
-                img.src = event.target.result;
-                img.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    const MAX_WIDTH = 800;
-                    const MAX_HEIGHT = 800;
-                    let width = img.width;
-                    let height = img.height;
-
-                    if (width > height) {
-                        if (width > MAX_WIDTH) {
-                            height *= MAX_WIDTH / width;
-                            width = MAX_WIDTH;
-                        }
-                    } else {
-                        if (height > MAX_HEIGHT) {
-                            width *= MAX_HEIGHT / height;
-                            height = MAX_HEIGHT;
-                        }
-                    }
-
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-                    
-                    // Kompres ke JPEG kualitas 0.7 (sangat ringan)
-                    const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
-                    callback(dataUrl);
-                }
-            }
-        }
-
-        // Canvas Animasi Background Teknik Otomasi
-        const canvas = document.getElementById('bgCanvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        for (let i = 0; i < 40; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 0.8,
-                vy: (Math.random() - 0.5) * 0.8,
-                radius: Math.random() * 2 + 1
-            });
-        }
-
-        function animateCanvas() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'rgba(0, 240, 255, 0.5)';
-            ctx.strokeStyle = 'rgba(0, 240, 255, 0.1)';
-            
-            particles.forEach((p, index) => {
-                p.x += p.vx;
-                p.y += p.vy;
-                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                ctx.fill();
-
-                for (let j = index + 1; j < particles.length; j++) {
-                    let p2 = particles[j];
-                    let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                    if (dist < 120) {
-                        ctx.beginPath();
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.stroke();
-                    }
-                }
-            });
-            requestAnimationFrame(animateCanvas);
-        }
-        animateCanvas();
-
-        // Router Sederhana Hash-based
-        function navigate(route) {
-            window.location.hash = route;
-            renderRoute();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        window.addEventListener('hashchange', renderRoute);
-        window.addEventListener('DOMContentLoaded', () => {
-            if(!window.location.hash) window.location.hash = '/';
-            renderRoute();
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
         });
 
-        function toggleDrawer() {
-            const drawer = document.getElementById('sideDrawer');
-            const overlay = document.getElementById('drawerOverlay');
-            if (drawer.classList.contains('-translate-x-full')) {
-                drawer.classList.remove('-translate-x-full');
-                overlay.classList.remove('hidden');
-                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
-            } else {
-                drawer.classList.add('-translate-x-full');
-                overlay.classList.add('opacity-0');
-                setTimeout(() => overlay.classList.add('hidden'), 300);
-            }
-        }
-
-        function renderRoute() {
-            const hash = window.location.hash.replace('#', '') || '/';
-            const data = getData();
-            
-            // Update active nav styling
-            document.querySelectorAll('.nav-link').forEach(el => {
-                if(el.getAttribute('data-route') === hash) {
-                    el.classList.add('text-cyan-400', 'bg-cyan-500/10');
-                } else {
-                    el.classList.remove('text-cyan-400', 'bg-cyan-500/10');
-                }
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
             });
-
-            const container = document.getElementById('appContent');
-
-            if (hash === '/') {
-                renderBeranda(container, data);
-            } else if (hash === '/profil') {
-                renderProfil(container, data);
-            } else if (hash === '/sekolah') {
-                renderSekolah(container, data);
-            } else if (hash === '/prestasi') {
-                renderPrestasi(container, data);
-            } else if (hash === '/galeri') {
-                renderGaleri(container, data);
-            } else if (hash === '/admin') {
-                renderAdmin(container, data);
-            } else {
-                container.innerHTML = `<div class="text-center py-20"><h2 class="text-3xl font-bold text-cyan-400">404</h2><p class="text-gray-400 mt-2">Halaman tidak ditemukan.</p><button onclick="navigate('/')" class="mt-6 px-6 py-2.5 rounded-xl bg-cyan-500 text-black font-semibold">Kembali ke Beranda</button></div>`;
-            }
-        }
-
-        // --- HALAMAN BERANDA ---
-        function renderBeranda(container, data) {
-            container.innerHTML = `
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center py-6">
-                    <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
-                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-semibold">
-                            <i class="fa-solid fa-microchip"></i> ${data.profile.school} • Jurusan TOI
-                        </div>
-                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white">
-                            Halo, Saya <span class="text-cyan-400 glow-text">${data.profile.name}</span>
-                        </h1>
-                        <p class="text-lg text-gray-300 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                            ${data.profile.heroDesc}
-                        </p>
-                        <div class="flex flex-wrap justify-center lg:justify-start gap-4 pt-2">
-                            <button onclick="navigate('/profil')" class="px-7 py-3.5 rounded-xl bg-cyan-500 text-black font-bold glow-btn hover:bg-cyan-400 transition flex items-center gap-2">
-                                <i class="fa-solid fa-user-astronaut"></i> Kenali Saya Lebih Jauh
-                            </button>
-                            <button onclick="navigate('/sekolah')" class="px-7 py-3.5 rounded-xl glass-card text-white hover:text-cyan-400 transition flex items-center gap-2">
-                                <i class="fa-solid fa-school"></i> SMK SMTI Pontianak
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="lg:col-span-5 flex flex-col items-center justify-center">
-                        <!-- SW Story Ring Avatar Container -->
-                        <div class="relative cursor-pointer group" onclick="openStoryViewer()">
-                            <div class="absolute -inset-2 rounded-full story-ring opacity-80 group-hover:opacity-100 transition duration-300 blur-sm"></div>
-                            <div class="relative w-48 h-48 sm:w-56 sm:h-56 rounded-full overflow-hidden border-4 border-slate-900 bg-slate-800">
-                                <img src="${data.profile.avatar}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                            </div>
-                            <!-- Badge Story 24 Jam -->
-                            <div class="absolute bottom-2 right-2 bg-cyan-500 text-black text-xs font-extrabold px-3 py-1 rounded-full shadow-lg border-2 border-slate-900 flex items-center gap-1.5 animate-bounce">
-                                <i class="fa-solid fa-circle-play"></i> Story 24 Jam
-                            </div>
-                        </div>
-                        <p class="text-xs text-cyan-300 mt-4 font-medium flex items-center gap-1.5 bg-cyan-950/60 px-4 py-1.5 rounded-full border border-cyan-500/30">
-                            <i class="fa-regular fa-hand-pointer"></i> Ketuk foto untuk melihat aktivitas terbaru
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Quick Highlights -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
-                    <div class="glass-card p-6 rounded-2xl border-l-4 border-cyan-400">
-                        <div class="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-xl mb-4">
-                            <i class="fa-solid fa-bolt"></i>
-                        </div>
-                        <h3 class="font-bold text-lg text-white mb-2">Teknik Otomasi Industri</h3>
-                        <p class="text-sm text-gray-300">Fokus mendalam pada sistem kontrol otomatis pabrik, kelistrikan daya, dan pemrograman PLC.</p>
-                    </div>
-                    <div class="glass-card p-6 rounded-2xl border-l-4 border-blue-500">
-                        <div class="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400 text-xl mb-4">
-                            <i class="fa-solid fa-trophy"></i>
-                        </div>
-                        <h3 class="font-bold text-lg text-white mb-2">Prestasi & Kompetisi</h3>
-                        <p class="text-sm text-gray-300">Aktif mengikuti ajang LKS dan kompetisi inovasi teknologi tepat guna tingkat pelajar.</p>
-                    </div>
-                    <div class="glass-card p-6 rounded-2xl border-l-4 border-purple-500">
-                        <div class="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-400 text-xl mb-4">
-                            <i class="fa-solid fa-microchip"></i>
-                        </div>
-                        <h3 class="font-bold text-lg text-white mb-2">Keahlian Praktis</h3>
-                        <p class="text-sm text-gray-300">Terampil merakit panel, troubleshooting rangkaian elektrik, serta integrasi sistem IoT.</p>
-                    </div>
-                </div>
-            `;
-        }
-
-        // --- HALAMAN PROFIL & CERITA ---
-        function renderProfil(container, data) {
-            let skillsHtml = data.skills.map(s => `
-                <div class="space-y-1.5">
-                    <div class="flex justify-between text-sm font-semibold">
-                        <span class="text-white">${s.name}</span>
-                        <span class="text-cyan-400">${s.level}%</span>
-                    </div>
-                    <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden p-0.5 border border-cyan-500/20">
-                        <div class="bg-gradient-to-r from-blue-500 to-cyan-400 h-full rounded-full transition-all duration-1000" style="width: ${s.level}%"></div>
-                    </div>
-                </div>
-            `).join('');
-
-            container.innerHTML = `
-                <div class="max-w-4xl mx-auto space-y-12 py-4">
-                    <div class="text-center space-y-3">
-                        <h2 class="text-3xl font-extrabold text-white">Profil & Cerita Perjalanan</h2>
-                        <p class="text-gray-400">Mengenal lebih dekat latar belakang dan semangat saya di dunia otomasi.</p>
-                    </div>
-
-                    <div class="glass-card p-6 sm:p-8 rounded-3xl grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-                        <div class="md:col-span-4 flex justify-center">
-                            <img src="${data.profile.avatar}" class="w-48 h-48 rounded-2xl object-cover border-2 border-cyan-400/50 shadow-xl shadow-cyan-500/10">
-                        </div>
-                        <div class="md:col-span-8 space-y-4">
-                            <h3 class="text-2xl font-bold text-white">${data.profile.name}</h3>
-                            <p class="text-cyan-400 font-medium text-sm">${data.profile.subtitle} di ${data.profile.school}</p>
-                            <p class="text-gray-300 text-sm leading-relaxed">
-                                ${data.profile.aboutStory}
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div class="glass-card p-6 sm:p-8 rounded-3xl space-y-4">
-                            <h3 class="text-xl font-bold text-white flex items-center gap-2.5">
-                                <i class="fa-solid fa-bullseye text-cyan-400"></i> Visi & Tujuan
-                            </h3>
-                            <p class="text-gray-300 text-sm leading-relaxed">
-                                ${data.profile.vision}
-                            </p>
-                        </div>
-
-                        <div class="glass-card p-6 sm:p-8 rounded-3xl space-y-4">
-                            <h3 class="text-xl font-bold text-white flex items-center gap-2.5">
-                                <i class="fa-solid fa-sliders text-cyan-400"></i> Keahlian Teknik TOI
-                            </h3>
-                            <div class="space-y-4 pt-2">
-                                ${skillsHtml}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // --- HALAMAN SEKOLAH ---
-        function renderSekolah(container, data) {
-            let photosHtml = data.schoolPhotos.map(item => `
-                <div class="glass-card rounded-3xl overflow-hidden flex flex-col">
-                    <div class="h-64 sm:h-72 overflow-hidden relative">
-                        <img src="${item.image}" class="w-full h-full object-cover hover:scale-105 transition duration-500">
-                    </div>
-                    <div class="p-6 flex-1 flex flex-col justify-between space-y-3">
-                        <h3 class="text-xl font-bold text-white">${item.title}</h3>
-                        <p class="text-gray-300 text-sm leading-relaxed">${item.desc}</p>
-                    </div>
-                </div>
-            `).join('');
-
-            container.innerHTML = `
-                <div class="max-w-5xl mx-auto space-y-10 py-4">
-                    <div class="text-center space-y-3">
-                        <h2 class="text-3xl font-extrabold text-white">Sekolah Saya</h2>
-                        <p class="text-gray-400">Kebanggaan menimba ilmu di SMK SMTI Pontianak.</p>
-                    </div>
-
-                    <div class="glass-card p-6 sm:p-8 rounded-3xl flex flex-col md:flex-row items-center gap-6 bg-cyan-950/20 border border-cyan-500/30">
-                        <div class="w-20 h-20 rounded-2xl bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-cyan-400 text-3xl font-bold shrink-0">
-                            <i class="fa-solid fa-school"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-2xl font-bold text-white">SMK SMTI Pontianak</h3>
-                            <p class="text-cyan-400 font-medium text-sm mt-1">Sekolah Menengah Kejuruan Pusat Keunggulan di Bawah Kementerian Perindustrian RI</p>
-                            <p class="text-gray-300 text-sm mt-3 leading-relaxed">
-                                SMK SMTI Pontianak mendidik siswa menjadi tenaga kerja industri yang kompeten, disiplin, berkarakter, dan siap menghadapi era industri modern berstandar internasional.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        ${photosHtml}
-                    </div>
-                </div>
-            `;
-        }
-
-        // --- HALAMAN PRESTASI ---
-        function renderPrestasi(container, data) {
-            let prestasiHtml = data.prestasi.map(item => `
-                <div class="glass-card rounded-3xl overflow-hidden grid grid-cols-1 md:grid-cols-12 gap-6 items-center p-6">
-                    <div class="md:col-span-4 h-48 rounded-2xl overflow-hidden border border-cyan-500/20">
-                        <img src="${item.image}" class="w-full h-full object-cover">
-                    </div>
-                    <div class="md:col-span-8 space-y-3">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-bold">
-                            <i class="fa-solid fa-calendar"></i> ${item.year}
-                        </div>
-                        <h3 class="text-2xl font-bold text-white">${item.title}</h3>
-                        <p class="text-gray-300 text-sm leading-relaxed">${item.desc}</p>
-                    </div>
-                </div>
-            `).join('');
-
-            container.innerHTML = `
-                <div class="max-w-4xl mx-auto space-y-8 py-4">
-                    <div class="text-center space-y-3">
-                        <h2 class="text-3xl font-extrabold text-white">Prestasi & Penghargaan</h2>
-                        <p class="text-gray-400">Daftar pencapaian dan apresiasi selama masa studi.</p>
-                    </div>
-                    <div class="space-y-6">
-                        ${prestasiHtml}
-                    </div>
-                </div>
-            `;
-        }
-
-        // --- HALAMAN GALERI ---
-        function renderGaleri(container, data) {
-            let galeriHtml = data.galeri.map(item => `
-                <div class="glass-card rounded-3xl overflow-hidden flex flex-col">
-                    <div class="h-60 overflow-hidden relative">
-                        <img src="${item.image}" class="w-full h-full object-cover hover:scale-105 transition duration-500">
-                    </div>
-                    <div class="p-6 flex-1 flex flex-col justify-between space-y-3">
-                        <div>
-                            <span class="text-xs font-semibold px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">${item.category}</span>
-                            <h3 class="text-xl font-bold text-white mt-3">${item.title}</h3>
-                        </div>
-                        <p class="text-gray-300 text-sm leading-relaxed">${item.desc}</p>
-                    </div>
-                </div>
-            `).join('');
-
-            container.innerHTML = `
-                <div class="max-w-5xl mx-auto space-y-10 py-4">
-                    <div class="text-center space-y-3">
-                        <h2 class="text-3xl font-extrabold text-white">Galeri Karya & Kegiatan</h2>
-                        <p class="text-gray-400">Dokumentasi praktikum, proyek otomasi, dan kegiatan teknik.</p>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        ${galeriHtml}
-                    </div>
-                </div>
-            `;
-        }
-
-        // --- HALAMAN ADMIN ---
-        let currentAdminTab = 'profile';
-
-        function renderAdmin(container, data) {
-            const isAuth = sessionStorage.getItem('rivaldy_is_admin') === 'true';
-
-            if (!isAuth) {
-                container.innerHTML = `
-                    <div class="max-w-md mx-auto py-16">
-                        <div class="glass-card p-8 rounded-3xl space-y-6 text-center border border-cyan-500/30 shadow-2xl">
-                            <div class="w-16 h-16 rounded-2xl bg-cyan-500/20 text-cyan-400 mx-auto flex items-center justify-center text-2xl">
-                                <i class="fa-solid fa-lock"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-2xl font-bold text-white">Halaman Admin Rahasia</h3>
-                                <p class="text-gray-400 text-sm mt-1">Masukkan PIN untuk mengelola portofolio.</p>
-                            </div>
-                            <form onsubmit="handleAdminLogin(event)" class="space-y-4">
-                                <input type="password" id="adminPinInput" placeholder="Masukkan PIN (Default: 1234)" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-center tracking-widest focus:outline-none focus:border-cyan-400">
-                                <button type="submit" class="w-full py-3.5 rounded-xl bg-cyan-500 text-black font-bold glow-btn hover:bg-cyan-400 transition">
-                                    Masuk Panel Admin
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = `
-                <div class="max-w-6xl mx-auto space-y-8 py-4">
-                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 glass-card p-6 rounded-3xl">
-                        <div>
-                            <h2 class="text-2xl font-extrabold text-white">Panel Admin Portofolio</h2>
-                            <p class="text-cyan-400 text-sm">Kelola teks, foto, cerita, prestasi, dan galeri secara real-time.</p>
-                        </div>
-                        <button onclick="handleAdminLogout()" class="px-5 py-2.5 rounded-xl bg-red-500/20 border border-red-500/40 text-red-400 hover:bg-red-500 hover:text-white transition font-semibold text-sm">
-                            <i class="fa-solid fa-right-from-bracket mr-2"></i> Keluar Admin
-                        </button>
-                    </div>
-
-                    <!-- Tabs Navigasi Admin -->
-                    <div class="flex flex-wrap gap-2 border-b border-cyan-500/20 pb-4">
-                        <button onclick="switchAdminTab('profile')" class="px-5 py-2.5 rounded-xl font-semibold text-sm transition ${currentAdminTab === 'profile' ? 'bg-cyan-500 text-black' : 'glass-card text-gray-300 hover:text-white'}">
-                            <i class="fa-solid fa-user-pen mr-2"></i> Profil & Teks
-                        </button>
-                        <button onclick="switchAdminTab('stories')" class="px-5 py-2.5 rounded-xl font-semibold text-sm transition ${currentAdminTab === 'stories' ? 'bg-cyan-500 text-black' : 'glass-card text-gray-300 hover:text-white'}">
-                            <i class="fa-solid fa-clock-rotate-left mr-2"></i> Story 24 Jam
-                        </button>
-                        <button onclick="switchAdminTab('school')" class="px-5 py-2.5 rounded-xl font-semibold text-sm transition ${currentAdminTab === 'school' ? 'bg-cyan-500 text-black' : 'glass-card text-gray-300 hover:text-white'}">
-                            <i class="fa-solid fa-school mr-2"></i> Foto Sekolah
-                        </button>
-                        <button onclick="switchAdminTab('prestasi')" class="px-5 py-2.5 rounded-xl font-semibold text-sm transition ${currentAdminTab === 'prestasi' ? 'bg-cyan-500 text-black' : 'glass-card text-gray-300 hover:text-white'}">
-                            <i class="fa-solid fa-trophy mr-2"></i> Prestasi
-                        </button>
-                        <button onclick="switchAdminTab('galeri')" class="px-5 py-2.5 rounded-xl font-semibold text-sm transition ${currentAdminTab === 'galeri' ? 'bg-cyan-500 text-black' : 'glass-card text-gray-300 hover:text-white'}">
-                            <i class="fa-solid fa-images mr-2"></i> Galeri
-                        </button>
-                    </div>
-
-                    <!-- Tab Content -->
-                    <div id="adminTabContent"></div>
-                </div>
-            `;
-            renderAdminTabContent();
-        }
-
-        function handleAdminLogin(e) {
-            e.preventDefault();
-            const pin = document.getElementById('adminPinInput').value;
-            const data = getData();
-            if (pin === (data.adminPin || "1234")) {
-                sessionStorage.setItem('rivaldy_is_admin', 'true');
-                renderAdmin(document.getElementById('appContent'), data);
-            } else {
-                alert("PIN Salah! Default PIN adalah 1234");
-            }
-        }
-
-        function handleAdminLogout() {
-            sessionStorage.removeItem('rivaldy_is_admin');
-            renderAdmin(document.getElementById('appContent'), getData());
-        }
-
-        function switchAdminTab(tab) {
-            currentAdminTab = tab;
-            renderAdminTabContent();
-        }
-
-        function renderAdminTabContent() {
-            const container = document.getElementById('adminTabContent');
-            const data = getData();
-
-            if (currentAdminTab === 'profile') {
-                container.innerHTML = `
-                    <div class="glass-card p-6 sm:p-8 rounded-3xl space-y-6">
-                        <h3 class="text-xl font-bold text-white">Edit Informasi Profil & Bio</h3>
-                        <form onsubmit="saveProfileForm(event)" class="space-y-4">
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-xs font-semibold text-cyan-400 mb-1">Nama Lengkap</label>
-                                    <input type="text" id="profName" value="${data.profile.name}" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-cyan-400 mb-1">Subtitle</label>
-                                    <input type="text" id="profSub" value="${data.profile.subtitle}" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-cyan-400 mb-1">Deskripsi Singkat (Hero)</label>
-                                <textarea id="profHero" rows="3" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">${data.profile.heroDesc}</textarea>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-cyan-400 mb-1">Cerita Perjalanan / About</label>
-                                <textarea id="profStory" rows="4" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">${data.profile.aboutStory}</textarea>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-cyan-400 mb-1">Visi & Tujuan</label>
-                                <textarea id="profVision" rows="3" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">${data.profile.vision}</textarea>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-cyan-400 mb-1">Upload Foto Profil Baru (Dari Folder)</label>
-                                <input type="file" id="profAvatarFile" accept="image/*" class="w-full px-4 py-2 rounded-xl bg-slate-900 border border-cyan-500/30 text-xs text-gray-300">
-                            </div>
-                            <button type="submit" class="px-6 py-3 rounded-xl bg-cyan-500 text-black font-bold text-sm glow-btn">Simpan Perubahan Profil</button>
-                        </form>
-                    </div>
-                `;
-            } else if (currentAdminTab === 'stories') {
-                let listHtml = data.stories.map((s, idx) => `
-                    <div class="flex items-center gap-4 glass p-4 rounded-2xl border border-cyan-500/20">
-                        <img src="${s.image}" class="w-16 h-16 rounded-xl object-cover shrink-0 border border-cyan-400">
-                        <div class="flex-1">
-                            <p class="text-sm font-bold text-white">${s.caption}</p>
-                            <span class="text-xs text-cyan-400">${s.time}</span>
-                        </div>
-                        <button onclick="deleteStory(${idx})" class="p-2.5 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white transition">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </div>
-                `).join('');
-
-                container.innerHTML = `
-                    <div class="space-y-6">
-                        <div class="glass-card p-6 sm:p-8 rounded-3xl space-y-4">
-                            <h3 class="text-xl font-bold text-white">Tambah Story 24 Jam Baru</h3>
-                            <form onsubmit="addStoryForm(event)" class="space-y-4">
-                                <div>
-                                    <label class="block text-xs font-semibold text-cyan-400 mb-1">Pilih Foto Story Dari Folder</label>
-                                    <input type="file" id="storyImageFile" accept="image/*" required class="w-full px-4 py-2 rounded-xl bg-slate-900 border border-cyan-500/30 text-xs text-gray-300">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-cyan-400 mb-1">Keterangan / Caption</label>
-                                    <input type="text" id="storyCaptionInput" placeholder="Misal: Praktik PLC di Lab TOI..." required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">
-                                </div>
-                                <button type="submit" class="px-6 py-3 rounded-xl bg-cyan-500 text-black font-bold text-sm glow-btn">Upload Story</button>
-                            </form>
-                        </div>
-                        <div class="glass-card p-6 sm:p-8 rounded-3xl space-y-4">
-                            <h3 class="text-xl font-bold text-white">Daftar Story Aktif</h3>
-                            <div class="space-y-3">${listHtml}</div>
-                        </div>
-                    </div>
-                `;
-            } else if (currentAdminTab === 'school') {
-                let listHtml = data.schoolPhotos.map((s, idx) => `
-                    <div class="flex items-center gap-4 glass p-4 rounded-2xl border border-cyan-500/20">
-                        <img src="${s.image}" class="w-20 h-16 rounded-xl object-cover shrink-0 border border-cyan-400">
-                        <div class="flex-1">
-                            <h4 class="text-sm font-bold text-white">${s.title}</h4>
-                            <p class="text-xs text-gray-300 mt-1">${s.desc}</p>
-                        </div>
-                        <button onclick="deleteSchoolPhoto(${idx})" class="p-2.5 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white transition">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </div>
-                `).join('');
-
-                container.innerHTML = `
-                    <div class="space-y-6">
-                        <div class="glass-card p-6 sm:p-8 rounded-3xl space-y-4">
-                            <h3 class="text-xl font-bold text-white">Tambah Foto Sekolah & Deskripsi</h3>
-                            <form onsubmit="addSchoolPhotoForm(event)" class="space-y-4">
-                                <div>
-                                    <label class="block text-xs font-semibold text-cyan-400 mb-1">Pilih Foto Dari Folder</label>
-                                    <input type="file" id="schoolImgFile" accept="image/*" required class="w-full px-4 py-2 rounded-xl bg-slate-900 border border-cyan-500/30 text-xs text-gray-300">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-cyan-400 mb-1">Judul Foto</label>
-                                    <input type="text" id="schoolTitle" placeholder="Misal: Lab TOI SMK SMTI Pontianak" required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-cyan-400 mb-1">Deskripsi di Bawah Foto</label>
-                                    <textarea id="schoolDesc" rows="3" placeholder="Keterangan lengkap..." required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm"></textarea>
-                                </div>
-                                <button type="submit" class="px-6 py-3 rounded-xl bg-cyan-500 text-black font-bold text-sm glow-btn">Tambah Foto Sekolah</button>
-                            </form>
-                        </div>
-                        <div class="glass-card p-6 sm:p-8 rounded-3xl space-y-4">
-                            <h3 class="text-xl font-bold text-white">Daftar Foto Sekolah</h3>
-                            <div class="space-y-3">${listHtml}</div>
-                        </div>
-                    </div>
-                `;
-            } else if (currentAdminTab === 'prestasi') {
-                let listHtml = data.prestasi.map((p, idx) => `
-                    <div class="flex items-center gap-4 glass p-4 rounded-2xl border border-cyan-500/20">
-                        <img src="${p.image}" class="w-20 h-16 rounded-xl object-cover shrink-0 border border-cyan-400">
-                        <div class="flex-1">
-                            <span class="text-[10px] text-cyan-400 font-bold">${p.year}</span>
-                            <h4 class="text-sm font-bold text-white">${p.title}</h4>
-                            <p class="text-xs text-gray-300 mt-1">${p.desc}</p>
-                        </div>
-                        <button onclick="deletePrestasi(${idx})" class="p-2.5 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white transition">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </div>
-                `).join('');
-
-                container.innerHTML = `
-                    <div class="space-y-6">
-                        <div class="glass-card p-6 sm:p-8 rounded-3xl space-y-4">
-                            <h3 class="text-xl font-bold text-white">Tambah Prestasi Baru</h3>
-                            <form onsubmit="addPrestasiForm(event)" class="space-y-4">
-                                <div>
-                                    <label class="block text-xs font-semibold text-cyan-400 mb-1">Pilih Foto Pendukung Dari Folder</label>
-                                    <input type="file" id="presImgFile" accept="image/*" required class="w-full px-4 py-2 rounded-xl bg-slate-900 border border-cyan-500/30 text-xs text-gray-300">
-                                </div>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-xs font-semibold text-cyan-400 mb-1">Judul Prestasi</label>
-                                        <input type="text" id="presTitle" placeholder="Juara 1 LKS..." required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-semibold text-cyan-400 mb-1">Tahun</label>
-                                        <input type="text" id="presYear" placeholder="2025" required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-cyan-400 mb-1">Deskripsi</label>
-                                    <textarea id="presDesc" rows="3" placeholder="Keterangan prestasi..." required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm"></textarea>
-                                </div>
-                                <button type="submit" class="px-6 py-3 rounded-xl bg-cyan-500 text-black font-bold text-sm glow-btn">Tambah Prestasi</button>
-                            </form>
-                        </div>
-                        <div class="glass-card p-6 sm:p-8 rounded-3xl space-y-4">
-                            <h3 class="text-xl font-bold text-white">Daftar Prestasi</h3>
-                            <div class="space-y-3">${listHtml}</div>
-                        </div>
-                    </div>
-                `;
-            } else if (currentAdminTab === 'galeri') {
-                let listHtml = data.galeri.map((g, idx) => `
-                    <div class="flex items-center gap-4 glass p-4 rounded-2xl border border-cyan-500/20">
-                        <img src="${g.image}" class="w-20 h-16 rounded-xl object-cover shrink-0 border border-cyan-400">
-                        <div class="flex-1">
-                            <span class="text-[10px] text-cyan-400 font-bold">${g.category}</span>
-                            <h4 class="text-sm font-bold text-white">${g.title}</h4>
-                            <p class="text-xs text-gray-300 mt-1">${g.desc}</p>
-                        </div>
-                        <button onclick="deleteGaleri(${idx})" class="p-2.5 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white transition">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </div>
-                `).join('');
-
-                container.innerHTML = `
-                    <div class="space-y-6">
-                        <div class="glass-card p-6 sm:p-8 rounded-3xl space-y-4">
-                            <h3 class="text-xl font-bold text-white">Tambah Galeri Baru</h3>
-                            <form onsubmit="addGaleriForm(event)" class="space-y-4">
-                                <div>
-                                    <label class="block text-xs font-semibold text-cyan-400 mb-1">Pilih Foto Dari Folder</label>
-                                    <input type="file" id="galImgFile" accept="image/*" required class="w-full px-4 py-2 rounded-xl bg-slate-900 border border-cyan-500/30 text-xs text-gray-300">
-                                </div>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-xs font-semibold text-cyan-400 mb-1">Judul Proyek / Kegiatan</label>
-                                        <input type="text" id="galTitle" placeholder="Smart Home IoT..." required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-semibold text-cyan-400 mb-1">Kategori</label>
-                                        <input type="text" id="galCat" placeholder="IoT & Otomasi" required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm">
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-cyan-400 mb-1">Deskripsi</label>
-                                    <textarea id="galDesc" rows="3" placeholder="Keterangan..." required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-white text-sm"></textarea>
-                                </div>
-                                <button type="submit" class="px-6 py-3 rounded-xl bg-cyan-500 text-black font-bold text-sm glow-btn">Tambah Galeri</button>
-                            </form>
-                        </div>
-                        <div class="glass-card p-6 sm:p-8 rounded-3xl space-y-4">
-                            <h3 class="text-xl font-bold text-white">Daftar Galeri</h3>
-                            <div class="space-y-3">${listHtml}</div>
-                        </div>
-                    </div>
-                `;
-            }
-        }
-
-        // Admin Save Handlers dengan Kompresor
-        function saveProfileForm(e) {
-            e.preventDefault();
-            const data = getData();
-            data.profile.name = document.getElementById('profName').value;
-            data.profile.subtitle = document.getElementById('profSub').value;
-            data.profile.heroDesc = document.getElementById('profHero').value;
-            data.profile.aboutStory = document.getElementById('profStory').value;
-            data.profile.vision = document.getElementById('profVision').value;
-
-            const fileInput = document.getElementById('profAvatarFile');
-            if (fileInput.files && fileInput.files[0]) {
-                compressImage(fileInput.files[0], (base64) => {
-                    data.profile.avatar = base64;
-                    if (saveData(data)) {
-                        alert("Profil berhasil diperbarui!");
-                        renderAdmin(document.getElementById('appContent'), data);
-                    }
-                });
-            } else {
-                if (saveData(data)) {
-                    alert("Profil berhasil diperbarui!");
-                    renderAdmin(document.getElementById('appContent'), data);
-                }
-            }
-        }
-
-        function addStoryForm(e) {
-            e.preventDefault();
-            const data = getData();
-            const caption = document.getElementById('storyCaptionInput').value;
-            const fileInput = document.getElementById('storyImageFile');
-
-            if (fileInput.files && fileInput.files[0]) {
-                compressImage(fileInput.files[0], (base64) => {
-                    data.stories.unshift({
-                        id: Date.now(),
-                        image: base64,
-                        caption: caption,
-                        time: "Baru saja"
-                    });
-                    if (saveData(data)) {
-                        alert("Story berhasil ditambahkan!");
-                        renderAdmin(document.getElementById('appContent'), data);
-                    }
-                });
-            }
-        }
-
-        function deleteStory(idx) {
-            if(confirm("Hapus story ini?")) {
-                const data = getData();
-                data.stories.splice(idx, 1);
-                saveData(data);
-                renderAdmin(document.getElementById('appContent'), data);
-            }
-        }
-
-        function addSchoolPhotoForm(e) {
-            e.preventDefault();
-            const data = getData();
-            const title = document.getElementById('schoolTitle').value;
-            const desc = document.getElementById('schoolDesc').value;
-            const fileInput = document.getElementById('schoolImgFile');
-
-            if (fileInput.files && fileInput.files[0]) {
-                compressImage(fileInput.files[0], (base64) => {
-                    data.schoolPhotos.push({
-                        id: Date.now(),
-                        image: base64,
-                        title: title,
-                        desc: desc
-                    });
-                    if (saveData(data)) {
-                        alert("Foto sekolah berhasil ditambahkan!");
-                        renderAdmin(document.getElementById('appContent'), data);
-                    }
-                });
-            }
-        }
-
-        function deleteSchoolPhoto(idx) {
-            if(confirm("Hapus foto sekolah ini?")) {
-                const data = getData();
-                data.schoolPhotos.splice(idx, 1);
-                saveData(data);
-                renderAdmin(document.getElementById('appContent'), data);
-            }
-        }
-
-        function addPrestasiForm(e) {
-            e.preventDefault();
-            const data = getData();
-            const title = document.getElementById('presTitle').value;
-            const year = document.getElementById('presYear').value;
-            const desc = document.getElementById('presDesc').value;
-            const fileInput = document.getElementById('presImgFile');
-
-            if (fileInput.files && fileInput.files[0]) {
-                compressImage(fileInput.files[0], (base64) => {
-                    data.prestasi.push({
-                        id: Date.now(),
-                        image: base64,
-                        title: title,
-                        year: year,
-                        desc: desc
-                    });
-                    if (saveData(data)) {
-                        alert("Prestasi berhasil ditambahkan!");
-                        renderAdmin(document.getElementById('appContent'), data);
-                    }
-                });
-            }
-        }
-
-        function deletePrestasi(idx) {
-            if(confirm("Hapus prestasi ini?")) {
-                const data = getData();
-                data.prestasi.splice(idx, 1);
-                saveData(data);
-                renderAdmin(document.getElementById('appContent'), data);
-            }
-        }
-
-        function addGaleriForm(e) {
-            e.preventDefault();
-            const data = getData();
-            const title = document.getElementById('galTitle').value;
-            const category = document.getElementById('galCat').value;
-            const desc = document.getElementById('galDesc').value;
-            const fileInput = document.getElementById('galImgFile');
-
-            if (fileInput.files && fileInput.files[0]) {
-                compressImage(fileInput.files[0], (base64) => {
-                    data.galeri.push({
-                        id: Date.now(),
-                        image: base64,
-                        title: title,
-                        category: category,
-                        desc: desc
-                    });
-                    if (saveData(data)) {
-                        alert("Galeri berhasil ditambahkan!");
-                        renderAdmin(document.getElementById('appContent'), data);
-                    }
-                });
-            }
-        }
-
-        function deleteGaleri(idx) {
-            if(confirm("Hapus galeri ini?")) {
-                const data = getData();
-                data.galeri.splice(idx, 1);
-                saveData(data);
-                renderAdmin(document.getElementById('appContent'), data);
-            }
-        }
-
-        // --- STORY VIEWER MODAL LOGIC ---
-        let currentStoryIndex = 0;
-        let storyTimer = null;
-
-        function openStoryViewer() {
-            const data = getData();
-            if (!data.stories || data.stories.length === 0) {
-                alert("Belum ada story yang di-upload.");
-                return;
-            }
-            currentStoryIndex = 0;
-            document.getElementById('storyModal').classList.remove('hidden');
-            playStory(currentStoryIndex);
-        }
-
-        function closeStory() {
-            document.getElementById('storyModal').classList.add('hidden');
-            clearTimeout(storyTimer);
-        }
-
-        function playStory(index) {
-            const data = getData();
-            const stories = data.stories;
-            if (index >= stories.length) {
-                closeStory();
-                return;
-            }
-            currentStoryIndex = index;
-            const s = stories[index];
-
-            document.getElementById('storyUserAvatar').src = data.profile.avatar;
-            document.getElementById('storyUserName').textContent = data.profile.name;
-            document.getElementById('storyTimestamp').textContent = s.time;
-            document.getElementById('storyImage').src = s.image;
-            document.getElementById('storyCaption').textContent = s.caption;
-
-            // Render progress bars
-            const barsContainer = document.getElementById('storyProgressBars');
-            barsContainer.innerHTML = stories.map((_, i) => `
-                <div class="flex-1 bg-white/30 h-1 rounded-full overflow-hidden">
-                    <div id="progBar_${i}" class="bg-cyan-400 h-full w-0"></div>
-                </div>
-            `).join('');
-
-            // Mark past bars as full
-            for(let i=0; i<index; i++) {
-                document.getElementById(`progBar_${i}`).style.width = '100%';
-            }
-
-            // Animate current bar
-            let currentBar = document.getElementById(`progBar_${index}`);
-            currentBar.style.width = '0%';
-            setTimeout(() => {
-                currentBar.style.transition = 'width 5000ms linear';
-                currentBar.style.width = '100%';
-            }, 50);
-
-            clearTimeout(storyTimer);
-            storyTimer = setTimeout(() => {
-                playStory(index + 1);
-            }, 5000);
-        }
-
-        function nextStorySegment() {
-            clearTimeout(storyTimer);
-            playStory(currentStoryIndex + 1);
-        }
+        });
     </script>
 </body>
 </html>
