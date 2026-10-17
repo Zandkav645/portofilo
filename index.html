@@ -309,6 +309,7 @@
           <button onclick="switchAdminTab('gallery')" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white whitespace-nowrap" data-tab="gallery"><i class="fa-solid fa-images mr-1"></i> Galeri</button>
           <button onclick="switchAdminTab('bio')" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white whitespace-nowrap" data-tab="bio"><i class="fa-solid fa-user-pen mr-1"></i> Biodata</button>
           <button onclick="switchAdminTab('texts')" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white whitespace-nowrap" data-tab="texts"><i class="fa-solid fa-file-lines mr-1"></i> Teks Halaman</button>
+          <button onclick="switchAdminTab('logs')" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white whitespace-nowrap" data-tab="logs"><i class="fa-solid fa-folder-open mr-1"></i> Folder Log History</button>
         </div>
 
         <!-- TAB 1: SW -->
@@ -443,6 +444,22 @@
               </div>
               <button type="submit" class="px-5 py-2.5 rounded-xl bg-cyan-500 text-navy-900 font-bold text-xs hover:bg-cyan-400 transition flex items-center gap-2"><i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan Teks Halaman</button>
             </form>
+          </div>
+        </div>
+
+        <!-- TAB 7: FOLDER LOGS -->
+        <div id="admin-tab-logs" class="admin-tab-content hidden space-y-6">
+          <div class="glass-card p-6 rounded-2xl border border-slate-700 space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-white text-base"><i class="fa-solid fa-folder text-cyan-400 mr-2"></i> Folder Log History Pengguna & Admin</h3>
+              <button onclick="clearHistoryLogs()" class="px-3 py-1.5 rounded-lg bg-red-500/20 text-red-300 hover:bg-red-500/30 text-xs transition">
+                <i class="fa-solid fa-trash mr-1"></i> Bersihkan Log
+              </button>
+            </div>
+            <p class="text-xs text-slate-400">Folder ini mencatat riwayat kunjungan pengguna (beserta IP) serta data/foto yang ditambahkan atau diedit oleh Admin.</p>
+            
+            <div id="admin-logs-container" class="space-y-3 max-h-96 overflow-y-auto pr-2">
+            </div>
           </div>
         </div>
 
