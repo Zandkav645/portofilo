@@ -25,12 +25,6 @@ const DEFAULT_DATA = {
       image: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&q=80&w=800",
       caption: "Praktikum Perakitan Diagram Ladder PLC & Sensor Proximity di Lab Otomasi SMTI!",
       timestamp: Date.now() - (2 * 3600 * 1000)
-    },
-    {
-      id: 2,
-      image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=800",
-      caption: "Pemasangan Wiring Panel Listrik 3 Fasa & Solenoid Valve Pneumatik.",
-      timestamp: Date.now() - (5 * 3600 * 1000)
     }
   ],
   schoolPhotos: [
@@ -39,12 +33,6 @@ const DEFAULT_DATA = {
       title: "Gedung Utama & Gedung Workshop SMTI Pontianak",
       image: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=800",
       description: "Gedung utama SMK SMTI Pontianak dilengkapi dengan fasilitas modern, laboratorium komputer, serta lingkungan belajar yang nyaman berstandar industri nasional."
-    },
-    {
-      id: 2,
-      title: "Laboratorium Bengkel Otomasi Industri (TOI)",
-      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800",
-      description: "Fasilitas praktikum utama jurusan TOI yang dilengkapi Trainer PLC Omron & Siemens, Modul Elektropneumatik Festo, serta Bench Test Kelistrikan Industri."
     }
   ],
   achievements: [
@@ -54,13 +42,6 @@ const DEFAULT_DATA = {
       badge: "Tingkat Provinsi / 2025",
       image: "https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?auto=format&fit=crop&q=80&w=800",
       description: "Berhasil meraih juara pada kompetisi Perakitan & Pemrograman Sistem Kontrol PLC & Pneumatik."
-    },
-    {
-      id: 2,
-      title: "Sertifikasi Kompetensi BNSP Teknik Otomasi",
-      badge: "Sertifikasi / 2025",
-      image: "https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?auto=format&fit=crop&q=80&w=800",
-      description: "Lulus uji kompetensi kualifikasi pemeliharaan sistem otomasi & kontrol kelistrikan."
     }
   ],
   gallery: [
@@ -69,12 +50,8 @@ const DEFAULT_DATA = {
       title: "Pengawatan Panel Listrik Kontrol",
       image: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&q=80&w=800",
       description: "Proses perakitan dan rapih wiring panel kontrol menggunakan relay dan kontaktor."
-    },
-    {
-      id: 2,
-      title: "Pengujian Sistem Pneumatik",
-      image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=800",
-      description: "Simulasi gerakan silinder pneumatik dengan kendali katup solenoid & PLC."
     }
-  ]
+  ],
+  // Folder Log History Pengguna & Admin
+  historyLogs: []
 };
