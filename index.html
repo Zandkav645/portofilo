@@ -10,150 +10,22 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Google Fonts: Inter & JetBrains Mono -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
 
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            navy: {
-              900: '#060a17',
-              800: '#0a1128',
-              700: '#101f42',
-              600: '#182b58',
-            },
-            cyan: {
-              400: '#38bdf8',
-              500: '#06b6d4',
-              glow: '#00f0ff'
-            }
+            navy: { 900: '#060a17', 800: '#0a1128', 700: '#101f42', 600: '#182b58' },
+            cyan: { 400: '#38bdf8', 500: '#06b6d4', glow: '#00f0ff' }
           },
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
-          }
+          fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
         }
       }
     }
   </script>
-
-  <style>
-    body {
-      background-color: #0a1128;
-      color: #e2e8f0;
-      font-family: 'Inter', sans-serif;
-      overflow-x: hidden;
-    }
-
-    #bg-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    .glass-card {
-      background: rgba(16, 31, 66, 0.65);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(56, 189, 248, 0.2);
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
-    }
-
-    .glass-card-hover {
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .glass-card-hover:hover {
-      transform: translateY(-5px) scale(1.01);
-      border-color: rgba(0, 240, 255, 0.6);
-      box-shadow: 0 12px 30px rgba(0, 240, 255, 0.25);
-    }
-
-    .glow-border {
-      position: relative;
-    }
-    .glow-border::after {
-      content: '';
-      position: absolute;
-      inset: -1px;
-      border-radius: inherit;
-      padding: 1px;
-      background: linear-gradient(135deg, rgba(0,240,255,0.8), rgba(59,130,246,0.2), rgba(0,240,255,0.8));
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
-    }
-
-    .story-ring-active {
-      background: linear-gradient(45deg, #00f0ff, #3b82f6, #ec4899, #00f0ff);
-      background-size: 300% 300%;
-      animation: storyGradient 4s ease infinite;
-    }
-
-    @keyframes storyGradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .text-glow {
-      text-shadow: 0 0 10px rgba(0, 240, 255, 0.6), 0 0 20px rgba(0, 240, 255, 0.3);
-    }
-
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #060a17;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #1e293b;
-      border-radius: 4px;
-      border: 1px solid rgba(56, 189, 248, 0.2);
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #06b6d4;
-    }
-
-    .page-section {
-      display: none;
-      opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 0.35s ease, transform 0.35s ease;
-    }
-    .page-section.active {
-      display: block;
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .sidebar-drawer {
-      transform: translateX(-100%);
-      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .sidebar-drawer.open {
-      transform: translateX(0);
-    }
-
-    .admin-input {
-      background: rgba(6, 10, 23, 0.85);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      color: #f8fafc;
-      border-radius: 0.5rem;
-      padding: 0.6rem 0.8rem;
-      width: 100%;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    .admin-input:focus {
-      border-color: #00f0ff;
-      box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
-    }
-  </style>
 </head>
 <body class="relative min-h-screen text-slate-200">
 
@@ -205,52 +77,30 @@
       <nav class="space-y-2">
         <a href="#/" onclick="toggleSidebar()" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition text-slate-300 hover:bg-cyan-500/10 hover:text-cyan-400 border border-transparent" data-hash="#/">
           <i class="fa-solid fa-house text-cyan-400 w-6"></i>
-          <div class="flex flex-col">
-            <span class="font-medium text-sm">Beranda</span>
-            <span class="text-[10px] font-mono text-slate-500">/#/</span>
-          </div>
+          <div class="flex flex-col"><span class="font-medium text-sm">Beranda</span><span class="text-[10px] font-mono text-slate-500">/#/</span></div>
         </a>
-
         <a href="#/profil" onclick="toggleSidebar()" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition text-slate-300 hover:bg-cyan-500/10 hover:text-cyan-400 border border-transparent" data-hash="#/profil">
           <i class="fa-solid fa-user-astronaut text-cyan-400 w-6"></i>
-          <div class="flex flex-col">
-            <span class="font-medium text-sm">Profil & Cerita</span>
-            <span class="text-[10px] font-mono text-slate-500">/#/profil</span>
-          </div>
+          <div class="flex flex-col"><span class="font-medium text-sm">Profil & Cerita</span><span class="text-[10px] font-mono text-slate-500">/#/profil</span></div>
         </a>
-
         <a href="#/sekolah" onclick="toggleSidebar()" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition text-slate-300 hover:bg-cyan-500/10 hover:text-cyan-400 border border-transparent" data-hash="#/sekolah">
           <i class="fa-solid fa-school text-cyan-400 w-6"></i>
-          <div class="flex flex-col">
-            <span class="font-medium text-sm">Sekolah Saya (SMTI)</span>
-            <span class="text-[10px] font-mono text-slate-500">/#/sekolah</span>
-          </div>
+          <div class="flex flex-col"><span class="font-medium text-sm">Sekolah Saya (SMTI)</span><span class="text-[10px] font-mono text-slate-500">/#/sekolah</span></div>
         </a>
-
         <a href="#/prestasi" onclick="toggleSidebar()" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition text-slate-300 hover:bg-cyan-500/10 hover:text-cyan-400 border border-transparent" data-hash="#/prestasi">
           <i class="fa-solid fa-trophy text-cyan-400 w-6"></i>
-          <div class="flex flex-col">
-            <span class="font-medium text-sm">Prestasi & Penghargaan</span>
-            <span class="text-[10px] font-mono text-slate-500">/#/prestasi</span>
-          </div>
+          <div class="flex flex-col"><span class="font-medium text-sm">Prestasi & Penghargaan</span><span class="text-[10px] font-mono text-slate-500">/#/prestasi</span></div>
         </a>
-
         <a href="#/galeri" onclick="toggleSidebar()" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition text-slate-300 hover:bg-cyan-500/10 hover:text-cyan-400 border border-transparent" data-hash="#/galeri">
           <i class="fa-solid fa-images text-cyan-400 w-6"></i>
-          <div class="flex flex-col">
-            <span class="font-medium text-sm">Galeri Karya & Media</span>
-            <span class="text-[10px] font-mono text-slate-500">/#/galeri</span>
-          </div>
+          <div class="flex flex-col"><span class="font-medium text-sm">Galeri Karya & Media</span><span class="text-[10px] font-mono text-slate-500">/#/galeri</span></div>
         </a>
 
         <div class="pt-4 mt-4 border-t border-slate-800">
           <a href="#/admin" onclick="toggleSidebar()" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition bg-slate-800/80 hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-300 border border-cyan-500/30" data-hash="#/admin">
             <i class="fa-solid fa-user-shield text-cyan-400 w-6"></i>
             <div class="flex flex-col flex-1">
-              <span class="font-medium text-sm flex items-center justify-between">
-                <span>Halaman Admin</span>
-                <i class="fa-solid fa-lock text-xs text-cyan-400"></i>
-              </span>
+              <span class="font-medium text-sm flex items-center justify-between"><span>Halaman Admin</span><i class="fa-solid fa-lock text-xs text-cyan-400"></i></span>
               <span class="text-[10px] font-mono text-slate-500">/#/admin</span>
             </div>
           </a>
@@ -269,25 +119,19 @@
 
     <!-- PAGE 1: BERANDA -->
     <section id="page-home" class="page-section space-y-10">
-      
       <div class="glass-card rounded-3xl p-6 sm:p-10 relative overflow-hidden glow-border">
         <div class="absolute -right-20 -top-20 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
-
         <div class="flex flex-col md:flex-row items-center gap-8 relative z-10">
-          
           <div class="relative group cursor-pointer" onclick="openStoryViewer()">
             <div id="story-ring-container" class="w-36 h-36 sm:w-44 sm:h-44 rounded-full p-1.5 story-ring-active shadow-xl transition transform group-hover:scale-105">
               <div class="w-full h-full rounded-full bg-navy-900 p-1">
-                <img id="home-avatar-img" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600" alt="Avatar" class="w-full h-full object-cover rounded-full">
+                <img id="home-avatar-img" src="" alt="Avatar" class="w-full h-full object-cover rounded-full">
               </div>
             </div>
-            
             <div id="story-badge" class="absolute bottom-1 right-1 bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-xs px-2.5 py-1 rounded-full border border-navy-900 flex items-center gap-1.5 shadow-lg">
-              <i class="fa-solid fa-circle-play text-[10px]"></i>
-              <span class="font-bold font-mono">24h SW</span>
+              <i class="fa-solid fa-circle-play text-[10px]"></i><span class="font-bold font-mono">24h SW</span>
             </div>
           </div>
-
           <div class="flex-1 text-center md:text-left space-y-3">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono">
               <i class="fa-solid fa-bolt"></i> Teknik Otomasi Industri (TOI)
@@ -295,239 +139,136 @@
             <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
               Halo, Saya <span class="bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-200 bg-clip-text text-transparent text-glow" id="home-profile-name">Rivaldy Kava Pratama</span>
             </h1>
-            <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl" id="home-profile-bio">
-              Siswa aktif SMK SMTI Pontianak jurusan Teknik Otomasi Industri. Memiliki minat mendalam pada sistem kontrol otomatisasi, kendali PLC, kelistrikan industri, dan integrasi IoT industri.
-            </p>
-
+            <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl" id="home-profile-bio"></p>
             <div class="pt-3 flex flex-wrap justify-center md:justify-start gap-3">
-              <a href="#/profil" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold text-sm hover:opacity-90 transition shadow-lg shadow-cyan-500/20 flex items-center gap-2">
-                <i class="fa-solid fa-book-open"></i> Cerita Lengkap
-              </a>
-              <a href="#/prestasi" class="px-5 py-2.5 rounded-xl glass-card text-cyan-300 font-semibold text-sm hover:bg-cyan-500/10 transition border border-cyan-500/30 flex items-center gap-2">
-                <i class="fa-solid fa-award"></i> Lihat Prestasi
-              </a>
+              <a href="#/profil" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold text-sm hover:opacity-90 transition shadow-lg shadow-cyan-500/20 flex items-center gap-2"><i class="fa-solid fa-book-open"></i> Cerita Lengkap</a>
+              <a href="#/prestasi" class="px-5 py-2.5 rounded-xl glass-card text-cyan-300 font-semibold text-sm hover:bg-cyan-500/10 transition border border-cyan-500/30 flex items-center gap-2"><i class="fa-solid fa-award"></i> Lihat Prestasi</a>
             </div>
           </div>
-
         </div>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="glass-card p-6 rounded-2xl border border-cyan-500/20 glass-card-hover flex items-center space-x-4">
-          <div class="p-4 rounded-xl bg-cyan-500/10 text-cyan-400 text-2xl border border-cyan-500/20">
-            <i class="fa-solid fa-graduation-cap"></i>
-          </div>
-          <div>
-            <span class="text-xs text-slate-400">Asal Sekolah</span>
-            <h4 class="font-bold text-white text-base" id="stat-school">SMK SMTI Pontianak</h4>
-            <p class="text-xs text-cyan-300 font-mono">Kemperin RI</p>
-          </div>
+          <div class="p-4 rounded-xl bg-cyan-500/10 text-cyan-400 text-2xl border border-cyan-500/20"><i class="fa-solid fa-graduation-cap"></i></div>
+          <div><span class="text-xs text-slate-400">Asal Sekolah</span><h4 class="font-bold text-white text-base" id="stat-school">SMK SMTI Pontianak</h4><p class="text-xs text-cyan-300 font-mono">Kemperin RI</p></div>
         </div>
-
         <div class="glass-card p-6 rounded-2xl border border-cyan-500/20 glass-card-hover flex items-center space-x-4">
-          <div class="p-4 rounded-xl bg-cyan-500/10 text-cyan-400 text-2xl border border-cyan-500/20">
-            <i class="fa-solid fa-microchip"></i>
-          </div>
-          <div>
-            <span class="text-xs text-slate-400">Kompetensi Keahlian</span>
-            <h4 class="font-bold text-white text-base">Otomasi Industri (TOI)</h4>
-            <p class="text-xs text-cyan-300 font-mono">PLC, SCADA, Pneumatik</p>
-          </div>
+          <div class="p-4 rounded-xl bg-cyan-500/10 text-cyan-400 text-2xl border border-cyan-500/20"><i class="fa-solid fa-microchip"></i></div>
+          <div><span class="text-xs text-slate-400">Kompetensi Keahlian</span><h4 class="font-bold text-white text-base">Otomasi Industri (TOI)</h4><p class="text-xs text-cyan-300 font-mono">PLC, SCADA, Pneumatik</p></div>
         </div>
-
         <div class="glass-card p-6 rounded-2xl border border-cyan-500/20 glass-card-hover flex items-center space-x-4">
-          <div class="p-4 rounded-xl bg-cyan-500/10 text-cyan-400 text-2xl border border-cyan-500/20">
-            <i class="fa-solid fa-location-dot"></i>
-          </div>
-          <div>
-            <span class="text-xs text-slate-400">Domisili</span>
-            <h4 class="font-bold text-white text-base" id="stat-location">Pontianak, Kalbar</h4>
-            <p class="text-xs text-cyan-300 font-mono">Indonesia</p>
-          </div>
+          <div class="p-4 rounded-xl bg-cyan-500/10 text-cyan-400 text-2xl border border-cyan-500/20"><i class="fa-solid fa-location-dot"></i></div>
+          <div><span class="text-xs text-slate-400">Domisili</span><h4 class="font-bold text-white text-base" id="stat-location">Pontianak, Kalbar</h4><p class="text-xs text-cyan-300 font-mono">Indonesia</p></div>
         </div>
       </div>
 
       <div class="space-y-4">
         <div class="flex items-center justify-between">
-          <h3 class="text-xl font-bold text-white flex items-center gap-2">
-            <i class="fa-solid fa-star text-cyan-400"></i> Sorotan Prestasi
-          </h3>
-          <a href="#/prestasi" class="text-xs text-cyan-400 hover:underline font-mono">
-            Selengkapnya &rarr;
-          </a>
+          <h3 class="text-xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-star text-cyan-400"></i> Sorotan Prestasi</h3>
+          <a href="#/prestasi" class="text-xs text-cyan-400 hover:underline font-mono">Selengkapnya &rarr;</a>
         </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="home-achievements-preview">
-        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="home-achievements-preview"></div>
       </div>
-
     </section>
 
     <!-- PAGE 2: PROFIL -->
     <section id="page-profile" class="page-section space-y-8">
-      
       <div class="glass-card p-6 sm:p-8 rounded-3xl border border-cyan-500/30 relative overflow-hidden">
         <div class="border-b border-slate-700/80 pb-6 mb-6">
           <span class="text-xs font-mono text-cyan-400 tracking-wider uppercase">Personal Journey</span>
           <h2 class="text-3xl font-extrabold text-white mt-1" id="profile-title">Profil Lengkap & Cerita Saya</h2>
         </div>
-
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          
           <div class="space-y-6">
             <div class="glass-card p-5 rounded-2xl border border-slate-700 text-center space-y-3">
-              <img id="profile-page-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600" alt="Avatar" class="w-32 h-32 rounded-2xl object-cover mx-auto border-2 border-cyan-400/50 shadow-lg">
-              <div>
-                <h3 class="font-bold text-white text-lg" id="profile-page-name">Rivaldy Kava Pratama</h3>
-                <p class="text-xs text-cyan-300 font-mono" id="profile-page-sub">Siswa TOI - SMK SMTI Pontianak</p>
-              </div>
+              <img id="profile-page-avatar" src="" alt="Avatar" class="w-32 h-32 rounded-2xl object-cover mx-auto border-2 border-cyan-400/50 shadow-lg">
+              <div><h3 class="font-bold text-white text-lg" id="profile-page-name"></h3><p class="text-xs text-cyan-300 font-mono" id="profile-page-sub"></p></div>
             </div>
-
             <div class="glass-card p-5 rounded-2xl border border-slate-700 space-y-4">
-              <h4 class="font-bold text-white text-sm flex items-center gap-2">
-                <i class="fa-solid fa-gears text-cyan-400"></i> Keahlian Teknik TOI
-              </h4>
-              
+              <h4 class="font-bold text-white text-sm flex items-center gap-2"><i class="fa-solid fa-gears text-cyan-400"></i> Keahlian Teknik TOI</h4>
               <div class="space-y-3 text-xs">
                 <div>
-                  <div class="flex justify-between mb-1">
-                    <span class="text-slate-300">Pemrograman PLC (Omron/Siemens)</span>
-                    <span class="text-cyan-400 font-mono">88%</span>
-                  </div>
-                  <div class="w-full bg-navy-900 rounded-full h-2">
-                    <div class="bg-gradient-to-r from-cyan-500 to-blue-500 h-2 rounded-full" style="width: 88%"></div>
-                  </div>
+                  <div class="flex justify-between mb-1"><span class="text-slate-300">Pemrograman PLC (Omron/Siemens)</span><span class="text-cyan-400 font-mono">88%</span></div>
+                  <div class="w-full bg-navy-900 rounded-full h-2"><div class="bg-gradient-to-r from-cyan-500 to-blue-500 h-2 rounded-full" style="width: 88%"></div></div>
                 </div>
-
                 <div>
-                  <div class="flex justify-between mb-1">
-                    <span class="text-slate-300">Pneumatik & Elektropneumatik</span>
-                    <span class="text-cyan-400 font-mono">85%</span>
-                  </div>
-                  <div class="w-full bg-navy-900 rounded-full h-2">
-                    <div class="bg-gradient-to-r from-cyan-500 to-blue-500 h-2 rounded-full" style="width: 85%"></div>
-                  </div>
+                  <div class="flex justify-between mb-1"><span class="text-slate-300">Pneumatik & Elektropneumatik</span><span class="text-cyan-400 font-mono">85%</span></div>
+                  <div class="w-full bg-navy-900 rounded-full h-2"><div class="bg-gradient-to-r from-cyan-500 to-blue-500 h-2 rounded-full" style="width: 85%"></div></div>
                 </div>
-
                 <div>
-                  <div class="flex justify-between mb-1">
-                    <span class="text-slate-300">Wiring Kelistrikan & Panel Kontrol</span>
-                    <span class="text-cyan-400 font-mono">92%</span>
-                  </div>
-                  <div class="w-full bg-navy-900 rounded-full h-2">
-                    <div class="bg-gradient-to-r from-cyan-500 to-blue-500 h-2 rounded-full" style="width: 92%"></div>
-                  </div>
+                  <div class="flex justify-between mb-1"><span class="text-slate-300">Wiring Kelistrikan & Panel Kontrol</span><span class="text-cyan-400 font-mono">92%</span></div>
+                  <div class="w-full bg-navy-900 rounded-full h-2"><div class="bg-gradient-to-r from-cyan-500 to-blue-500 h-2 rounded-full" style="width: 92%"></div></div>
                 </div>
-
                 <div>
-                  <div class="flex justify-between mb-1">
-                    <span class="text-slate-300">Sistem SCADA & Mikrokontroler IoT</span>
-                    <span class="text-cyan-400 font-mono">78%</span>
-                  </div>
-                  <div class="w-full bg-navy-900 rounded-full h-2">
-                    <div class="bg-gradient-to-r from-cyan-500 to-blue-500 h-2 rounded-full" style="width: 78%"></div>
-                  </div>
+                  <div class="flex justify-between mb-1"><span class="text-slate-300">Sistem SCADA & Mikrokontroler IoT</span><span class="text-cyan-400 font-mono">78%</span></div>
+                  <div class="w-full bg-navy-900 rounded-full h-2"><div class="bg-gradient-to-r from-cyan-500 to-blue-500 h-2 rounded-full" style="width: 78%"></div></div>
                 </div>
               </div>
             </div>
-
           </div>
-
           <div class="lg:col-span-2 space-y-6 text-slate-300 text-sm leading-relaxed">
             <div class="glass-card p-6 rounded-2xl border border-slate-700/60 space-y-3">
-              <h3 class="text-lg font-bold text-cyan-300 flex items-center gap-2">
-                <i class="fa-solid fa-compass"></i> Awal Mula Memilih Teknik Otomasi Industri
-              </h3>
-              <p id="profile-page-story-1">
-                Sejak awal masuk ke SMK SMTI Pontianak, saya memiliki ketertarikan yang sangat tinggi terhadap dunia teknologi dan perakitan sistem otomatis.
-              </p>
+              <h3 class="text-lg font-bold text-cyan-300 flex items-center gap-2"><i class="fa-solid fa-compass"></i> Awal Mula Memilih Teknik Otomasi Industri</h3>
+              <p id="profile-page-story-1"></p>
             </div>
-
             <div class="glass-card p-6 rounded-2xl border border-slate-700/60 space-y-3">
-              <h3 class="text-lg font-bold text-cyan-300 flex items-center gap-2">
-                <i class="fa-solid fa-laptop-code"></i> Perjalanan Belajar & Pengalaman
-              </h3>
-              <p id="profile-page-story-2">
-                Selama di SMK SMTI Pontianak, saya aktif mengikuti praktikum pemrograman PLC, perancangan diagram ladder, serta pengawatan panel kontrol.
-              </p>
+              <h3 class="text-lg font-bold text-cyan-300 flex items-center gap-2"><i class="fa-solid fa-laptop-code"></i> Perjalanan Belajar & Pengalaman</h3>
+              <p id="profile-page-story-2"></p>
             </div>
-
             <div class="glass-card p-6 rounded-2xl border border-slate-700/60 space-y-3">
-              <h3 class="text-lg font-bold text-cyan-300 flex items-center gap-2">
-                <i class="fa-solid fa-bullseye"></i> Visi & Impian
-              </h3>
-              <p id="profile-page-story-3">
-                Cita-cita saya adalah menjadi seorang Engineer Otomasi yang andal, dapat berkontribusi dalam modernisasi industri manufaktur.
-              </p>
+              <h3 class="text-lg font-bold text-cyan-300 flex items-center gap-2"><i class="fa-solid fa-bullseye"></i> Visi & Impian</h3>
+              <p id="profile-page-story-3"></p>
             </div>
           </div>
-
         </div>
       </div>
-
     </section>
 
     <!-- PAGE 3: SEKOLAH SAYA -->
     <section id="page-school" class="page-section space-y-8">
-      
       <div class="glass-card p-6 sm:p-8 rounded-3xl border border-cyan-500/30">
         <div class="border-b border-slate-700 pb-6 mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <span class="text-xs font-mono text-cyan-400 tracking-wider uppercase">Almamater Kebanggaan</span>
-            <h2 class="text-3xl font-extrabold text-white mt-1" id="school-heading-title">SMK SMTI Pontianak</h2>
-            <p class="text-xs text-slate-400 mt-1" id="school-heading-sub">Sekolah Menengah Kejuruan Industri - Kementerian Perindustrian RI</p>
+            <h2 class="text-3xl font-extrabold text-white mt-1" id="school-heading-title"></h2>
+            <p class="text-xs text-slate-400 mt-1" id="school-heading-sub"></p>
           </div>
           <div class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono">
             <i class="fa-solid fa-building-columns"></i> Pontianak, Kalbar
           </div>
         </div>
-
-        <p class="text-slate-300 text-sm leading-relaxed mb-8" id="school-intro-text">
-          SMK SMTI Pontianak merupakan sekolah vokasi industri unggulan yang mencetak lulusan kompeten di bidang manufaktur dan teknologi modern. Berikut adalah foto-foto kegiatan dan lingkungan sekolah saya beserta deskripsi penjelasan di bawah setiap foto.
-        </p>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="school-photos-container">
-        </div>
-
+        <p class="text-slate-300 text-sm leading-relaxed mb-8" id="school-intro-text"></p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="school-photos-container"></div>
       </div>
-
     </section>
 
     <!-- PAGE 4: PRESTASI & PENGHARGAAN -->
     <section id="page-achievements" class="page-section space-y-8">
-      
       <div class="glass-card p-6 sm:p-8 rounded-3xl border border-cyan-500/30">
         <div class="border-b border-slate-700 pb-6 mb-6">
           <span class="text-xs font-mono text-cyan-400 tracking-wider uppercase">Pencapaian & Track Record</span>
-          <h2 class="text-3xl font-extrabold text-white mt-1" id="achievements-heading-title">Prestasi & Sertifikasi</h2>
-          <p class="text-xs text-slate-400 mt-1" id="achievements-heading-sub">Daftar pencapaian perlombaan, penghargaan, serta sertifikasi kompetensi selama sekolah.</p>
+          <h2 class="text-3xl font-extrabold text-white mt-1" id="achievements-heading-title"></h2>
+          <p class="text-xs text-slate-400 mt-1" id="achievements-heading-sub"></p>
         </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="achievements-container">
-        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="achievements-container"></div>
       </div>
-
     </section>
 
     <!-- PAGE 5: GALERI & MEDIA -->
     <section id="page-gallery" class="page-section space-y-8">
-      
       <div class="glass-card p-6 sm:p-8 rounded-3xl border border-cyan-500/30">
         <div class="border-b border-slate-700 pb-6 mb-6">
           <span class="text-xs font-mono text-cyan-400 tracking-wider uppercase">Visual Documentation</span>
-          <h2 class="text-3xl font-extrabold text-white mt-1" id="gallery-heading-title">Galeri Karya & Kegiatan</h2>
-          <p class="text-xs text-slate-400 mt-1" id="gallery-heading-sub">Dokumentasi foto perakitan alat, praktikum bengkel TOI, serta momen sekolah.</p>
+          <h2 class="text-3xl font-extrabold text-white mt-1" id="gallery-heading-title"></h2>
+          <p class="text-xs text-slate-400 mt-1" id="gallery-heading-sub"></p>
         </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="gallery-container">
-        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="gallery-container"></div>
       </div>
-
     </section>
 
     <!-- PAGE 6: ADMIN PORTAL -->
     <section id="page-admin" class="page-section space-y-8">
-      
       <div id="admin-login-view" class="max-w-md mx-auto glass-card p-8 rounded-3xl border border-cyan-500/40 text-center space-y-6 glow-border">
         <div class="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center mx-auto text-cyan-400 text-2xl">
           <i class="fa-solid fa-lock"></i>
@@ -536,13 +277,11 @@
           <h2 class="text-2xl font-extrabold text-white">Admin Access Gateway</h2>
           <p class="text-xs text-slate-400 mt-1">Halaman rahasia kelola konten portofolio. Silakan masukkan PIN Admin.</p>
         </div>
-
         <form onsubmit="handleAdminLogin(event)" class="space-y-4">
           <div>
             <input type="password" id="admin-pin-input" class="admin-input text-center text-2xl font-mono tracking-widest" placeholder="••••" maxlength="8" required>
             <p class="text-[11px] text-slate-500 mt-2 font-mono">PIN Default: <span class="text-cyan-400 font-bold">080311</span></p>
           </div>
-
           <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-sm shadow-lg shadow-cyan-500/20 hover:opacity-90 transition">
             Masuk Portal Admin
           </button>
@@ -550,15 +289,12 @@
       </div>
 
       <div id="admin-dashboard-view" class="hidden space-y-8">
-        
         <div class="glass-card p-6 rounded-2xl border border-cyan-500/40 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div class="flex items-center space-x-3">
-            <div class="p-3 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/40">
-              <i class="fa-solid fa-user-gear text-xl"></i>
-            </div>
+            <div class="p-3 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/40"><i class="fa-solid fa-user-gear text-xl"></i></div>
             <div>
               <h2 class="text-xl font-bold text-white">Panel Kelola Konten Admin</h2>
-              <p class="text-xs text-cyan-300 font-mono">Pengelola: <span id="admin-banner-name">Rivaldy Kava Pratama</span></p>
+              <p class="text-xs text-cyan-300 font-mono">Pengelola: <span id="admin-banner-name"></span></p>
             </div>
           </div>
           <button onclick="handleAdminLogout()" class="px-4 py-2 rounded-xl bg-red-500/20 text-red-300 hover:bg-red-500/30 border border-red-500/40 text-xs font-semibold transition flex items-center gap-2">
@@ -566,362 +302,176 @@
           </button>
         </div>
 
-        <!-- Admin Management Tabs -->
         <div class="flex border-b border-slate-700/80 space-x-2 overflow-x-auto pb-2">
-          <button onclick="switchAdminTab('sw')" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-cyan-500 text-navy-900 whitespace-nowrap" data-tab="sw">
-            <i class="fa-solid fa-circle-play mr-1"></i> Story 24 Jam
-          </button>
-          <button onclick="switchAdminTab('school')" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white whitespace-nowrap" data-tab="school">
-            <i class="fa-solid fa-school mr-1"></i> Foto Sekolah
-          </button>
-          <button onclick="switchAdminTab('achievements')" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white whitespace-nowrap" data-tab="achievements">
-            <i class="fa-solid fa-trophy mr-1"></i> Prestasi
-          </button>
-          <button onclick="switchAdminTab('gallery')" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white whitespace-nowrap" data-tab="gallery">
-            <i class="fa-solid fa-images mr-1"></i> Galeri
-          </button>
-          <button onclick="switchAdminTab('bio')" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white whitespace-nowrap" data-tab="bio">
-            <i class="fa-solid fa-user-pen mr-1"></i> Biodata
-          </button>
-          <button onclick="switchAdminTab('texts')" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white whitespace-nowrap" data-tab="texts">
-            <i class="fa-solid fa-file-lines mr-1"></i> Teks Halaman
-          </button>
+          <button onclick="switchAdminTab('sw')" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-cyan-500 text-navy-900 whitespace-nowrap" data-tab="sw"><i class="fa-solid fa-circle-play mr-1"></i> Story 24 Jam</button>
+          <button onclick="switchAdminTab('school')" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white whitespace-nowrap" data-tab="school"><i class="fa-solid fa-school mr-1"></i> Foto Sekolah</button>
+          <button onclick="switchAdminTab('achievements')" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white whitespace-nowrap" data-tab="achievements"><i class="fa-solid fa-trophy mr-1"></i> Prestasi</button>
+          <button onclick="switchAdminTab('gallery')" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white whitespace-nowrap" data-tab="gallery"><i class="fa-solid fa-images mr-1"></i> Galeri</button>
+          <button onclick="switchAdminTab('bio')" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white whitespace-nowrap" data-tab="bio"><i class="fa-solid fa-user-pen mr-1"></i> Biodata</button>
+          <button onclick="switchAdminTab('texts')" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white whitespace-nowrap" data-tab="texts"><i class="fa-solid fa-file-lines mr-1"></i> Teks Halaman</button>
         </div>
 
-        <!-- TAB 1: STORY 24H MANAGER -->
+        <!-- TAB 1: SW -->
         <div id="admin-tab-sw" class="admin-tab-content space-y-6">
           <div class="glass-card p-6 rounded-2xl border border-slate-700 space-y-4">
             <h3 class="font-bold text-white text-base" id="sw-form-title">Tambah Status SW Baru (Aktif 24 Jam)</h3>
             <form onsubmit="adminSaveSW(event)" class="space-y-4">
               <input type="hidden" id="sw-edit-id" value="">
-              
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Upload File Foto dari Perangkat</label>
-                <input type="file" id="sw-file-input" accept="image/*" class="admin-input text-xs text-slate-300 file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-cyan-500/20 file:text-cyan-300 hover:file:bg-cyan-500/30">
-              </div>
-
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Atau Gunakan URL Gambar</label>
-                <input type="text" id="sw-image-url" class="admin-input text-xs" placeholder="https://images.unsplash.com/...">
-              </div>
-
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Keterangan / Caption Status</label>
-                <input type="text" id="sw-caption" class="admin-input text-xs" placeholder="Contoh: Praktikum perakitan PLC Omron di lab SMTI!" required>
-              </div>
-
+              <div><label class="block text-xs text-slate-400 mb-1">Upload File Foto dari Perangkat</label><input type="file" id="sw-file-input" accept="image/*" class="admin-input text-xs text-slate-300 file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-cyan-500/20 file:text-cyan-300 hover:file:bg-cyan-500/30"></div>
+              <div><label class="block text-xs text-slate-400 mb-1">Atau Gunakan URL Gambar</label><input type="text" id="sw-image-url" class="admin-input text-xs" placeholder="https://images.unsplash.com/..."></div>
+              <div><label class="block text-xs text-slate-400 mb-1">Keterangan / Caption Status</label><input type="text" id="sw-caption" class="admin-input text-xs" placeholder="Contoh: Praktikum perakitan PLC Omron di lab SMTI!" required></div>
               <div class="flex gap-3">
-                <button type="submit" class="px-5 py-2.5 rounded-xl bg-cyan-500 text-navy-900 font-bold text-xs hover:bg-cyan-400 transition flex items-center gap-2">
-                  <i class="fa-solid fa-floppy-disk"></i> Simpan Status SW
-                </button>
-                <button type="button" onclick="resetSWForm()" class="px-4 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs hover:bg-slate-700 transition">
-                  Batal
-                </button>
+                <button type="submit" class="px-5 py-2.5 rounded-xl bg-cyan-500 text-navy-900 font-bold text-xs hover:bg-cyan-400 transition flex items-center gap-2"><i class="fa-solid fa-floppy-disk"></i> Simpan Status SW</button>
+                <button type="button" onclick="resetSWForm()" class="px-4 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs hover:bg-slate-700 transition">Batal</button>
               </div>
             </form>
           </div>
-
           <div class="glass-card p-6 rounded-2xl border border-slate-700 space-y-4">
             <h3 class="font-bold text-white text-base">Daftar Status SW</h3>
-            <div id="admin-sw-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            </div>
+            <div id="admin-sw-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
           </div>
         </div>
 
-        <!-- TAB 2: SCHOOL PHOTOS MANAGER -->
+        <!-- TAB 2: SCHOOL -->
         <div id="admin-tab-school" class="admin-tab-content hidden space-y-6">
           <div class="glass-card p-6 rounded-2xl border border-slate-700 space-y-4">
             <h3 class="font-bold text-white text-base" id="school-form-title">Tambah / Edit Foto Sekolah & Deskripsi</h3>
             <form onsubmit="adminSaveSchoolPhoto(event)" class="space-y-4">
               <input type="hidden" id="school-edit-id" value="">
-              
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Judul Fasilitas / Foto</label>
-                <input type="text" id="school-title" class="admin-input text-xs" placeholder="Gedung Laboratorium TOI" required>
-              </div>
-
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Upload File Foto dari Perangkat</label>
-                <input type="file" id="school-file-input" accept="image/*" class="admin-input text-xs text-slate-300 file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-cyan-500/20 file:text-cyan-300 hover:file:bg-cyan-500/30">
-              </div>
-
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Atau Gunakan URL Gambar</label>
-                <input type="text" id="school-img-url" class="admin-input text-xs" placeholder="https://images.unsplash.com/...">
-              </div>
-
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Deskripsi Lengkap (Di Bawah Foto)</label>
-                <textarea id="school-desc" rows="3" class="admin-input text-xs" placeholder="Penjelasan detail mengenai fasilitas ini..." required></textarea>
-              </div>
-
+              <div><label class="block text-xs text-slate-400 mb-1">Judul Fasilitas / Foto</label><input type="text" id="school-title" class="admin-input text-xs" placeholder="Gedung Laboratorium TOI" required></div>
+              <div><label class="block text-xs text-slate-400 mb-1">Upload File Foto dari Perangkat</label><input type="file" id="school-file-input" accept="image/*" class="admin-input text-xs text-slate-300 file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-cyan-500/20 file:text-cyan-300 hover:file:bg-cyan-500/30"></div>
+              <div><label class="block text-xs text-slate-400 mb-1">Atau Gunakan URL Gambar</label><input type="text" id="school-img-url" class="admin-input text-xs" placeholder="https://images.unsplash.com/..."></div>
+              <div><label class="block text-xs text-slate-400 mb-1">Deskripsi Lengkap (Di Bawah Foto)</label><textarea id="school-desc" rows="3" class="admin-input text-xs" placeholder="Penjelasan detail mengenai fasilitas ini..." required></textarea></div>
               <div class="flex gap-3">
-                <button type="submit" class="px-5 py-2.5 rounded-xl bg-cyan-500 text-navy-900 font-bold text-xs hover:bg-cyan-400 transition flex items-center gap-2">
-                  <i class="fa-solid fa-floppy-disk"></i> Simpan Foto Sekolah
-                </button>
-                <button type="button" onclick="resetSchoolForm()" class="px-4 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs hover:bg-slate-700 transition">
-                  Batal
-                </button>
+                <button type="submit" class="px-5 py-2.5 rounded-xl bg-cyan-500 text-navy-900 font-bold text-xs hover:bg-cyan-400 transition flex items-center gap-2"><i class="fa-solid fa-floppy-disk"></i> Simpan Foto Sekolah</button>
+                <button type="button" onclick="resetSchoolForm()" class="px-4 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs hover:bg-slate-700 transition">Batal</button>
               </div>
             </form>
           </div>
-
           <div class="glass-card p-6 rounded-2xl border border-slate-700 space-y-4">
             <h3 class="font-bold text-white text-base">Daftar Foto Sekolah Saat Ini</h3>
-            <div id="admin-school-list" class="space-y-4">
-            </div>
+            <div id="admin-school-list" class="space-y-4"></div>
           </div>
         </div>
 
-        <!-- TAB 3: PRESTASI MANAGER -->
+        <!-- TAB 3: ACHIEVEMENTS -->
         <div id="admin-tab-achievements" class="admin-tab-content hidden space-y-6">
           <div class="glass-card p-6 rounded-2xl border border-slate-700 space-y-4">
             <h3 class="font-bold text-white text-base" id="ach-form-title">Tambah / Edit Prestasi & Penghargaan</h3>
             <form onsubmit="adminSaveAchievement(event)" class="space-y-4">
               <input type="hidden" id="ach-edit-id" value="">
-              
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label class="block text-xs text-slate-400 mb-1">Judul Prestasi</label>
-                  <input type="text" id="ach-title" class="admin-input text-xs" placeholder="Juara 1 LKS Otomasi Industri" required>
-                </div>
-                <div>
-                  <label class="block text-xs text-slate-400 mb-1">Tingkat / Tahun</label>
-                  <input type="text" id="ach-badge" class="admin-input text-xs" placeholder="Tingkat Provinsi / 2025" required>
-                </div>
+                <div><label class="block text-xs text-slate-400 mb-1">Judul Prestasi</label><input type="text" id="ach-title" class="admin-input text-xs" placeholder="Juara 1 LKS Otomasi Industri" required></div>
+                <div><label class="block text-xs text-slate-400 mb-1">Tingkat / Tahun</label><input type="text" id="ach-badge" class="admin-input text-xs" placeholder="Tingkat Provinsi / 2025" required></div>
               </div>
-
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Upload File Foto / Sertifikat</label>
-                <input type="file" id="ach-file-input" accept="image/*" class="admin-input text-xs text-slate-300 file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-cyan-500/20 file:text-cyan-300 hover:file:bg-cyan-500/30">
-              </div>
-
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Atau Gunakan URL Gambar</label>
-                <input type="text" id="ach-img-url" class="admin-input text-xs" placeholder="https://images.unsplash.com/...">
-              </div>
-
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Deskripsi Ringkas</label>
-                <textarea id="ach-desc" rows="2" class="admin-input text-xs" placeholder="Detail raihan prestasi..." required></textarea>
-              </div>
-
+              <div><label class="block text-xs text-slate-400 mb-1">Upload File Foto / Sertifikat</label><input type="file" id="ach-file-input" accept="image/*" class="admin-input text-xs text-slate-300 file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-cyan-500/20 file:text-cyan-300 hover:file:bg-cyan-500/30"></div>
+              <div><label class="block text-xs text-slate-400 mb-1">Atau Gunakan URL Gambar</label><input type="text" id="ach-img-url" class="admin-input text-xs" placeholder="https://images.unsplash.com/..."></div>
+              <div><label class="block text-xs text-slate-400 mb-1">Deskripsi Ringkas</label><textarea id="ach-desc" rows="2" class="admin-input text-xs" placeholder="Detail raihan prestasi..." required></textarea></div>
               <div class="flex gap-3">
-                <button type="submit" class="px-5 py-2.5 rounded-xl bg-cyan-500 text-navy-900 font-bold text-xs hover:bg-cyan-400 transition flex items-center gap-2">
-                  <i class="fa-solid fa-floppy-disk"></i> Simpan Prestasi
-                </button>
-                <button type="button" onclick="resetAchForm()" class="px-4 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs hover:bg-slate-700 transition">
-                  Batal
-                </button>
+                <button type="submit" class="px-5 py-2.5 rounded-xl bg-cyan-500 text-navy-900 font-bold text-xs hover:bg-cyan-400 transition flex items-center gap-2"><i class="fa-solid fa-floppy-disk"></i> Simpan Prestasi</button>
+                <button type="button" onclick="resetAchForm()" class="px-4 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs hover:bg-slate-700 transition">Batal</button>
               </div>
             </form>
           </div>
-
           <div class="glass-card p-6 rounded-2xl border border-slate-700 space-y-4">
             <h3 class="font-bold text-white text-base">Daftar Prestasi</h3>
-            <div id="admin-ach-list" class="space-y-3">
-            </div>
+            <div id="admin-ach-list" class="space-y-3"></div>
           </div>
         </div>
 
-        <!-- TAB 4: GALLERY MANAGER -->
+        <!-- TAB 4: GALLERY -->
         <div id="admin-tab-gallery" class="admin-tab-content hidden space-y-6">
           <div class="glass-card p-6 rounded-2xl border border-slate-700 space-y-4">
             <h3 class="font-bold text-white text-base" id="gal-form-title">Tambah / Edit Galeri Media</h3>
             <form onsubmit="adminSaveGallery(event)" class="space-y-4">
               <input type="hidden" id="gal-edit-id" value="">
-
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Judul Foto / Proyek</label>
-                <input type="text" id="gal-title" class="admin-input text-xs" placeholder="Perakitan Panel PLC Omron" required>
-              </div>
-
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Upload File Foto Galeri</label>
-                <input type="file" id="gal-file-input" accept="image/*" class="admin-input text-xs text-slate-300 file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-cyan-500/20 file:text-cyan-300 hover:file:bg-cyan-500/30">
-              </div>
-
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Atau Gunakan URL Gambar</label>
-                <input type="text" id="gal-img-url" class="admin-input text-xs" placeholder="https://images.unsplash.com/...">
-              </div>
-
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Deskripsi Singkat</label>
-                <input type="text" id="gal-desc" class="admin-input text-xs" placeholder="Penjelasan karya atau kegiatan..." required>
-              </div>
-
+              <div><label class="block text-xs text-slate-400 mb-1">Judul Foto / Proyek</label><input type="text" id="gal-title" class="admin-input text-xs" placeholder="Perakitan Panel PLC Omron" required></div>
+              <div><label class="block text-xs text-slate-400 mb-1">Upload File Foto Galeri</label><input type="file" id="gal-file-input" accept="image/*" class="admin-input text-xs text-slate-300 file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-cyan-500/20 file:text-cyan-300 hover:file:bg-cyan-500/30"></div>
+              <div><label class="block text-xs text-slate-400 mb-1">Atau Gunakan URL Gambar</label><input type="text" id="gal-img-url" class="admin-input text-xs" placeholder="https://images.unsplash.com/..."></div>
+              <div><label class="block text-xs text-slate-400 mb-1">Deskripsi Singkat</label><input type="text" id="gal-desc" class="admin-input text-xs" placeholder="Penjelasan karya atau kegiatan..." required></div>
               <div class="flex gap-3">
-                <button type="submit" class="px-5 py-2.5 rounded-xl bg-cyan-500 text-navy-900 font-bold text-xs hover:bg-cyan-400 transition flex items-center gap-2">
-                  <i class="fa-solid fa-floppy-disk"></i> Simpan Galeri
-                </button>
-                <button type="button" onclick="resetGalForm()" class="px-4 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs hover:bg-slate-700 transition">
-                  Batal
-                </button>
+                <button type="submit" class="px-5 py-2.5 rounded-xl bg-cyan-500 text-navy-900 font-bold text-xs hover:bg-cyan-400 transition flex items-center gap-2"><i class="fa-solid fa-floppy-disk"></i> Simpan Galeri</button>
+                <button type="button" onclick="resetGalForm()" class="px-4 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs hover:bg-slate-700 transition">Batal</button>
               </div>
             </form>
           </div>
-
           <div class="glass-card p-6 rounded-2xl border border-slate-700 space-y-4">
             <h3 class="font-bold text-white text-base">Daftar Galeri Media</h3>
-            <div id="admin-gal-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            </div>
+            <div id="admin-gal-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
           </div>
         </div>
 
-        <!-- TAB 5: BIODATA MANAGER -->
+        <!-- TAB 5: BIO -->
         <div id="admin-tab-bio" class="admin-tab-content hidden space-y-6">
           <div class="glass-card p-6 rounded-2xl border border-slate-700 space-y-4">
             <h3 class="font-bold text-white text-base">Edit Informasi Profil Utama</h3>
             <form onsubmit="adminSaveBio(event)" class="space-y-4">
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Nama Lengkap</label>
-                <input type="text" id="edit-bio-name" class="admin-input text-xs" required>
-              </div>
-
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Upload File Foto Profil Baru</label>
-                <input type="file" id="bio-file-input" accept="image/*" class="admin-input text-xs text-slate-300 file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-cyan-500/20 file:text-cyan-300 hover:file:bg-cyan-500/30">
-              </div>
-
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Atau Gunakan URL Foto Profil</label>
-                <input type="text" id="edit-bio-avatar" class="admin-input text-xs">
-              </div>
-
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Ringkasan Hero Bio (Beranda)</label>
-                <textarea id="edit-bio-summary" rows="3" class="admin-input text-xs" required></textarea>
-              </div>
-
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Cerita Profil Bagian 1 (Awal Mula)</label>
-                <textarea id="edit-bio-story1" rows="3" class="admin-input text-xs" required></textarea>
-              </div>
-
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Cerita Profil Bagian 2 (Pengalaman)</label>
-                <textarea id="edit-bio-story2" rows="3" class="admin-input text-xs" required></textarea>
-              </div>
-
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Cerita Profil Bagian 3 (Visi Impian)</label>
-                <textarea id="edit-bio-story3" rows="3" class="admin-input text-xs" required></textarea>
-              </div>
-
-              <button type="submit" class="px-5 py-2.5 rounded-xl bg-cyan-500 text-navy-900 font-bold text-xs hover:bg-cyan-400 transition flex items-center gap-2">
-                <i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan Bio & Cerita
-              </button>
+              <div><label class="block text-xs text-slate-400 mb-1">Nama Lengkap</label><input type="text" id="edit-bio-name" class="admin-input text-xs" required></div>
+              <div><label class="block text-xs text-slate-400 mb-1">Upload File Foto Profil Baru</label><input type="file" id="bio-file-input" accept="image/*" class="admin-input text-xs text-slate-300 file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-cyan-500/20 file:text-cyan-300 hover:file:bg-cyan-500/30"></div>
+              <div><label class="block text-xs text-slate-400 mb-1">Atau Gunakan URL Foto Profil</label><input type="text" id="edit-bio-avatar" class="admin-input text-xs"></div>
+              <div><label class="block text-xs text-slate-400 mb-1">Ringkasan Hero Bio (Beranda)</label><textarea id="edit-bio-summary" rows="3" class="admin-input text-xs" required></textarea></div>
+              <div><label class="block text-xs text-slate-400 mb-1">Cerita Profil Bagian 1 (Awal Mula)</label><textarea id="edit-bio-story1" rows="3" class="admin-input text-xs" required></textarea></div>
+              <div><label class="block text-xs text-slate-400 mb-1">Cerita Profil Bagian 2 (Pengalaman)</label><textarea id="edit-bio-story2" rows="3" class="admin-input text-xs" required></textarea></div>
+              <div><label class="block text-xs text-slate-400 mb-1">Cerita Profil Bagian 3 (Visi Impian)</label><textarea id="edit-bio-story3" rows="3" class="admin-input text-xs" required></textarea></div>
+              <button type="submit" class="px-5 py-2.5 rounded-xl bg-cyan-500 text-navy-900 font-bold text-xs hover:bg-cyan-400 transition flex items-center gap-2"><i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan Bio & Cerita</button>
             </form>
           </div>
         </div>
 
-        <!-- TAB 6: EDIT ALL PAGE TEXTS MANAGER -->
+        <!-- TAB 6: TEXTS -->
         <div id="admin-tab-texts" class="admin-tab-content hidden space-y-6">
           <div class="glass-card p-6 rounded-2xl border border-slate-700 space-y-4">
             <h3 class="font-bold text-white text-base">Edit Seluruh Teks & Judul Halaman Web</h3>
             <form onsubmit="adminSaveTexts(event)" class="space-y-4">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label class="block text-xs text-slate-400 mb-1">Nama Sekolah / Subtitle Header</label>
-                  <input type="text" id="edit-text-school" class="admin-input text-xs" required>
-                </div>
-                <div>
-                  <label class="block text-xs text-slate-400 mb-1">Domisili / Lokasi</label>
-                  <input type="text" id="edit-text-location" class="admin-input text-xs" required>
-                </div>
+                <div><label class="block text-xs text-slate-400 mb-1">Nama Sekolah / Subtitle Header</label><input type="text" id="edit-text-school" class="admin-input text-xs" required></div>
+                <div><label class="block text-xs text-slate-400 mb-1">Domisili / Lokasi</label><input type="text" id="edit-text-location" class="admin-input text-xs" required></div>
               </div>
-
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Judul Halaman Profil</label>
-                <input type="text" id="edit-text-profile-title" class="admin-input text-xs" required>
-              </div>
-
+              <div><label class="block text-xs text-slate-400 mb-1">Judul Halaman Profil</label><input type="text" id="edit-text-profile-title" class="admin-input text-xs" required></div>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label class="block text-xs text-slate-400 mb-1">Judul Utama Halaman Sekolah</label>
-                  <input type="text" id="edit-text-school-heading-title" class="admin-input text-xs" required>
-                </div>
-                <div>
-                  <label class="block text-xs text-slate-400 mb-1">Sub-judul Halaman Sekolah</label>
-                  <input type="text" id="edit-text-school-heading-sub" class="admin-input text-xs" required>
-                </div>
+                <div><label class="block text-xs text-slate-400 mb-1">Judul Utama Halaman Sekolah</label><input type="text" id="edit-text-school-heading-title" class="admin-input text-xs" required></div>
+                <div><label class="block text-xs text-slate-400 mb-1">Sub-judul Halaman Sekolah</label><input type="text" id="edit-text-school-heading-sub" class="admin-input text-xs" required></div>
               </div>
-
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Teks Penjelasan / Deskripsi Sekolah</label>
-                <textarea id="edit-text-school-intro" rows="3" class="admin-input text-xs" required></textarea>
-              </div>
-
+              <div><label class="block text-xs text-slate-400 mb-1">Teks Penjelasan / Deskripsi Sekolah</label><textarea id="edit-text-school-intro" rows="3" class="admin-input text-xs" required></textarea></div>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label class="block text-xs text-slate-400 mb-1">Judul Halaman Prestasi</label>
-                  <input type="text" id="edit-text-ach-heading-title" class="admin-input text-xs" required>
-                </div>
-                <div>
-                  <label class="block text-xs text-slate-400 mb-1">Sub-judul Halaman Prestasi</label>
-                  <input type="text" id="edit-text-ach-heading-sub" class="admin-input text-xs" required>
-                </div>
+                <div><label class="block text-xs text-slate-400 mb-1">Judul Halaman Prestasi</label><input type="text" id="edit-text-ach-heading-title" class="admin-input text-xs" required></div>
+                <div><label class="block text-xs text-slate-400 mb-1">Sub-judul Halaman Prestasi</label><input type="text" id="edit-text-ach-heading-sub" class="admin-input text-xs" required></div>
               </div>
-
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label class="block text-xs text-slate-400 mb-1">Judul Halaman Galeri</label>
-                  <input type="text" id="edit-text-gal-heading-title" class="admin-input text-xs" required>
-                </div>
-                <div>
-                  <label class="block text-xs text-slate-400 mb-1">Sub-judul Halaman Galeri</label>
-                  <input type="text" id="edit-text-gal-heading-sub" class="admin-input text-xs" required>
-                </div>
+                <div><label class="block text-xs text-slate-400 mb-1">Judul Halaman Galeri</label><input type="text" id="edit-text-gal-heading-title" class="admin-input text-xs" required></div>
+                <div><label class="block text-xs text-slate-400 mb-1">Sub-judul Halaman Galeri</label><input type="text" id="edit-text-gal-heading-sub" class="admin-input text-xs" required></div>
               </div>
-
-              <button type="submit" class="px-5 py-2.5 rounded-xl bg-cyan-500 text-navy-900 font-bold text-xs hover:bg-cyan-400 transition flex items-center gap-2">
-                <i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan Teks Halaman
-              </button>
+              <button type="submit" class="px-5 py-2.5 rounded-xl bg-cyan-500 text-navy-900 font-bold text-xs hover:bg-cyan-400 transition flex items-center gap-2"><i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan Teks Halaman</button>
             </form>
           </div>
         </div>
 
       </div>
-
     </section>
 
   </main>
 
-  <!-- 24-HOUR INSTAGRAM/WA STYLE STORY MODAL VIEWER -->
+  <!-- STORY MODAL VIEWER -->
   <div id="story-modal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-md hidden flex-col items-center justify-center p-4">
-    <button onclick="closeStoryViewer()" class="absolute top-4 right-4 text-white hover:text-cyan-400 text-2xl z-50 p-2">
-      <i class="fa-solid fa-xmark"></i>
-    </button>
-
+    <button onclick="closeStoryViewer()" class="absolute top-4 right-4 text-white hover:text-cyan-400 text-2xl z-50 p-2"><i class="fa-solid fa-xmark"></i></button>
     <div class="relative w-full max-w-sm bg-navy-900 border border-cyan-500/30 rounded-2xl overflow-hidden shadow-2xl flex flex-col h-[80vh] max-h-[650px]" onmousedown="pauseStory()" onmouseup="resumeStory()" ontouchstart="pauseStory()" ontouchend="resumeStory()">
-      
       <div class="absolute top-0 left-0 right-0 z-20 p-3 bg-gradient-to-b from-black/80 to-transparent space-y-2">
-        <div id="story-progress-bar-list" class="flex gap-1.5 w-full">
-        </div>
-
+        <div id="story-progress-bar-list" class="flex gap-1.5 w-full"></div>
         <div class="flex items-center justify-between">
           <div class="flex items-center space-x-2">
             <img id="story-header-avatar" src="" class="w-8 h-8 rounded-full border border-cyan-400 object-cover">
-            <div>
-              <p class="text-xs font-bold text-white leading-none" id="story-header-name">Rivaldy Kava Pratama</p>
-              <span id="story-header-time" class="text-[10px] text-slate-300 font-mono">2j lalu</span>
-            </div>
+            <div><p class="text-xs font-bold text-white leading-none" id="story-header-name">Rivaldy Kava Pratama</p><span id="story-header-time" class="text-[10px] text-slate-300 font-mono">2j lalu</span></div>
           </div>
         </div>
       </div>
-
       <div class="relative flex-1 bg-black flex items-center justify-center overflow-hidden">
         <img id="story-viewer-img" src="" class="w-full h-full object-cover">
-        
         <div class="absolute inset-y-0 left-0 w-1/3 z-10 cursor-pointer" onclick="prevStory(event)"></div>
         <div class="absolute inset-y-0 right-0 w-1/3 z-10 cursor-pointer" onclick="nextStory(event)"></div>
       </div>
-
       <div class="p-4 bg-navy-900/90 border-t border-slate-800 text-center relative z-20">
         <p id="story-viewer-caption" class="text-xs text-white leading-snug font-medium">Caption status...</p>
       </div>
-
     </div>
   </div>
 
@@ -938,921 +488,8 @@
     </div>
   </footer>
 
-  <!-- APPLICATION LOGIC & ROUTER SCRIPT -->
-  <script>
-    const DEFAULT_DATA = {
-      bio: {
-        name: "Rivaldy Kava Pratama",
-        school: "SMK SMTI Pontianak",
-        location: "Pontianak, Kalbar",
-        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600",
-        summary: "Siswa aktif SMK SMTI Pontianak jurusan Teknik Otomasi Industri. Memiliki minat mendalam pada sistem kontrol otomatisasi, kendali PLC, kelistrikan industri, dan integrasi IoT industri.",
-        story1: "Sejak awal masuk ke SMK SMTI Pontianak, saya memiliki ketertarikan yang sangat tinggi terhadap dunia teknologi dan perakitan sistem otomatis. Jurusan Teknik Otomasi Industri (TOI) memberikan wadah yang tepat bagi saya untuk mempelajari gabungan dari teknik kelistrikan, mekanik, elektronika, hingga pemograman komputer.",
-        story2: "Selama di SMK SMTI Pontianak, saya aktif mengikuti praktikum pemrograman PLC, perancangan diagram ladder, serta pengawatan panel kontrol. Mengikuti berbagai simulasi proyek industri dan kompetisi keterampilan siswa melatih ketelitian, pemecahan masalah (troubleshooting), serta kerja sama tim dalam menyelesaikan tantangan teknik yang kompleks.",
-        story3: "Cita-cita saya adalah menjadi seorang Engineer Otomasi yang andal, dapat berkontribusi dalam modernisasi industri manufaktur berbasis Smart Factory dan IoT di Indonesia, serta membawa harum nama sekolah dan daerah asal saya, Pontianak."
-      },
-      pageTexts: {
-        profileTitle: "Profil Lengkap & Cerita Saya",
-        schoolHeadingTitle: "SMK SMTI Pontianak",
-        schoolHeadingSub: "Sekolah Menengah Kejuruan Industri - Kementerian Perindustrian RI",
-        schoolIntroText: "SMK SMTI Pontianak merupakan sekolah vokasi industri unggulan yang mencetak lulusan kompeten di bidang manufaktur dan teknologi modern. Berikut adalah foto-foto kegiatan dan lingkungan sekolah saya beserta deskripsi penjelasan di bawah setiap foto.",
-        achievementsHeadingTitle: "Prestasi & Sertifikasi",
-        achievementsHeadingSub: "Daftar pencapaian perlombaan, penghargaan, serta sertifikasi kompetensi selama sekolah.",
-        galleryHeadingTitle: "Galeri Karya & Kegiatan",
-        galleryHeadingSub: "Dokumentasi foto perakitan alat, praktikum bengkel TOI, serta momen sekolah."
-      },
-      swStories: [
-        {
-          id: 1,
-          image: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&q=80&w=800",
-          caption: "Praktikum Perakitan Diagram Ladder PLC & Sensor Proximity di Lab Otomasi SMTI!",
-          timestamp: Date.now() - (2 * 3600 * 1000)
-        },
-        {
-          id: 2,
-          image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=800",
-          caption: "Pemasangan Wiring Panel Listrik 3 Fasa & Solenoid Valve Pneumatik.",
-          timestamp: Date.now() - (5 * 3600 * 1000)
-        }
-      ],
-      schoolPhotos: [
-        {
-          id: 1,
-          title: "Gedung Utama & Gedung Workshop SMTI Pontianak",
-          image: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=800",
-          description: "Gedung utama SMK SMTI Pontianak dilengkapi dengan fasilitas modern, laboratorium komputer, serta lingkungan belajar yang nyaman berstandar industri nasional."
-        },
-        {
-          id: 2,
-          title: "Laboratorium Bengkel Otomasi Industri (TOI)",
-          image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800",
-          description: "Fasilitas praktikum utama jurusan TOI yang dilengkapi Trainer PLC Omron & Siemens, Modul Elektropneumatik Festo, serta Bench Test Kelistrikan Industri."
-        }
-      ],
-      achievements: [
-        {
-          id: 1,
-          title: "Juara Utama LKS SMK Otomasi Industri",
-          badge: "Tingkat Provinsi / 2025",
-          image: "https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?auto=format&fit=crop&q=80&w=800",
-          description: "Berhasil meraih juara pada kompetisi Perakitan & Pemrograman Sistem Kontrol PLC & Pneumatik."
-        },
-        {
-          id: 2,
-          title: "Sertifikasi Kompetensi BNSP Teknik Otomasi",
-          badge: "Sertifikasi / 2025",
-          image: "https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?auto=format&fit=crop&q=80&w=800",
-          description: "Lulus uji kompetensi kualifikasi pemeliharaan sistem otomasi & kontrol kelistrikan."
-        }
-      ],
-      gallery: [
-        {
-          id: 1,
-          title: "Pengawatan Panel Listrik Kontrol",
-          image: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&q=80&w=800",
-          description: "Proses perakitan dan rapih wiring panel kontrol menggunakan relay dan kontaktor."
-        },
-        {
-          id: 2,
-          title: "Pengujian Sistem Pneumatik",
-          image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=800",
-          description: "Simulasi gerakan silinder pneumatik dengan kendali katup solenoid & PLC."
-        }
-      ]
-    };
-
-    function loadData() {
-      const stored = localStorage.getItem('rivaldy_portfolio_db');
-      if (!stored) {
-        localStorage.setItem('rivaldy_portfolio_db', JSON.stringify(DEFAULT_DATA));
-        return DEFAULT_DATA;
-      }
-      const data = JSON.parse(stored);
-      if(!data.pageTexts) data.pageTexts = DEFAULT_DATA.pageTexts;
-      if(!data.bio.school) data.bio.school = DEFAULT_DATA.bio.school;
-      if(!data.bio.location) data.bio.location = DEFAULT_DATA.bio.location;
-      return data;
-    }
-
-    function saveData(data) {
-      localStorage.setItem('rivaldy_portfolio_db', JSON.stringify(data));
-      renderAllContent();
-    }
-
-    let db = loadData();
-
-    function getActiveSWStories() {
-      const now = Date.now();
-      const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
-      return db.swStories.filter(story => (now - story.timestamp) < TWENTY_FOUR_HOURS);
-    }
-
-    // Helper untuk membaca File menjadi Base64
-    function readFileAsDataURL(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = (e) => resolve(e.target.result);
-        reader.onerror = (e) => reject(e);
-        reader.readAsDataURL(file);
-      });
-    }
-
-    // ROUTER SYSTEM
-    const routes = {
-      '#/': 'page-home',
-      '#/profil': 'page-profile',
-      '#/sekolah': 'page-school',
-      '#/prestasi': 'page-achievements',
-      '#/galeri': 'page-gallery',
-      '#/admin': 'page-admin'
-    };
-
-    function handleRouting() {
-      let hash = window.location.hash || '#/';
-      if (!routes[hash]) hash = '#/';
-
-      document.querySelectorAll('.page-section').forEach(sec => {
-        sec.classList.remove('active');
-      });
-
-      const targetId = routes[hash];
-      const targetPage = document.getElementById(targetId);
-      if (targetPage) {
-        targetPage.classList.add('active');
-      }
-
-      document.getElementById('current-page-label').innerText = hash;
-
-      document.querySelectorAll('.nav-btn').forEach(btn => {
-        if (btn.getAttribute('data-hash') === hash) {
-          btn.classList.add('bg-cyan-500/20', 'text-cyan-300', 'border-cyan-500/40');
-        } else {
-          btn.classList.remove('bg-cyan-500/20', 'text-cyan-300', 'border-cyan-500/40');
-        }
-      });
-
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    window.addEventListener('hashchange', handleRouting);
-    window.addEventListener('DOMContentLoaded', () => {
-      handleRouting();
-      initParticles();
-      renderAllContent();
-    });
-
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar-drawer');
-      const overlay = document.getElementById('sidebar-overlay');
-      const isOpen = sidebar.classList.contains('open');
-
-      if (isOpen) {
-        sidebar.classList.remove('open');
-        overlay.classList.add('hidden');
-        overlay.classList.add('opacity-0');
-      } else {
-        sidebar.classList.add('open');
-        overlay.classList.remove('hidden');
-        setTimeout(() => overlay.classList.remove('opacity-0'), 10);
-      }
-    }
-
-    // RENDER CONTENT
-    function renderAllContent() {
-      // Bio & Headers
-      document.getElementById('header-name').innerText = db.bio.name;
-      document.getElementById('header-school').innerText = db.bio.school;
-      document.getElementById('sidebar-footer-school').innerText = db.bio.school;
-      document.getElementById('footer-name').innerText = db.bio.name;
-      document.getElementById('footer-school').innerText = db.bio.school;
-      document.getElementById('admin-banner-name').innerText = db.bio.name;
-
-      document.getElementById('home-profile-name').innerText = db.bio.name;
-      document.getElementById('home-profile-bio').innerText = db.bio.summary;
-      document.getElementById('home-avatar-img').src = db.bio.avatar;
-      document.getElementById('stat-school').innerText = db.bio.school;
-      document.getElementById('stat-location').innerText = db.bio.location;
-      
-      document.getElementById('profile-page-avatar').src = db.bio.avatar;
-      document.getElementById('profile-page-name').innerText = db.bio.name;
-      document.getElementById('profile-page-sub').innerText = "Siswa TOI - " + db.bio.school;
-      document.getElementById('profile-page-story-1').innerText = db.bio.story1;
-      document.getElementById('profile-page-story-2').innerText = db.bio.story2;
-      document.getElementById('profile-page-story-3').innerText = db.bio.story3;
-
-      // Page Dynamic Texts
-      if(db.pageTexts) {
-        document.getElementById('profile-title').innerText = db.pageTexts.profileTitle || "Profil Lengkap & Cerita Saya";
-        document.getElementById('school-heading-title').innerText = db.pageTexts.schoolHeadingTitle || "SMK SMTI Pontianak";
-        document.getElementById('school-heading-sub').innerText = db.pageTexts.schoolHeadingSub || "";
-        document.getElementById('school-intro-text').innerText = db.pageTexts.schoolIntroText || "";
-        document.getElementById('achievements-heading-title').innerText = db.pageTexts.achievementsHeadingTitle || "Prestasi & Sertifikasi";
-        document.getElementById('achievements-heading-sub').innerText = db.pageTexts.achievementsHeadingSub || "";
-        document.getElementById('gallery-heading-title').innerText = db.pageTexts.galleryHeadingTitle || "Galeri Karya & Kegiatan";
-        document.getElementById('gallery-heading-sub').innerText = db.pageTexts.galleryHeadingSub || "";
-      }
-
-      // SW Ring Indicator
-      const activeSWs = getActiveSWStories();
-      const ring = document.getElementById('story-ring-container');
-      const badge = document.getElementById('story-badge');
-      if (activeSWs.length > 0) {
-        ring.classList.add('story-ring-active');
-        badge.classList.remove('hidden');
-      } else {
-        ring.classList.remove('story-ring-active');
-        badge.classList.add('hidden');
-      }
-
-      // Home Achievements Preview
-      const homeAchContainer = document.getElementById('home-achievements-preview');
-      homeAchContainer.innerHTML = '';
-      db.achievements.slice(0, 2).forEach(item => {
-        homeAchContainer.innerHTML += `
-          <div class="glass-card p-5 rounded-2xl border border-cyan-500/20 flex gap-4 items-center glass-card-hover">
-            <img src="${item.image}" class="w-20 h-20 rounded-xl object-cover border border-cyan-500/30">
-            <div>
-              <span class="text-[10px] font-mono bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded-full">${item.badge}</span>
-              <h4 class="font-bold text-white text-sm mt-1">${item.title}</h4>
-              <p class="text-xs text-slate-400 line-clamp-2 mt-0.5">${item.description}</p>
-            </div>
-          </div>
-        `;
-      });
-
-      // School Photos
-      const schoolContainer = document.getElementById('school-photos-container');
-      schoolContainer.innerHTML = '';
-      db.schoolPhotos.forEach(item => {
-        schoolContainer.innerHTML += `
-          <div class="glass-card rounded-2xl border border-slate-700/80 overflow-hidden glass-card-hover flex flex-col">
-            <div class="h-56 sm:h-64 overflow-hidden relative">
-              <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover transition transform duration-500 hover:scale-105">
-            </div>
-            <div class="p-5 flex-1 flex flex-col justify-between space-y-2 bg-navy-900/60">
-              <h3 class="font-bold text-white text-base text-cyan-300">${item.title}</h3>
-              <p class="text-xs text-slate-300 leading-relaxed">${item.description}</p>
-            </div>
-          </div>
-        `;
-      });
-
-      // Achievements
-      const achContainer = document.getElementById('achievements-container');
-      achContainer.innerHTML = '';
-      db.achievements.forEach(item => {
-        achContainer.innerHTML += `
-          <div class="glass-card rounded-2xl border border-slate-700 overflow-hidden glass-card-hover flex flex-col justify-between">
-            <div>
-              <img src="${item.image}" class="w-full h-44 object-cover">
-              <div class="p-5 space-y-2">
-                <span class="text-[10px] font-mono bg-cyan-500/20 text-cyan-300 px-2.5 py-0.5 rounded-full border border-cyan-500/30">${item.badge}</span>
-                <h3 class="font-bold text-white text-base">${item.title}</h3>
-                <p class="text-xs text-slate-300 leading-relaxed">${item.description}</p>
-              </div>
-            </div>
-          </div>
-        `;
-      });
-
-      // Gallery
-      const galContainer = document.getElementById('gallery-container');
-      galContainer.innerHTML = '';
-      db.gallery.forEach(item => {
-        galContainer.innerHTML += `
-          <div class="glass-card rounded-2xl border border-slate-700 overflow-hidden glass-card-hover">
-            <img src="${item.image}" class="w-full h-48 object-cover">
-            <div class="p-4 space-y-1">
-              <h4 class="font-bold text-white text-sm">${item.title}</h4>
-              <p class="text-xs text-slate-400">${item.description}</p>
-            </div>
-          </div>
-        `;
-      });
-
-      renderAdminLists();
-    }
-
-    // STORY MODAL VIEWER
-    let currentStoryIndex = 0;
-    let storyTimer = null;
-    let storyProgressInterval = null;
-    let storyProgressPercent = 0;
-    let isPaused = false;
-
-    function openStoryViewer() {
-      const activeSWs = getActiveSWStories();
-      if (activeSWs.length === 0) {
-        alert('Belum ada Status SW 24 jam yang diupload. Anda dapat menambahkan lewat Halaman Admin (/#/admin)!');
-        return;
-      }
-
-      currentStoryIndex = 0;
-      document.getElementById('story-modal').classList.remove('hidden');
-      document.getElementById('story-modal').classList.add('flex');
-      showStory(currentStoryIndex);
-    }
-
-    function closeStoryViewer() {
-      document.getElementById('story-modal').classList.add('hidden');
-      document.getElementById('story-modal').classList.remove('flex');
-      clearTimeout(storyTimer);
-      clearInterval(storyProgressInterval);
-    }
-
-    function showStory(index) {
-      const activeSWs = getActiveSWStories();
-      if (index < 0 || index >= activeSWs.length) {
-        closeStoryViewer();
-        return;
-      }
-
-      currentStoryIndex = index;
-      const story = activeSWs[index];
-
-      document.getElementById('story-header-avatar').src = db.bio.avatar;
-      document.getElementById('story-header-name').innerText = db.bio.name;
-      document.getElementById('story-viewer-img').src = story.image;
-      document.getElementById('story-viewer-caption').innerText = story.caption;
-
-      const hoursAgo = Math.floor((Date.now() - story.timestamp) / (1000 * 3600));
-      document.getElementById('story-header-time').innerText = `${hoursAgo}j lalu`;
-
-      const progressContainer = document.getElementById('story-progress-bar-list');
-      progressContainer.innerHTML = '';
-      activeSWs.forEach((_, i) => {
-        progressContainer.innerHTML += `
-          <div class="h-1 flex-1 bg-white/30 rounded-full overflow-hidden">
-            <div id="story-progress-fill-${i}" class="h-full bg-cyan-400 transition-all duration-100" style="width: ${i < index ? '100%' : '0%'}"></div>
-          </div>
-        `;
-      });
-
-      storyProgressPercent = 0;
-      clearInterval(storyProgressInterval);
-      clearTimeout(storyTimer);
-
-      storyProgressInterval = setInterval(() => {
-        if (!isPaused) {
-          storyProgressPercent += 2;
-          const fill = document.getElementById(`story-progress-fill-${index}`);
-          if (fill) fill.style.width = `${storyProgressPercent}%`;
-
-          if (storyProgressPercent >= 100) {
-            clearInterval(storyProgressInterval);
-            nextStory();
-          }
-        }
-      }, 100);
-    }
-
-    function nextStory(e) {
-      if (e) e.stopPropagation();
-      showStory(currentStoryIndex + 1);
-    }
-
-    function prevStory(e) {
-      if (e) e.stopPropagation();
-      showStory(currentStoryIndex - 1);
-    }
-
-    function pauseStory() { isPaused = true; }
-    function resumeStory() { isPaused = false; }
-
-    // ADMIN AUTHENTICATION & MANAGEMENT
-    let isAdminLoggedIn = false;
-
-    function handleAdminLogin(e) {
-      e.preventDefault();
-      const pin = document.getElementById('admin-pin-input').value;
-      if (pin === '080311') {
-        isAdminLoggedIn = true;
-        document.getElementById('admin-login-view').classList.add('hidden');
-        document.getElementById('admin-dashboard-view').classList.remove('hidden');
-        
-        // Fill Bio Form
-        document.getElementById('edit-bio-name').value = db.bio.name;
-        document.getElementById('edit-bio-avatar').value = db.bio.avatar;
-        document.getElementById('edit-bio-summary').value = db.bio.summary;
-        document.getElementById('edit-bio-story1').value = db.bio.story1;
-        document.getElementById('edit-bio-story2').value = db.bio.story2;
-        document.getElementById('edit-bio-story3').value = db.bio.story3;
-
-        // Fill Page Texts Form
-        document.getElementById('edit-text-school').value = db.bio.school;
-        document.getElementById('edit-text-location').value = db.bio.location;
-        document.getElementById('edit-text-profile-title').value = db.pageTexts.profileTitle;
-        document.getElementById('edit-text-school-heading-title').value = db.pageTexts.schoolHeadingTitle;
-        document.getElementById('edit-text-school-heading-sub').value = db.pageTexts.schoolHeadingSub;
-        document.getElementById('edit-text-school-intro').value = db.pageTexts.schoolIntroText;
-        document.getElementById('edit-text-ach-heading-title').value = db.pageTexts.achievementsHeadingTitle;
-        document.getElementById('edit-text-ach-heading-sub').value = db.pageTexts.achievementsHeadingSub;
-        document.getElementById('edit-text-gal-heading-title').value = db.pageTexts.galleryHeadingTitle;
-        document.getElementById('edit-text-gal-heading-sub').value = db.pageTexts.galleryHeadingSub;
-
-        renderAdminLists();
-      } else {
-        alert('PIN Admin Salah! Gunakan PIN default: 080311');
-      }
-    }
-
-    function handleAdminLogout() {
-      isAdminLoggedIn = false;
-      document.getElementById('admin-login-view').classList.remove('hidden');
-      document.getElementById('admin-dashboard-view').classList.add('hidden');
-      document.getElementById('admin-pin-input').value = '';
-    }
-
-    function switchAdminTab(tabName) {
-      document.querySelectorAll('.admin-tab-btn').forEach(btn => {
-        if (btn.getAttribute('data-tab') === tabName) {
-          btn.classList.add('bg-cyan-500', 'text-navy-900');
-          btn.classList.remove('text-slate-400');
-        } else {
-          btn.classList.remove('bg-cyan-500', 'text-navy-900');
-          btn.classList.add('text-slate-400');
-        }
-      });
-
-      document.querySelectorAll('.admin-tab-content').forEach(content => {
-        content.classList.add('hidden');
-      });
-      document.getElementById(`admin-tab-${tabName}`).classList.remove('hidden');
-    }
-
-    function renderAdminLists() {
-      if (!isAdminLoggedIn) return;
-
-      // Admin SW List
-      const swList = document.getElementById('admin-sw-list');
-      swList.innerHTML = '';
-      db.swStories.forEach(story => {
-        swList.innerHTML += `
-          <div class="p-3 bg-navy-900 border border-slate-700 rounded-xl space-y-2">
-            <img src="${story.image}" class="w-full h-24 object-cover rounded-lg">
-            <p class="text-xs text-white truncate font-medium">${story.caption}</p>
-            <div class="flex gap-2">
-              <button onclick="adminEditSW(${story.id})" class="flex-1 py-1 bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 rounded text-[10px]">
-                Edit
-              </button>
-              <button onclick="adminDeleteSW(${story.id})" class="flex-1 py-1 bg-red-500/20 text-red-300 hover:bg-red-500/30 rounded text-[10px]">
-                Hapus
-              </button>
-            </div>
-          </div>
-        `;
-      });
-
-      // Admin School List
-      const schoolList = document.getElementById('admin-school-list');
-      schoolList.innerHTML = '';
-      db.schoolPhotos.forEach(item => {
-        schoolList.innerHTML += `
-          <div class="p-4 bg-navy-900 border border-slate-700 rounded-xl flex items-center justify-between gap-4">
-            <div class="flex items-center space-x-3">
-              <img src="${item.image}" class="w-16 h-16 object-cover rounded-lg">
-              <div>
-                <h4 class="text-sm font-bold text-white">${item.title}</h4>
-                <p class="text-xs text-slate-400 line-clamp-1">${item.description}</p>
-              </div>
-            </div>
-            <div class="flex gap-2">
-              <button onclick="adminEditSchool(${item.id})" class="px-3 py-1.5 bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 rounded text-xs">
-                Edit
-              </button>
-              <button onclick="adminDeleteSchool(${item.id})" class="px-3 py-1.5 bg-red-500/20 text-red-300 hover:bg-red-500/30 rounded text-xs">
-                Hapus
-              </button>
-            </div>
-          </div>
-        `;
-      });
-
-      // Admin Achievement List
-      const achList = document.getElementById('admin-ach-list');
-      achList.innerHTML = '';
-      db.achievements.forEach(item => {
-        achList.innerHTML += `
-          <div class="p-3 bg-navy-900 border border-slate-700 rounded-xl flex items-center justify-between">
-            <span class="text-xs font-bold text-white">${item.title} (${item.badge})</span>
-            <div class="flex gap-2">
-              <button onclick="adminEditAch(${item.id})" class="px-3 py-1 bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 rounded text-xs">
-                Edit
-              </button>
-              <button onclick="adminDeleteAch(${item.id})" class="px-3 py-1 bg-red-500/20 text-red-300 hover:bg-red-500/30 rounded text-xs">
-                Hapus
-              </button>
-            </div>
-          </div>
-        `;
-      });
-
-      // Admin Gallery List
-      const galList = document.getElementById('admin-gal-list');
-      galList.innerHTML = '';
-      db.gallery.forEach(item => {
-        galList.innerHTML += `
-          <div class="p-3 bg-navy-900 border border-slate-700 rounded-xl space-y-2">
-            <img src="${item.image}" class="w-full h-24 object-cover rounded-lg">
-            <p class="text-xs text-white truncate">${item.title}</p>
-            <div class="flex gap-2">
-              <button onclick="adminEditGal(${item.id})" class="flex-1 py-1 bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 rounded text-[10px]">
-                Edit
-              </button>
-              <button onclick="adminDeleteGal(${item.id})" class="flex-1 py-1 bg-red-500/20 text-red-300 hover:bg-red-500/30 rounded text-[10px]">
-                Hapus
-              </button>
-            </div>
-          </div>
-        `;
-      });
-    }
-
-    // --- SW STORY HANDLERS ---
-    async function adminSaveSW(e) {
-      e.preventDefault();
-      const editId = document.getElementById('sw-edit-id').value;
-      const fileInput = document.getElementById('sw-file-input');
-      let imageUrl = document.getElementById('sw-image-url').value;
-
-      if (fileInput.files && fileInput.files[0]) {
-        imageUrl = await readFileAsDataURL(fileInput.files[0]);
-      }
-
-      if (!imageUrl) {
-        alert("Harap pilih file foto atau masukkan URL Gambar!");
-        return;
-      }
-
-      const caption = document.getElementById('sw-caption').value;
-
-      if (editId) {
-        const index = db.swStories.findIndex(s => s.id == editId);
-        if (index !== -1) {
-          db.swStories[index].image = imageUrl;
-          db.swStories[index].caption = caption;
-        }
-      } else {
-        const newSW = {
-          id: Date.now(),
-          image: imageUrl,
-          caption: caption,
-          timestamp: Date.now()
-        };
-        db.swStories.unshift(newSW);
-      }
-
-      saveData(db);
-      resetSWForm();
-      alert('Status SW berhasil disimpan!');
-    }
-
-    function adminEditSW(id) {
-      const story = db.swStories.find(s => s.id === id);
-      if (!story) return;
-      document.getElementById('sw-edit-id').value = story.id;
-      document.getElementById('sw-image-url').value = story.image;
-      document.getElementById('sw-caption').value = story.caption;
-      document.getElementById('sw-form-title').innerText = "Edit Status SW 24 Jam";
-      window.scrollTo({ top: document.getElementById('admin-tab-sw').offsetTop - 80, behavior: 'smooth' });
-    }
-
-    function resetSWForm() {
-      document.getElementById('sw-edit-id').value = '';
-      document.getElementById('sw-file-input').value = '';
-      document.getElementById('sw-image-url').value = '';
-      document.getElementById('sw-caption').value = '';
-      document.getElementById('sw-form-title').innerText = "Tambah Status SW Baru (Aktif 24 Jam)";
-    }
-
-    function adminDeleteSW(id) {
-      if(confirm('Yakin ingin menghapus story ini?')) {
-        db.swStories = db.swStories.filter(s => s.id !== id);
-        saveData(db);
-      }
-    }
-
-    // --- SCHOOL PHOTOS HANDLERS ---
-    async function adminSaveSchoolPhoto(e) {
-      e.preventDefault();
-      const editId = document.getElementById('school-edit-id').value;
-      const title = document.getElementById('school-title').value;
-      const fileInput = document.getElementById('school-file-input');
-      let imageUrl = document.getElementById('school-img-url').value;
-
-      if (fileInput.files && fileInput.files[0]) {
-        imageUrl = await readFileAsDataURL(fileInput.files[0]);
-      }
-
-      if (!imageUrl) {
-        alert("Harap pilih file foto atau masukkan URL Gambar!");
-        return;
-      }
-
-      const desc = document.getElementById('school-desc').value;
-
-      if (editId) {
-        const index = db.schoolPhotos.findIndex(s => s.id == editId);
-        if (index !== -1) {
-          db.schoolPhotos[index].title = title;
-          db.schoolPhotos[index].image = imageUrl;
-          db.schoolPhotos[index].description = desc;
-        }
-      } else {
-        const newItem = {
-          id: Date.now(),
-          title: title,
-          image: imageUrl,
-          description: desc
-        };
-        db.schoolPhotos.push(newItem);
-      }
-
-      saveData(db);
-      resetSchoolForm();
-      alert('Foto sekolah berhasil disimpan!');
-    }
-
-    function adminEditSchool(id) {
-      const item = db.schoolPhotos.find(s => s.id === id);
-      if (!item) return;
-      document.getElementById('school-edit-id').value = item.id;
-      document.getElementById('school-title').value = item.title;
-      document.getElementById('school-img-url').value = item.image;
-      document.getElementById('school-desc').value = item.description;
-      document.getElementById('school-form-title').innerText = "Edit Foto Sekolah & Deskripsi";
-      window.scrollTo({ top: document.getElementById('admin-tab-school').offsetTop - 80, behavior: 'smooth' });
-    }
-
-    function resetSchoolForm() {
-      document.getElementById('school-edit-id').value = '';
-      document.getElementById('school-title').value = '';
-      document.getElementById('school-file-input').value = '';
-      document.getElementById('school-img-url').value = '';
-      document.getElementById('school-desc').value = '';
-      document.getElementById('school-form-title').innerText = "Tambah Foto Sekolah & Deskripsi";
-    }
-
-    function adminDeleteSchool(id) {
-      if(confirm('Yakin ingin menghapus foto sekolah ini?')) {
-        db.schoolPhotos = db.schoolPhotos.filter(s => s.id !== id);
-        saveData(db);
-      }
-    }
-
-    // --- ACHIEVEMENTS HANDLERS ---
-    async function adminSaveAchievement(e) {
-      e.preventDefault();
-      const editId = document.getElementById('ach-edit-id').value;
-      const title = document.getElementById('ach-title').value;
-      const badge = document.getElementById('ach-badge').value;
-      const fileInput = document.getElementById('ach-file-input');
-      let imageUrl = document.getElementById('ach-img-url').value;
-
-      if (fileInput.files && fileInput.files[0]) {
-        imageUrl = await readFileAsDataURL(fileInput.files[0]);
-      }
-
-      if (!imageUrl) {
-        alert("Harap pilih file foto atau masukkan URL Gambar!");
-        return;
-      }
-
-      const desc = document.getElementById('ach-desc').value;
-
-      if (editId) {
-        const index = db.achievements.findIndex(s => s.id == editId);
-        if (index !== -1) {
-          db.achievements[index].title = title;
-          db.achievements[index].badge = badge;
-          db.achievements[index].image = imageUrl;
-          db.achievements[index].description = desc;
-        }
-      } else {
-        const newItem = {
-          id: Date.now(),
-          title: title,
-          badge: badge,
-          image: imageUrl,
-          description: desc
-        };
-        db.achievements.push(newItem);
-      }
-
-      saveData(db);
-      resetAchForm();
-      alert('Prestasi berhasil disimpan!');
-    }
-
-    function adminEditAch(id) {
-      const item = db.achievements.find(s => s.id === id);
-      if (!item) return;
-      document.getElementById('ach-edit-id').value = item.id;
-      document.getElementById('ach-title').value = item.title;
-      document.getElementById('ach-badge').value = item.badge;
-      document.getElementById('ach-img-url').value = item.image;
-      document.getElementById('ach-desc').value = item.description;
-      document.getElementById('ach-form-title').innerText = "Edit Prestasi / Penghargaan";
-      window.scrollTo({ top: document.getElementById('admin-tab-achievements').offsetTop - 80, behavior: 'smooth' });
-    }
-
-    function resetAchForm() {
-      document.getElementById('ach-edit-id').value = '';
-      document.getElementById('ach-title').value = '';
-      document.getElementById('ach-badge').value = '';
-      document.getElementById('ach-file-input').value = '';
-      document.getElementById('ach-img-url').value = '';
-      document.getElementById('ach-desc').value = '';
-      document.getElementById('ach-form-title').innerText = "Tambah Prestasi / Penghargaan";
-    }
-
-    function adminDeleteAch(id) {
-      if(confirm('Yakin ingin menghapus prestasi ini?')) {
-        db.achievements = db.achievements.filter(s => s.id !== id);
-        saveData(db);
-      }
-    }
-
-    // --- GALLERY HANDLERS ---
-    async function adminSaveGallery(e) {
-      e.preventDefault();
-      const editId = document.getElementById('gal-edit-id').value;
-      const title = document.getElementById('gal-title').value;
-      const fileInput = document.getElementById('gal-file-input');
-      let imageUrl = document.getElementById('gal-img-url').value;
-
-      if (fileInput.files && fileInput.files[0]) {
-        imageUrl = await readFileAsDataURL(fileInput.files[0]);
-      }
-
-      if (!imageUrl) {
-        alert("Harap pilih file foto atau masukkan URL Gambar!");
-        return;
-      }
-
-      const desc = document.getElementById('gal-desc').value;
-
-      if (editId) {
-        const index = db.gallery.findIndex(s => s.id == editId);
-        if (index !== -1) {
-          db.gallery[index].title = title;
-          db.gallery[index].image = imageUrl;
-          db.gallery[index].description = desc;
-        }
-      } else {
-        const newItem = {
-          id: Date.now(),
-          title: title,
-          image: imageUrl,
-          description: desc
-        };
-        db.gallery.push(newItem);
-      }
-
-      saveData(db);
-      resetGalForm();
-      alert('Galeri berhasil disimpan!');
-    }
-
-    function adminEditGal(id) {
-      const item = db.gallery.find(s => s.id === id);
-      if (!item) return;
-      document.getElementById('gal-edit-id').value = item.id;
-      document.getElementById('gal-title').value = item.title;
-      document.getElementById('gal-img-url').value = item.image;
-      document.getElementById('gal-desc').value = item.description;
-      document.getElementById('gal-form-title').innerText = "Edit Galeri Media";
-      window.scrollTo({ top: document.getElementById('admin-tab-gallery').offsetTop - 80, behavior: 'smooth' });
-    }
-
-    function resetGalForm() {
-      document.getElementById('gal-edit-id').value = '';
-      document.getElementById('gal-title').value = '';
-      document.getElementById('gal-file-input').value = '';
-      document.getElementById('gal-img-url').value = '';
-      document.getElementById('gal-desc').value = '';
-      document.getElementById('gal-form-title').innerText = "Tambah Galeri Media";
-    }
-
-    function adminDeleteGal(id) {
-      if(confirm('Yakin ingin menghapus item galeri ini?')) {
-        db.gallery = db.gallery.filter(s => s.id !== id);
-        saveData(db);
-      }
-    }
-
-    // --- BIO HANDLER ---
-    async function adminSaveBio(e) {
-      e.preventDefault();
-      db.bio.name = document.getElementById('edit-bio-name').value;
-      
-      const fileInput = document.getElementById('bio-file-input');
-      let avatarUrl = document.getElementById('edit-bio-avatar').value;
-
-      if (fileInput.files && fileInput.files[0]) {
-        avatarUrl = await readFileAsDataURL(fileInput.files[0]);
-      }
-
-      if (avatarUrl) {
-        db.bio.avatar = avatarUrl;
-      }
-
-      db.bio.summary = document.getElementById('edit-bio-summary').value;
-      db.bio.story1 = document.getElementById('edit-bio-story1').value;
-      db.bio.story2 = document.getElementById('edit-bio-story2').value;
-      db.bio.story3 = document.getElementById('edit-bio-story3').value;
-      saveData(db);
-      alert('Biodata & Cerita berhasil diperbarui!');
-    }
-
-    // --- PAGE TEXTS HANDLER ---
-    function adminSaveTexts(e) {
-      e.preventDefault();
-      db.bio.school = document.getElementById('edit-text-school').value;
-      db.bio.location = document.getElementById('edit-text-location').value;
-      
-      db.pageTexts = {
-        profileTitle: document.getElementById('edit-text-profile-title').value,
-        schoolHeadingTitle: document.getElementById('edit-text-school-heading-title').value,
-        schoolHeadingSub: document.getElementById('edit-text-school-heading-sub').value,
-        schoolIntroText: document.getElementById('edit-text-school-intro').value,
-        achievementsHeadingTitle: document.getElementById('edit-text-ach-heading-title').value,
-        achievementsHeadingSub: document.getElementById('edit-text-ach-heading-sub').value,
-        galleryHeadingTitle: document.getElementById('edit-text-gal-heading-title').value,
-        galleryHeadingSub: document.getElementById('edit-text-gal-heading-sub').value,
-      };
-
-      saveData(db);
-      alert('Teks seluruh halaman web berhasil diperbarui!');
-    }
-
-    // BACKGROUND PARTICLES CANVAS ANIMATION
-    function initParticles() {
-      const canvas = document.getElementById('bg-canvas');
-      const ctx = canvas.getContext('2d');
-
-      let width = canvas.width = window.innerWidth;
-      let height = canvas.height = window.innerHeight;
-
-      window.addEventListener('resize', () => {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-      });
-
-      const particles = [];
-      const particleCount = Math.floor(width / 25);
-
-      for (let i = 0; i < particleCount; i++) {
-        particles.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.8,
-          vy: (Math.random() - 0.5) * 0.8,
-          size: Math.random() * 2 + 1
-        });
-      }
-
-      function animate() {
-        ctx.clearRect(0, 0, width, height);
-
-        for (let i = 0; i < particles.length; i++) {
-          for (let j = i + 1; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-
-            if (dist < 120) {
-              ctx.beginPath();
-              ctx.moveTo(particles[i].x, particles[i].y);
-              ctx.lineTo(particles[j].x, particles[j].y);
-              ctx.strokeStyle = `rgba(0, 240, 255, ${0.15 * (1 - dist / 120)})`;
-              ctx.lineWidth = 0.6;
-              ctx.stroke();
-            }
-          }
-        }
-
-        particles.forEach(p => {
-          p.x += p.vx;
-          p.y += p.vy;
-
-          if (p.x < 0 || p.x > width) p.vx *= -1;
-          if (p.y < 0 || p.y > height) p.vy *= -1;
-
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-          ctx.fillStyle = '#00f0ff';
-          ctx.shadowBlur = 8;
-          ctx.shadowColor = '#00f0ff';
-          ctx.fill();
-          ctx.shadowBlur = 0;
-        });
-
-        requestAnimationFrame(animate);
-      }
-
-      animate();
-    }
-  </script>
+  <!-- Script Files -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
