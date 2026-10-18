@@ -278,11 +278,12 @@
           <p class="text-xs text-slate-400 mt-1">Halaman rahasia kelola konten portofolio. Silakan masukkan PIN Admin.</p>
         </div>
         <form onsubmit="handleAdminLogin(event)" class="space-y-4">
-          <div>
-            <input type="password" id="admin-pin-input" class="admin-input text-center text-2xl font-mono tracking-widest" placeholder="••••" maxlength="8" required>
-            <p class="text-[11px] text-slate-500 mt-2 font-mono">PIN Default: <span class="text-cyan-400 font-bold">1234</span></p>
+          <div class="space-y-3">
+            <input type="email" id="admin-email-input" class="admin-input w-full text-center text-sm" placeholder="Email Firebase Admin" autocomplete="username" required>
+            <input type="password" id="admin-password-input" class="admin-input w-full text-center text-sm" placeholder="Password Firebase" autocomplete="current-password" required>
+            <p class="text-[11px] text-slate-500 mt-2">Masuk menggunakan akun yang terdaftar di Firebase Authentication.</p>
           </div>
-          <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-sm shadow-lg shadow-cyan-500/20 hover:opacity-90 transition">
+          <button type="submit" id="admin-login-button" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-sm shadow-lg shadow-cyan-500/20 hover:opacity-90 transition">
             Masuk Portal Admin
           </button>
         </form>
@@ -506,6 +507,26 @@
   </footer>
 
   <!-- Script Files -->
+  <!-- Firebase SDK (compat agar tetap cocok dengan app.js yang memakai fungsi global) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBwAmuEPM6pR61dBSGVjoTrPzyfCX4CD0o",
+      authDomain: "portofolio-80cdf.firebaseapp.com",
+      projectId: "portofolio-80cdf",
+      storageBucket: "portofolio-80cdf.firebasestorage.app",
+      messagingSenderId: "712213203070",
+      appId: "1:712213203070:web:6d5426e576a3737a43702f",
+      measurementId: "G-EZHSHV0P8J"
+    };
+    firebase.initializeApp(firebaseConfig);
+    window.portfolioAuth = firebase.auth();
+    window.portfolioDb = firebase.firestore();
+    window.portfolioDataRef = window.portfolioDb.collection('portfolio').doc('siteData');
+    window.PORTFOLIO_ADMIN_UID = 'GNT9yRHKTWTttePw9IixehaGL833';
+  </script>
   <script src="data.js"></script>
   <script src="app.js"></script>
 </body>
