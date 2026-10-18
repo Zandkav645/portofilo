@@ -1,41 +1,47 @@
 function loadData() {
-  const storageKey = 'rivaldy_portfolio_db';
-  const stored = localStorage.getItem(storageKey);
-  if (!stored) {
-    const initialData = JSON.parse(JSON.stringify(DEFAULT_DATA));
-    localStorage.setItem(storageKey, JSON.stringify(initialData));
-    return initialData;
-  }
-
-  let data;
+  const key = 'rivaldy_portfolio_db';
   try {
-    data = JSON.parse(stored);
-  } catch (error) {
-    console.error('Data portofolio tidak dapat dibaca:', error);
-    data = JSON.parse(JSON.stringify(DEFAULT_DATA));
-  }
-  if (!data || typeof data !== 'object' || Array.isArray(data)) data = {};
-  data.bio = { ...DEFAULT_DATA.bio, ...(data.bio || {}) };
-  data.pageTexts = { ...DEFAULT_DATA.pageTexts, ...(data.pageTexts || {}) };
-  ['swStories', 'schoolPhotos', 'achievements', 'gallery', 'historyLogs'].forEach(key => {
-    if (!Array.isArray(data[key])) {
-      data[key] = Array.isArray(DEFAULT_DATA[key])
-        ? JSON.parse(JSON.stringify(DEFAULT_DATA[key])) : [];
+    const stored = localStorage.getItem(key);
+    if (!stored) {
+      const initial = JSON.parse(JSON.stringify(DEFAULT_DATA));
+      localStorage.setItem(key, JSON.stringify(initial));
+      return initial;
     }
-  });
-  localStorage.setItem(storageKey, JSON.stringify(data));
-  return data;
+    const parsed = JSON.parse(stored);
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+      throw new Error('Format data portofolio tidak valid');
+    }
+    const data = { ...JSON.parse(JSON.stringify(DEFAULT_DATA)), ...parsed };
+    data.bio = { ...(DEFAULT_DATA.bio || {}), ...(parsed.bio || {}) };
+    data.pageTexts = { ...(DEFAULT_DATA.pageTexts || {}), ...(parsed.pageTexts || {}) };
+    ['swStories', 'schoolPhotos', 'achievements', 'gallery', 'historyLogs'].forEach(k => {
+      if (!Array.isArray(data[k])) data[k] = Array.isArray(DEFAULT_DATA[k]) ? [...DEFAULT_DATA[k]] : [];
+    });
+    return data;
+  } catch (err) {
+    console.error('Gagal memuat data portofolio:', err);
+    alert('Data portofolio tidak dapat dibaca. Data lama tidak dihapus. Periksa penyimpanan browser.');
+    return JSON.parse(JSON.stringify(DEFAULT_DATA));
+  }
 }
 
 function saveData(data) {
   try {
-    localStorage.setItem('rivaldy_portfolio_db', JSON.stringify(data));
+    const serialized = JSON.stringify(data);
+    localStorage.setItem('rivaldy_portfolio_db', serialized);
     db = data;
     renderAllContent();
+    if (isAdminLoggedIn) {
+      renderAdminLists();
+      renderAdminLogs();
+    }
     return true;
-  } catch (error) {
-    console.error('Gagal menyimpan data portofolio:', error);
-    alert('Perubahan gagal disimpan. Penyimpanan browser mungkin penuh.');
+  } catch (err) {
+    console.error('Gagal menyimpan data portofolio:', err);
+    const message = err && (err.name === 'QuotaExceededError' || err.name === 'NS_ERROR_DOM_QUOTA_REACHED')
+      ? 'Penyimpanan browser penuh. Kurangi ukuran/jumlah foto lalu coba lagi.'
+      : 'Perubahan gagal disimpan. Coba lagi dan periksa konsol browser.';
+    alert(message);
     return false;
   }
 }
@@ -537,7 +543,7 @@ async function adminSaveSW(e) {
     recordLog('ADMIN_EDIT', `Menambahkan Status SW baru: "${caption}"`);
   }
 
-  saveData(db);
+  if (!saveData(db)) return;
   resetSWForm();
   alert('Status SW berhasil disimpan!');
 }
@@ -605,7 +611,7 @@ async function adminSaveSchoolPhoto(e) {
     recordLog('ADMIN_EDIT', `Menambahkan Foto Sekolah baru: "${title}"`);
   }
 
-  saveData(db);
+  if (!saveData(db)) return;
   resetSchoolForm();
   alert('Foto sekolah berhasil disimpan!');
 }
@@ -678,7 +684,7 @@ async function adminSaveAchievement(e) {
     recordLog('ADMIN_EDIT', `Menambahkan Prestasi baru: "${title}"`);
   }
 
-  saveData(db);
+  if (!saveData(db)) return;
   resetAchForm();
   alert('Prestasi berhasil disimpan!');
 }
@@ -750,7 +756,7 @@ async function adminSaveGallery(e) {
     recordLog('ADMIN_EDIT', `Menambahkan Galeri baru: "${title}"`);
   }
 
-  saveData(db);
+  if (!saveData(db)) return;
   resetGalForm();
   alert('Galeri berhasil disimpan!');
 }
@@ -894,3 +900,10 @@ function initParticles() {
 
   animate();
 }
+
+
+// Penanganan error admin agar kegagalan tidak membuat tombol tampak diam.
+window.addEventListener('unhandledrejection', function (event) {
+  console.error('Operasi admin gagal:', event.reason);
+  alert('Operasi gagal diproses. Periksa ukuran foto dan coba lagi.');
+});
