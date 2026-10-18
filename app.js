@@ -25,6 +25,67 @@ function loadData() {
   }
 }
 
+// Memuat Firebase Storage secara dinamis agar cukup mengganti app.js.
+let portfolioStorageSdkPromise = null;
+function ensurePortfolioStorage() {
+  if (window.firebase && typeof window.firebase.storage === 'function') return Promise.resolve(window.firebase.storage());
+  if (!portfolioStorageSdkPromise) {
+    portfolioStorageSdkPromise = new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js';
+      script.onload = () => {
+        if (window.firebase && typeof window.firebase.storage === 'function') resolve(window.firebase.storage());
+        else reject(new Error('Firebase Storage SDK gagal dimuat.'));
+      };
+      script.onerror = () => reject(new Error('SDK Firebase Storage tidak dapat dimuat. Periksa koneksi internet.'));
+      document.head.appendChild(script);
+    });
+  }
+  return portfolioStorageSdkPromise;
+}
+
+// Foto data URL diunggah ke Storage; Firestore hanya menyimpan URL agar dokumen tidak terlalu besar.
+async function replaceInlineImagesWithStorageUrls(value, storage, path = 'portfolio-images') {
+  if (typeof value === 'string' && /^data:image\//i.test(value)) {
+    const match = value.match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,/);
+    const contentType = match ? match[1] : 'image/jpeg';
+    const extension = (contentType.split('/')[1] || 'jpg').replace('jpeg', 'jpg').replace(/[^a-z0-9]/gi, '');
+    const objectPath = `${path}/${Date.now()}-${Math.random().toString(36).slice(2, 10)}.${extension}`;
+    const ref = storage.ref().child(objectPath);
+    await ref.putString(value, 'data_url', { contentType });
+    return await ref.getDownloadURL();
+  }
+  if (Array.isArray(value)) {
+    const result = [];
+    for (const item of value) result.push(await replaceInlineImagesWithStorageUrls(item, storage, path));
+    return result;
+  }
+  if (value && typeof value === 'object') {
+    const result = {};
+    for (const [key, item] of Object.entries(value)) result[key] = await replaceInlineImagesWithStorageUrls(item, storage, path);
+    return result;
+  }
+  return value;
+}
+
+async function syncPortfolioDataOnline(data) {
+  if (!(window.portfolioAuth && window.portfolioDb && window.portfolioDataRef)) return;
+  const user = window.portfolioAuth.currentUser;
+  if (!user || user.uid !== window.PORTFOLIO_ADMIN_UID) {
+    throw new Error('Admin belum login dengan akun Firebase yang diizinkan. Keluar lalu login memakai email admin Firebase.');
+  }
+  const storage = await ensurePortfolioStorage();
+  const cloudPayload = JSON.parse(JSON.stringify(data));
+  cloudPayload.historyLogs = (cloudPayload.historyLogs || []).map(log => ({ ...log, ip: 'Tidak dicatat' }));
+  const payloadWithUrls = await replaceInlineImagesWithStorageUrls(cloudPayload, storage);
+  // Ganti data URL lokal dengan URL Storage agar gambar tidak diunggah ulang setiap kali menyimpan.
+  localStorage.setItem('rivaldy_portfolio_db', JSON.stringify(payloadWithUrls));
+  db = payloadWithUrls;
+  renderAllContent();
+  await window.portfolioDataRef.set(payloadWithUrls);
+  console.info('Data portofolio berhasil disinkronkan ke Firestore.');
+}
+
 function saveData(data) {
   try {
     const serialized = JSON.stringify(data);
@@ -36,18 +97,16 @@ function saveData(data) {
       renderAdminLogs();
     }
 
-    // Sinkronkan perubahan ke Firestore hanya jika admin yang benar sedang login.
+    // Simpan lokal langsung, lalu sinkronkan online secara asinkron.
     if (window.portfolioAuth && window.portfolioDb && window.portfolioAuth.currentUser &&
         window.portfolioAuth.currentUser.uid === window.PORTFOLIO_ADMIN_UID) {
-      const cloudPayload = JSON.parse(JSON.stringify(data));
-      // Jangan unggah alamat IP historis ke dokumen publik.
-      cloudPayload.historyLogs = (cloudPayload.historyLogs || []).map(log => ({ ...log, ip: 'Tidak dicatat' }));
-      window.portfolioDataRef.set(cloudPayload).then(() => {
-        console.info('Data portofolio berhasil disinkronkan ke Firestore.');
-      }).catch((err) => {
-        console.error('Gagal menyimpan ke Firestore:', err);
-        alert('Data tersimpan di browser, tetapi gagal disimpan online. Periksa Firestore Rules dan ukuran foto.');
+      syncPortfolioDataOnline(data).catch((err) => {
+        console.error('Gagal menyimpan ke Firebase:', err);
+        const detail = err && (err.code || err.message) ? `${err.code || 'error'}: ${err.message || ''}` : 'Kesalahan tidak diketahui';
+        alert(`Data tersimpan di browser, tetapi gagal online. Detail: ${detail}. Pastikan Firebase Storage aktif dan Rules Storage mengizinkan admin.`);
       });
+    } else if (isAdminLoggedIn) {
+      alert('Data tersimpan di browser, tetapi akun admin Firebase tidak terdeteksi. Keluar lalu login kembali dengan email Firebase admin.');
     }
     return true;
   } catch (err) {
