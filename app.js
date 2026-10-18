@@ -35,6 +35,20 @@ function saveData(data) {
       renderAdminLists();
       renderAdminLogs();
     }
+
+    // Sinkronkan perubahan ke Firestore hanya jika admin yang benar sedang login.
+    if (window.portfolioAuth && window.portfolioDb && window.portfolioAuth.currentUser &&
+        window.portfolioAuth.currentUser.uid === window.PORTFOLIO_ADMIN_UID) {
+      const cloudPayload = JSON.parse(JSON.stringify(data));
+      // Jangan unggah alamat IP historis ke dokumen publik.
+      cloudPayload.historyLogs = (cloudPayload.historyLogs || []).map(log => ({ ...log, ip: 'Tidak dicatat' }));
+      window.portfolioDataRef.set(cloudPayload).then(() => {
+        console.info('Data portofolio berhasil disinkronkan ke Firestore.');
+      }).catch((err) => {
+        console.error('Gagal menyimpan ke Firestore:', err);
+        alert('Data tersimpan di browser, tetapi gagal disimpan online. Periksa Firestore Rules dan ukuran foto.');
+      });
+    }
     return true;
   } catch (err) {
     console.error('Gagal menyimpan data portofolio:', err);
@@ -50,18 +64,10 @@ let db = loadData();
 
 // Fungsi untuk mencatat log ke folder history
 function recordLog(actionType, description) {
+  // Tidak mengambil alamat IP pengunjung untuk menjaga privasi.
   if (!db.historyLogs) db.historyLogs = [];
-  
-  fetch('https://api.ipify.org?format=json')
-    .then(res => res.json())
-    .then(data => {
-      saveLogEntry(actionType, description, data.ip);
-    })
-    .catch(() => {
-      saveLogEntry(actionType, description, "127.0.0.1 (Lokal)");
-    });
+  saveLogEntry(actionType, description, 'Tidak dicatat');
 }
-
 function saveLogEntry(actionType, description, ipAddress) {
   const newLog = {
     id: Date.now(),
@@ -165,10 +171,32 @@ function handleRouting() {
 }
 
 window.addEventListener('hashchange', handleRouting);
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
   handleRouting();
   initParticles();
+  // Data lokal tampil dulu; bila Firestore tersedia, data cloud menjadi sumber utama.
   renderAllContent();
+  try {
+    if (window.portfolioDataRef) {
+      const snapshot = await window.portfolioDataRef.get();
+      if (snapshot.exists) {
+        const cloudData = snapshot.data();
+        if (cloudData && typeof cloudData === 'object') {
+          db = { ...db, ...cloudData };
+          db.historyLogs = (db.historyLogs || []).map(log => ({ ...log, ip: 'Tidak dicatat' }));
+          db.bio = { ...(DEFAULT_DATA.bio || {}), ...(db.bio || {}) };
+          db.pageTexts = { ...(DEFAULT_DATA.pageTexts || {}), ...(db.pageTexts || {}) };
+          ['swStories', 'schoolPhotos', 'achievements', 'gallery', 'historyLogs'].forEach(k => {
+            if (!Array.isArray(db[k])) db[k] = [];
+          });
+          localStorage.setItem('rivaldy_portfolio_db', JSON.stringify(db));
+          renderAllContent();
+        }
+      }
+    }
+  } catch (err) {
+    console.warn('Data cloud belum dapat dimuat; menggunakan data lokal:', err);
+  }
   recordLog('PENGUNJUNG', `Mengunjungi halaman portofolio (${window.location.hash || '#/'})`);
 });
 
@@ -383,46 +411,77 @@ function resumeStory() { isPaused = false; }
 
 let isAdminLoggedIn = false;
 
-function handleAdminLogin(e) {
+async function handleAdminLogin(e) {
   e.preventDefault();
-  const pin = document.getElementById('admin-pin-input').value;
-  if (pin === '080311') {
+  const email = document.getElementById('admin-email-input').value.trim();
+  const password = document.getElementById('admin-password-input').value;
+  const button = document.getElementById('admin-login-button');
+  if (!window.portfolioAuth) {
+    alert('Firebase belum siap. Periksa koneksi internet lalu muat ulang halaman.');
+    return;
+  }
+  button.disabled = true;
+  button.textContent = 'Memeriksa akun...';
+  try {
+    const credential = await window.portfolioAuth.signInWithEmailAndPassword(email, password);
+    if (credential.user.uid !== window.PORTFOLIO_ADMIN_UID) {
+      await window.portfolioAuth.signOut();
+      throw new Error('Akun ini bukan admin yang diizinkan.');
+    }
+    // Ambil data cloud terbaru setelah admin berhasil diautentikasi.
+    const snapshot = await window.portfolioDataRef.get();
+    if (snapshot.exists) {
+      db = { ...db, ...snapshot.data() };
+      db.historyLogs = (db.historyLogs || []).map(log => ({ ...log, ip: 'Tidak dicatat' }));
+      db.bio = { ...(DEFAULT_DATA.bio || {}), ...(db.bio || {}) };
+      db.pageTexts = { ...(DEFAULT_DATA.pageTexts || {}), ...(db.pageTexts || {}) };
+      ['swStories', 'schoolPhotos', 'achievements', 'gallery', 'historyLogs'].forEach(k => {
+        if (!Array.isArray(db[k])) db[k] = [];
+      });
+      localStorage.setItem('rivaldy_portfolio_db', JSON.stringify(db));
+      renderAllContent();
+    }
     isAdminLoggedIn = true;
     document.getElementById('admin-login-view').classList.add('hidden');
     document.getElementById('admin-dashboard-view').classList.remove('hidden');
-    
+
     document.getElementById('edit-bio-name').value = db.bio.name;
     document.getElementById('edit-bio-avatar').value = db.bio.avatar;
     document.getElementById('edit-bio-summary').value = db.bio.summary;
     document.getElementById('edit-bio-story1').value = db.bio.story1;
     document.getElementById('edit-bio-story2').value = db.bio.story2;
     document.getElementById('edit-bio-story3').value = db.bio.story3;
-
     document.getElementById('edit-text-school').value = db.bio.school;
     document.getElementById('edit-text-location').value = db.bio.location;
-    document.getElementById('edit-text-profile-title').value = db.pageTexts.profileTitle;
-    document.getElementById('edit-text-school-heading-title').value = db.pageTexts.schoolHeadingTitle;
-    document.getElementById('edit-text-school-heading-sub').value = db.pageTexts.schoolHeadingSub;
-    document.getElementById('edit-text-school-intro').value = db.pageTexts.schoolIntroText;
-    document.getElementById('edit-text-ach-heading-title').value = db.pageTexts.achievementsHeadingTitle;
-    document.getElementById('edit-text-ach-heading-sub').value = db.pageTexts.achievementsHeadingSub;
-    document.getElementById('edit-text-gal-heading-title').value = db.pageTexts.galleryHeadingTitle;
-    document.getElementById('edit-text-gal-heading-sub').value = db.pageTexts.galleryHeadingSub;
-
+    document.getElementById('edit-text-profile-title').value = db.pageTexts.profileTitle || '';
+    document.getElementById('edit-text-school-heading-title').value = db.pageTexts.schoolHeadingTitle || '';
+    document.getElementById('edit-text-school-heading-sub').value = db.pageTexts.schoolHeadingSub || '';
+    document.getElementById('edit-text-school-intro').value = db.pageTexts.schoolIntroText || '';
+    document.getElementById('edit-text-ach-heading-title').value = db.pageTexts.achievementsHeadingTitle || '';
+    document.getElementById('edit-text-ach-heading-sub').value = db.pageTexts.achievementsHeadingSub || '';
+    document.getElementById('edit-text-gal-heading-title').value = db.pageTexts.galleryHeadingTitle || '';
+    document.getElementById('edit-text-gal-heading-sub').value = db.pageTexts.galleryHeadingSub || '';
     renderAdminLists();
     renderAdminLogs();
-  } else {
-    alert('PIN Admin Salah! Gunakan PIN default: admin');
+  } catch (err) {
+    console.error('Login admin gagal:', err);
+    const message = err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found'
+      ? 'Email atau password Firebase salah.'
+      : (err.message || 'Login gagal. Periksa akun Firebase dan Firestore Rules.');
+    alert(message);
+  } finally {
+    button.disabled = false;
+    button.textContent = 'Masuk Portal Admin';
   }
 }
 
-function handleAdminLogout() {
+async function handleAdminLogout() {
   isAdminLoggedIn = false;
+  if (window.portfolioAuth) await window.portfolioAuth.signOut().catch(() => {});
   document.getElementById('admin-login-view').classList.remove('hidden');
   document.getElementById('admin-dashboard-view').classList.add('hidden');
-  document.getElementById('admin-pin-input').value = '';
+  document.getElementById('admin-password-input').value = '';
 }
-
 function switchAdminTab(tabName) {
   document.querySelectorAll('.admin-tab-btn').forEach(btn => {
     if (btn.getAttribute('data-tab') === tabName) {
